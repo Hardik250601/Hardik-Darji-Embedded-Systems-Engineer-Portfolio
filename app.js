@@ -195,22 +195,38 @@
     sections.forEach(s => io.observe(s));
   }
 
-  // ---------- Email forms ----------
-  function initMailForms() {
-    document.querySelectorAll('[data-mail-form]').forEach(form => {
-      form.addEventListener('submit', event => {
+  // ---------- Formspree forms ----------
+  function initFormspreeForms() {
+    document.querySelectorAll('[data-formspree-form]').forEach(form => {
+      form.addEventListener('submit', async event => {
         event.preventDefault();
-        const formType = form.dataset.mailForm;
+        const formType = form.id === 'newsletter-form' ? 'newsletter' : 'contact';
         const status = document.getElementById(formType === 'newsletter' ? 'newsletter-status' : 'contact-status');
-        const values = Object.fromEntries(new FormData(form));
-        const subject = formType === 'newsletter' ? 'Newsletter subscription' : `Portfolio message from ${values.name || 'a visitor'}`;
-        const body = formType === 'newsletter'
-          ? `Please add ${values.email} to the newsletter.`
-          : `Name: ${values.name}\nEmail: ${values.email}\n\n${values.message}`;
-        window.location.href = `mailto:hmdarji921@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        if (status) {
-          status.textContent = 'Your email app is opening. Click Send to complete this form.';
-          status.className = 'text-sm text-green-400';
+        const button = form.querySelector('button[type="submit"]');
+        const originalLabel = button ? button.textContent : '';
+        if (button) { button.disabled = true; button.textContent = 'Sending...'; }
+        if (status) { status.textContent = ''; status.className = 'hidden text-sm'; }
+        try {
+          const response = await fetch(form.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form)
+          });
+          if (!response.ok) throw new Error('Form submission failed');
+          form.reset();
+          if (status) {
+            status.textContent = formType === 'newsletter'
+              ? 'You are subscribed successfully.'
+              : 'Thanks! Your message was sent successfully.';
+            status.className = 'text-sm text-green-400';
+          }
+        } catch (error) {
+          if (status) {
+            status.textContent = 'Unable to send right now. Please try again or email hmdarji921@gmail.com directly.';
+            status.className = 'text-sm text-red-400';
+          }
+        } finally {
+          if (button) { button.disabled = false; button.textContent = originalLabel; }
         }
       });
     });
@@ -752,7 +768,7 @@
     initMobileMenu();
     initConstellation();
     initScrollSpy();
-    initMailForms();
+    initFormspreeForms();
     initHomeSections();
     initTilt();
     initCounters();

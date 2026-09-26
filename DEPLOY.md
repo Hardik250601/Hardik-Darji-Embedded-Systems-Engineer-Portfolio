@@ -64,20 +64,20 @@ https://hardikdarji921.github.io/Hardik-webpage/
 - Check all 3 themes (Amber/Dark/Light) toggle works
 - Test the 3D hero (WebGL) loads
 - Click through all 3 case studies
-- Test the contact and newsletter forms (they open the visitor's email app)
+- Test the contact and newsletter forms through Formspree
 - Test CMS at `/crm.html` (requires GitHub PAT — see below)
 
 ---
 
 ## Required Post-Deploy Configuration
 
-### 1. Contact and Newsletter Forms (Email App)
+### 1. Contact and Newsletter Forms (Formspree)
 
-The forms open a prefilled email to `hmdarji921@gmail.com`, so they work on GitHub Pages without a server:
+The forms are configured with separate Formspree endpoints:
 
-1. Submit a test message from the live site.
-2. Confirm that your email application opens with the message filled in.
-3. Click **Send** in the email application.
+1. Newsletter: `https://formspree.io/f/xgaengoz`
+2. Contact: `https://formspree.io/f/xjyvankq`
+3. Submit a test from the live site and verify each submission in the matching Formspree dashboard.
 
 ### 2. CMS GitHub PAT
 

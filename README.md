@@ -124,7 +124,7 @@ npx serve .
 Then visit http://localhost:8000/.
 
 ## Notes
-- The contact and newsletter forms open a prefilled email to `hmdarji921@gmail.com`, so they work on GitHub Pages without a server or third-party form account.
+- The contact and newsletter forms use separate Formspree endpoints and submit asynchronously from GitHub Pages.
 - Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
 
 ## Features

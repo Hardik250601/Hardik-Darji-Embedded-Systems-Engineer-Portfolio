@@ -30,9 +30,9 @@ git push -u origin main
 
 ## 3. Test Contact Forms
 
-The contact and newsletter forms open a prefilled email to `hmdarji921@gmail.com` and are already configured for GitHub Pages.
+The contact and newsletter forms use Formspree and are already configured for GitHub Pages.
 
-**Test:** Submit a test message and click **Send** in the email application that opens.
+**Test:** Submit both forms and verify the submissions in the Formspree dashboards.
 
 ---
 
