@@ -64,27 +64,20 @@ https://hardikdarji921.github.io/Hardik-webpage/
 - Check all 3 themes (Amber/Dark/Light) toggle works
 - Test the 3D hero (WebGL) loads
 - Click through all 3 case studies
-- Test contact form (will need Formspree setup — see below)
+- Test the contact and newsletter forms (the first FormSubmit request may require email activation)
 - Test CMS at `/crm.html` (requires GitHub PAT — see below)
 
 ---
 
 ## Required Post-Deploy Configuration
 
-### 1. Contact Form (Formspree)
+### 1. Contact and Newsletter Forms (FormSubmit)
 
-The current forms use `data-netlify="true"` which **only works on Netlify**. To make them work on GitHub Pages:
+The forms use FormSubmit's AJAX endpoint, so they work on GitHub Pages without a server:
 
-1. Sign up at https://formspree.io (free, no credit card)
-2. Create a new form, copy the form ID (e.g., `x123abcd`)
-3. In `index.html`, replace both form actions:
-   - Line ~843 (contact form): `<form action="https://formspree.io/f/YOUR_ID" method="POST">`
-   - Line ~919 (newsletter): `<form action="https://formspree.io/f/YOUR_ID" method="POST">`
-4. Add a honeypot field inside each form:
-   ```html
-   <input type="text" name="_gotcha" style="display:none">
-   ```
-5. Commit and push — forms will now work on GitHub Pages
+1. Submit a test message from the live site.
+2. Check the inbox for `hmdarji921@gmail.com` and approve the FormSubmit activation request if prompted.
+3. Submit the form again after activation.
 
 ### 2. CMS GitHub PAT
 
@@ -134,7 +127,7 @@ The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **
 | Styles not loading | Hard-refresh (Ctrl+Shift+R); check browser console for CSP errors |
 | 3D hero blank | WebGL not supported — SVG fallback should show automatically |
 | CMS "Failed to fetch" | Check PAT is valid and has Contents:write permission |
-| Formspree 400 error | Ensure form `action` URL matches your Formspree form ID exactly |
+| FormSubmit activation pending | Approve the activation email sent to `hmdarji921@gmail.com`, then submit again |
 
 ---
 
@@ -175,7 +168,7 @@ This auto-deploys on every push to `main`.
 - [ ] Repository created and code pushed
 - [ ] GitHub Pages enabled on `main` branch
 - [ ] Site loads at `https://hardikdarji921.github.io/Hardik-webpage/`
-- [ ] Formspree form IDs added to both forms in `index.html`
+- [ ] FormSubmit activation completed after the first form submission
 - [ ] GitHub PAT added to `crm-github.js`
 - [ ] `.nojekyll` file present in root (it is)
 - [ ] All 3 themes toggle correctly

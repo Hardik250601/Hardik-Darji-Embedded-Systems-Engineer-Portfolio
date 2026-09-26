@@ -872,8 +872,10 @@
             <p class="text-center text-gray-400 max-w-2xl mx-auto mb-12">Open to embedded systems roles, freelance CAN/J1939 consulting, and interesting firmware challenges.</p>
             <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
                 <div class="lg:col-span-3 bg-gray-800/70 backdrop-blur p-6 sm:p-8 rounded-2xl border border-gray-700">
-                    <form name="contact" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-5">
+                    <form name="contact" method="POST" action="https://formsubmit.co/hmdarji921@gmail.com" class="space-y-5" data-static-form>
                         <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
+                        <input type="hidden" name="_subject" value="New portfolio contact message">
+                        <input type="hidden" name="_captcha" value="false">
                         <div>
                             <label for="full-name" class="block text-gray-200 text-sm font-bold mb-2">Full Name</label>
                             <input type="text" id="full-name" name="name" autocomplete="name" required placeholder="Your Name" class="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-amber-400">
@@ -887,6 +889,7 @@
                             <textarea id="message" name="message" rows="4" required placeholder="Your message..." class="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
                         </div>
                         <button type="submit" class="btn-primary w-full" style="border-radius: 0.75rem;">Send Message</button>
+                        <p id="contact-status" class="hidden text-sm" role="status" aria-live="polite"></p>
                     </form>
                 </div>
                 <div class="lg:col-span-2 flex flex-col gap-4">
@@ -948,7 +951,9 @@
                 </div>
                 <div>
                     <h3 class="text-amber-400 font-bold mb-3">Newsletter</h3>
-                    <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-2">
+                    <form id="newsletter-form" name="newsletter" method="POST" action="https://formsubmit.co/hmdarji921@gmail.com" class="space-y-2" data-static-form>
+                        <input type="hidden" name="_subject" value="New portfolio newsletter subscriber">
+                        <input type="hidden" name="_captcha" value="false">
                         <label for="newsletter-email" class="sr-only">Email</label>
                         <input id="newsletter-email" type="email" name="email" autocomplete="email" placeholder="Enter email" required class="w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
                         <button type="submit" class="btn-primary w-full text-sm" style="border-radius: 0.5rem; padding: 0.5rem 0.75rem;">Subscribe</button>

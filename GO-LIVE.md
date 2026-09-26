@@ -28,26 +28,11 @@ git push -u origin main
 
 ---
 
-## 3. Fix Contact Form (Formspree)
+## 3. Activate Contact Forms (FormSubmit)
 
-**Current issue:** Forms use `data-netlify="true"` — broken on GitHub Pages.
+The contact and newsletter forms use FormSubmit and are already configured for GitHub Pages.
 
-**Fix (2 min):**
-1. Sign up at https://formspree.io (free)
-2. Create form → copy ID (e.g., `x123abcd`)
-3. Edit `index.html`, replace **both** form `action` attributes:
-   ```html
-   <!-- Line ~843 (contact form) -->
-   <form action="https://formspree.io/f/x123abcd" method="POST">
-   
-   <!-- Line ~919 (newsletter) -->
-   <form action="https://formspree.io/f/x123abcd" method="POST">
-   ```
-4. Add honeypot inside each form:
-   ```html
-   <input type="text" name="_gotcha" style="display:none">
-   ```
-5. `git add . && git commit -m "Fix forms for GitHub Pages" && git push`
+**Activation:** Submit a test message, then approve the activation email sent by FormSubmit to `hmdarji921@gmail.com`. Submit again after approval.
 
 ---
 

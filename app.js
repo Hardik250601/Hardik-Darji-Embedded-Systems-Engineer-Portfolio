@@ -195,13 +195,39 @@
     sections.forEach(s => io.observe(s));
   }
 
-  // ---------- Newsletter ----------
-  function initNewsletter() {
-    const form = document.getElementById('newsletter-form');
-    if (!form) return;
-    form.addEventListener('submit', () => {
-      const s = document.getElementById('newsletter-status');
-      if (s) { s.textContent = 'Thanks! Check your inbox for confirmation.'; s.classList.remove('hidden'); }
+  // ---------- Static-host forms ----------
+  function initStaticForms() {
+    document.querySelectorAll('[data-static-form]').forEach(form => {
+      form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const status = document.getElementById(form.id === 'newsletter-form' ? 'newsletter-status' : 'contact-status');
+        const button = form.querySelector('button[type="submit"]');
+        const originalLabel = button ? button.textContent : '';
+        if (button) { button.disabled = true; button.textContent = 'Sending...'; }
+        if (status) { status.textContent = ''; status.className = 'hidden text-sm'; }
+        try {
+          const response = await fetch('https://formsubmit.co/ajax/hmdarji921@gmail.com', {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(form)
+          });
+          if (!response.ok) throw new Error('Form submission failed');
+          form.reset();
+          if (status) {
+            status.textContent = form.id === 'newsletter-form'
+              ? 'Thanks! Your subscription request was sent.'
+              : 'Thanks! Your message was sent successfully.';
+            status.className = 'text-sm text-green-400';
+          }
+        } catch (error) {
+          if (status) {
+            status.textContent = 'Unable to send right now. Please email hmdarji921@gmail.com directly.';
+            status.className = 'text-sm text-red-400';
+          }
+        } finally {
+          if (button) { button.disabled = false; button.textContent = originalLabel; }
+        }
+      });
     });
   }
 
@@ -741,7 +767,7 @@
     initMobileMenu();
     initConstellation();
     initScrollSpy();
-    initNewsletter();
+    initStaticForms();
     initHomeSections();
     initTilt();
     initCounters();

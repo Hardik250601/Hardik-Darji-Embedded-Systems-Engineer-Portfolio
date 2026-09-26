@@ -124,8 +124,7 @@ npx serve .
 Then visit http://localhost:8000/.
 
 ## Notes
-- The contact form on the homepage uses Netlify Forms (`data-netlify="true"`). If you don't deploy on Netlify, either remove the attribute or wire up your own form backend.
-- The newsletter form is identical: it relies on Netlify's form collection. Swap it for a different provider if you host elsewhere.
+- The contact and newsletter forms use FormSubmit's AJAX endpoint, which works with GitHub Pages and local static hosting. The first submission may require email activation from FormSubmit.
 - Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
 
 ## Features
