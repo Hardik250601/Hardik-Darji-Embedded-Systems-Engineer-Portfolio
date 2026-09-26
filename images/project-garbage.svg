@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Smart garbage monitoring system: Arduino Uno with ultrasonic, IR, servo, and GSM">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#b)"/>
+  <text x="400" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#fbbf24" letter-spacing="4">SMART GARBAGE MONITORING · ARDUINO · GSM</text>
+
+  <!-- The bin (center) -->
+  <g transform="translate(360, 130)">
+    <!-- Bin body -->
+    <rect x="0" y="40" width="120" height="220" rx="6" fill="#374151" stroke="#fbbf24" stroke-width="2"/>
+    <!-- Lid (open) -->
+    <g transform="translate(60, 40)">
+      <path d="M -60 0 L 60 0" stroke="#fbbf24" stroke-width="4" stroke-linecap="round"/>
+    </g>
+    <text x="60" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">SMART BIN</text>
+    <!-- Trash inside (level ~70% full) -->
+    <rect x="8" y="120" width="104" height="130" rx="3" fill="#fbbf24" opacity="0.6"/>
+    <text x="60" y="180" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#1f2937" font-weight="700">70%</text>
+    <!-- Ultrasonic sensor on top of lid (open lid position) -->
+    <rect x="40" y="14" width="40" height="14" rx="2" fill="#1f2937" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="60" y="25" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#fbbf24">HC-SR04</text>
+    <!-- Waves from ultrasonic going down -->
+    <g fill="none" stroke="#fbbf24" stroke-width="1.5" opacity="0.6">
+      <path d="M50 38 L60 48 L70 38"/>
+      <path d="M44 44 L60 56 L76 44"/>
+      <path d="M38 50 L60 64 L82 50"/>
+    </g>
+  </g>
+
+  <!-- IR sensor (right of bin, near top) -->
+  <g transform="translate(490, 170)">
+    <rect x="0" y="0" width="60" height="40" rx="4" fill="#1f2937" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="30" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#fbbf24">IR</text>
+    <text x="30" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#9ca3af">Person detect</text>
+    <!-- IR beam -->
+    <line x1="60" y1="20" x2="100" y2="20" stroke="#fbbf24" stroke-width="2" stroke-dasharray="4 3"/>
+  </g>
+
+  <!-- Person silhouette being detected -->
+  <g transform="translate(540, 230)">
+    <circle cx="20" cy="0" r="14" fill="#fbbf24" opacity="0.7"/>
+    <path d="M20 14 L20 50 M20 30 L0 50 M20 30 L40 50 M20 50 L5 90 M20 50 L35 90" stroke="#fbbf24" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- Servo + lid pivot (left) -->
+  <g transform="translate(330, 175)">
+    <circle cx="20" cy="0" r="14" fill="#1f2937" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="20" y="4" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#fbbf24">SRV</text>
+    <text x="20" y="26" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#9ca3af">Door actuator</text>
+  </g>
+
+  <!-- Arduino Uno board (far left) -->
+  <g transform="translate(60, 200)">
+    <rect x="0" y="0" width="160" height="200" rx="6" fill="#006a5f" stroke="#fbbf24" stroke-width="2"/>
+    <text x="80" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#fff">ARDUINO UNO</text>
+    <rect x="30" y="40" width="100" height="20" rx="2" fill="#0b1220" stroke="#fbbf24" stroke-width="0.5"/>
+    <text x="80" y="54" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#fbbf24">ATmega328P</text>
+    <!-- headers -->
+    <g fill="#9ca3af">
+      <circle cx="20" cy="80" r="2"/><circle cx="32" cy="80" r="2"/><circle cx="44" cy="80" r="2"/><circle cx="56" cy="80" r="2"/>
+      <circle cx="104" cy="80" r="2"/><circle cx="116" cy="80" r="2"/><circle cx="128" cy="80" r="2"/><circle cx="140" cy="80" r="2"/>
+    </g>
+    <g fill="#9ca3af" font-family="JetBrains Mono, monospace" font-size="7">
+      <text x="20" y="98">D2</text><text x="32" y="98">D3</text><text x="44" y="98">D9</text><text x="56" y="98">D10</text>
+      <text x="104" y="98">D11</text><text x="116" y="98">D12</text><text x="128" y="98">A0</text><text x="140" y="98">A1</text>
+    </g>
+    <!-- pin labels -->
+    <text x="80" y="130" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#fff">5V · GND · VIN</text>
+    <text x="80" y="150" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#fff">Digital I/O · PWM</text>
+    <!-- LED -->
+    <circle cx="40" cy="170" r="4" fill="#10b981"/>
+    <text x="60" y="174" font-family="Inter, sans-serif" font-size="8" fill="#fff">ON</text>
+  </g>
+
+  <!-- Wires connecting everything to Arduino -->
+  <g stroke="#fbbf24" stroke-width="1.5" fill="none" opacity="0.6">
+    <path d="M150 200 L200 175 L310 175"/>
+    <path d="M150 250 L200 250 L320 200"/>
+    <path d="M150 280 L220 280 L420 180"/>
+  </g>
+
+  <!-- GSM module + SMS notification -->
+  <g transform="translate(620, 280)">
+    <rect x="0" y="0" width="140" height="60" rx="6" fill="#1f2937" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="70" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">SIM800/900</text>
+    <text x="70" y="40" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#9ca3af">GSM module</text>
+    <text x="70" y="54" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#10b981">SMS to collector</text>
+  </g>
+  <line x1="220" y1="300" x2="620" y2="310" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+
+  <!-- Mobile showing SMS -->
+  <g transform="translate(640, 380)">
+    <rect x="0" y="0" width="100" height="60" rx="6" fill="#0b1220" stroke="#fbbf24" stroke-width="1.2"/>
+    <rect x="6" y="6" width="88" height="38" rx="2" fill="#111827"/>
+    <text x="50" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#10b981">SMS</text>
+    <text x="50" y="32" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#fff">Bin FULL</text>
+    <text x="50" y="40" text-anchor="middle" font-family="Inter, sans-serif" font-size="6" fill="#9ca3af">Collect ASAP</text>
+    <circle cx="50" cy="52" r="2" fill="#9ca3af"/>
+  </g>
+
+  <!-- bottom callout -->
+  <g transform="translate(0, 460)">
+    <rect x="60" y="0" width="680" height="28" rx="14" fill="rgba(251, 191, 36, 0.08)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="400" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#fbbf24">Touch-free door · Fill-level monitoring · GSM notification · Sensor fusion on Arduino</text>
+  </g>
+</svg>

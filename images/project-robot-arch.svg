@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 220" width="800" height="220" role="img" aria-label="Architecture: remote controller to robot via nRF24L01, then to motors and arm">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+  <rect width="800" height="220" fill="url(#b)"/>
+  <text x="400" y="30" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#fbbf24" letter-spacing="3">ARCHITECTURE · nRF24L01 · DIFF DRIVE · ARM</text>
+
+  <g transform="translate(20, 70)">
+    <rect width="180" height="110" rx="10" fill="#1f2937" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="90" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#fbbf24">REMOTE CTRL</text>
+    <text x="90" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#9ca3af">Arduino + nRF24L01</text>
+    <text x="20" y="70" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· Joysticks (drive)</text>
+    <text x="20" y="88" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· Buttons (arm / modes)</text>
+  </g>
+
+  <g transform="translate(310, 70)">
+    <rect width="180" height="110" rx="10" fill="#0a2a1f" stroke="#fbbf24" stroke-width="2"/>
+    <text x="90" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#fbbf24">ROBOT CTRL</text>
+    <text x="90" y="46" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#9ca3af">Arduino + nRF24L01</text>
+    <text x="20" y="70" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· Decode command packet</text>
+    <text x="20" y="88" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· Differential-drive mixing</text>
+  </g>
+
+  <g transform="translate(600, 70)">
+    <rect width="180" height="110" rx="10" fill="#1f2937" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="90" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#fbbf24">ACTUATORS</text>
+    <text x="20" y="50" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· 2 DC motors (drive)</text>
+    <text x="20" y="68" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· 4 servos (arm joints)</text>
+    <text x="20" y="86" font-family="Inter, sans-serif" font-size="10" fill="#d1d5db">· Gripper / end-effector</text>
+  </g>
+
+  <g stroke="#fbbf24" stroke-width="2" fill="none" opacity="0.85">
+    <path d="M200 125 L310 125" marker-end="url(#arr)"/>
+    <path d="M490 125 L600 125" marker-end="url(#arr)"/>
+  </g>
+  <g fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9">
+    <text x="255" y="118" text-anchor="middle">2.4 GHz RF</text>
+    <text x="545" y="118" text-anchor="middle">PWM</text>
+  </g>
+</svg>

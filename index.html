@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" class="no-js">
+<head>
+    <script>document.documentElement.classList.remove('no-js');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hardik Darji - Senior Embedded Software Engineer at Ammann India. Embedded C, CAN/J1939, HYDAC TTC, CANTATA, machine validation.">
+    <meta name="theme-color" content="#0b1220">
+    <meta name="author" content="Hardik Darji">
+    <meta name="keywords" content="Hardik Darji, embedded systems engineer, CAN, J1939, HYDAC TTC, CANTATA, PCAN-Explorer, Ammann India, Embedded C, machine validation, unit testing">
+    <meta name="robots" content="index, follow">
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="apple-touch-icon" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#fbbf24">
+
+    <!-- Preconnect to external origins for faster resource loading -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <meta property="og:title" content="Hardik Darji — Senior Embedded Software Engineer">
+    <meta property="og:description" content="Embedded C | CAN/J1939 | HYDAC TTC | CANTATA | Machine Validation. Senior Engineer at Ammann India.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://hardikdarji921.github.io/Hardik-webpage/">
+    <meta property="og:image" content="https://hardikdarji921.github.io/Hardik-webpage/images/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_IN">
+    <meta property="og:site_name" content="Hardik Darji Portfolio">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Hardik Darji — Senior Embedded Software Engineer">
+    <meta name="twitter:description" content="Embedded C | CAN/J1939 | HYDAC TTC | CANTATA | Machine Validation">
+    <meta name="twitter:image" content="https://hardikdarji921.github.io/Hardik-webpage/images/og-image.svg">
+
+    <link rel="canonical" href="https://hardikdarji921.github.io/Hardik-webpage/">
+
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://api.github.com;">
+
+    <title>Hardik Darji - Senior Embedded Software Engineer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lazy-load Three.js only when needed (see app.js initHero3D) -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" as="script" crossorigin>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Hardik Darji",
+      "jobTitle": "Senior Embedded Software Engineer",
+      "description": "Senior Embedded Software Engineer with 4+ years of experience in off-highway construction machinery, specializing in Embedded C, CAN/J1939 communication, HYDAC TTC controller platforms, software debugging, unit testing, machine validation, and functional testing.",
+      "url": "https://hardikdarji921.github.io/Hardik-webpage/",
+      "image": "https://hardikdarji921.github.io/Hardik-webpage/images/og-image.svg",
+      "sameAs": [
+        "https://www.linkedin.com/in/hardikdarji007"
+      ],
+      "email": "hmdarji921@gmail.com",
+      "telephone": "+91-97372-879994",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Ahmedabad",
+        "addressCountry": "IN"
+      },
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Ammann India Pvt. Ltd.",
+        "url": "https://www.ammann.com/"
+      },
+      "alumniOf": [
+        {
+          "@type": "EducationalOrganization",
+          "name": "Government Engineering College, Gandhinagar",
+          "address": {"@type": "PostalAddress", "addressLocality": "Gandhinagar", "addressCountry": "IN"}
+        },
+        {
+          "@type": "EducationalOrganization",
+          "name": "Government Polytechnic, Ahmedabad",
+          "address": {"@type": "PostalAddress", "addressLocality": "Ahmedabad", "addressCountry": "IN"}
+        }
+      ],
+      "knowsAbout": [
+        "Embedded C",
+        "C programming",
+        "Python",
+        "CAN protocol",
+        "J1939",
+        "SPI",
+        "UART",
+        "I2C",
+        "HYDAC TTC controllers",
+        "CANTATA unit testing",
+        "PCAN-Explorer",
+        "HYDAC MST",
+        "Machine validation",
+        "Functional testing",
+        "Real-time debugging",
+        "Automotive embedded systems",
+        "Off-highway construction machinery",
+        "Unit testing",
+        "Version control with Git"
+      ],
+      "hasOccupation": {
+        "@type": "Occupation",
+        "name": "Senior Embedded Software Engineer",
+        "occupationLocation": {
+          "@type": "City",
+          "name": "Ahmedabad, India"
+        },
+        "skills": "Embedded C, CAN, J1939, HYDAC TTC, CANTATA, PCAN-Explorer, HYDAC MST, Python"
+      }
+    }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background: radial-gradient(ellipse at top, #111827 0%, #0b1220 60%, #030712 100%); }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-up { animation: fadeUp 0.8s ease-out forwards; }
+        .fade-up-d1 { animation: fadeUp 0.8s ease-out 0.15s forwards; opacity: 0; }
+        .fade-up-d2 { animation: fadeUp 0.8s ease-out 0.3s forwards; opacity: 0; }
+        .fade-up-d3 { animation: fadeUp 0.8s ease-out 0.45s forwards; opacity: 0; }
+        #constellation-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.7; }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen overflow-x-hidden">
+    <a href="#main" class="skip-to-main">Skip to main content</a>
+    <canvas id="constellation-canvas" aria-hidden="true"></canvas>
+
+    <div class="fixed inset-0 pointer-events-none -z-10" aria-hidden="true">
+        <div class="orb bg-amber-500" style="width: 300px; height: 300px; top: 10%; left: -10%;"></div>
+        <div class="orb bg-amber-700" style="width: 400px; height: 400px; bottom: 5%; right: -15%;"></div>
+    </div>
+
+    <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md shadow-lg border-b border-gray-800">
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center" aria-label="Primary">
+            <a href="#home" class="text-xl sm:text-2xl font-extrabold text-amber-400 flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]"></span>
+                Hardik Darji
+            </a>
+            <div class="flex items-center space-x-2">
+                <div class="hidden lg:flex space-x-1">
+                    <a href="#home" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Home</a>
+                    <a href="#summary" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">About</a>
+                    <a href="#expertise" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Expertise</a>
+                    <a href="#experience" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Experience</a>
+                    <a href="#skills" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Skills</a>
+                    <a href="#achievements" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Achievements</a>
+                    <a href="#projects" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Projects</a>
+                    <a href="#education" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Education</a>
+                    <a href="#contact" class="px-3 py-2 text-sm font-medium text-white hover:text-amber-400 hover:bg-gray-800 rounded-md transition nav-link">Contact</a>
+                </div>
+                <a href="HardikDarji CV.pdf" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex btn-outline btn-outline-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    CV
+                </a>
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+                <button id="mobile-menu-btn" class="lg:hidden text-gray-100 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400" aria-controls="mobile-menu" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+                    <svg id="close-icon" class="w-7 h-7 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="lg:hidden transform -translate-x-full fixed top-0 left-0 w-full h-full bg-gray-900/95 backdrop-blur-md p-6 z-40 transition-transform duration-300" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div class="flex justify-end mb-6">
+                <button id="close-mobile-menu-btn" class="text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-400" aria-label="Close menu">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="flex flex-col space-y-2 mt-12">
+                <a href="#home" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Home</a>
+                <a href="#summary" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">About</a>
+                <a href="#expertise" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Expertise</a>
+                <a href="#experience" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Experience</a>
+                <a href="#skills" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Skills</a>
+                <a href="#achievements" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Achievements</a>
+                <a href="#projects" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Projects</a>
+                <a href="#education" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Education</a>
+                <a href="#contact" class="px-4 py-3 text-2xl font-semibold text-white hover:text-amber-400 border-b border-gray-800 nav-link">Contact</a>
+                <a href="HardikDarji CV.pdf" target="_blank" rel="noopener noreferrer" class="mt-6 text-center btn-primary" style="border-radius: 9999px;">Download CV</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main" class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+
+        <!-- HERO with real WebGL 3D scene -->
+        <section id="home" class="relative min-h-[90vh] flex flex-col lg:flex-row items-center justify-center gap-12 py-12">
+            <canvas id="hero-particles" aria-hidden="true"></canvas>
+            <div class="flex-1 max-w-2xl text-center lg:text-left z-10">
+                <p class="section-eyebrow mono fade-up">// Embedded Systems Engineer</p>
+                <div class="status-pill fade-up-d1 inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/40 rounded-full text-emerald-400 text-sm font-semibold mb-5">
+                    <span class="status-dot"></span>
+                    Open to embedded systems roles
+                </div>
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 fade-up-d1 leading-tight text-center lg:text-left">
+                    <span class="text-white">Hardik</span> <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent">Darji</span>
+                </h1>
+                <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-200 mb-5 fade-up-d2">Building firmware for machines that build the world.</h2>
+                <p class="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 fade-up-d3">
+                    Senior Embedded Software Engineer at <span class="text-amber-400 font-semibold">Ammann India</span> &mdash; 4+ years of Embedded C, CAN/J1939, HYDAC TTC, and CANTATA unit testing for off-highway construction machinery.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-up-d3">
+                    <a href="#experience" class="btn-primary inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">View Experience</a>
+                    <a href="HardikDarji CV.pdf" target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download CV
+                    </a>
+                </div>
+                <div class="flex gap-4 justify-center lg:justify-start mt-8 fade-up-d3">
+                    <a href="https://www.linkedin.com/in/hardikdarji007" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="mailto:hmdarji921@gmail.com" class="text-gray-400 hover:text-amber-400 transition" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                    <a href="tel:+919737287994" class="text-gray-400 hover:text-amber-400 transition" aria-label="Phone">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- WebGL 3D microchip scene (replaces static SVG card) -->
+            <div class="flex-1 flex justify-center items-center z-10" style="min-height: 540px;">
+                <div class="hero-3d-wrap" id="hero-3d-wrap">
+                    <canvas id="hero-3d-canvas" aria-label="3D animated microchip scene - move your mouse to interact" role="img"></canvas>
+                    <div class="hero-3d-hint mono js-only">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l3 7-3 4 6-1 6 1-3-4 3-7-6 2-6-2z"/></svg>
+                        interactive 3D
+                    </div>
+                    <noscript>
+                        <img src="images/hero-card-back.svg" alt="Embedded systems hero card - decorative microchip illustration" class="w-full h-auto rounded-2xl border border-amber-400/20">
+                    </noscript>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAG MARQUEE -->
+        <section class="py-6 reveal" aria-hidden="true">
+            <div class="marquee">
+                <div class="marquee-track text-amber-300/70 mono text-sm font-semibold">
+                    <span>EMBEDDED C</span><span>&bull;</span><span>CAN / J1939</span><span>&bull;</span><span>HYDAC TTC</span><span>&bull;</span><span>CANTATA</span><span>&bull;</span><span>PCAN-EXPLORER</span><span>&bull;</span><span>HYDAC MST</span><span>&bull;</span><span>PAVER</span><span>&bull;</span><span>COMPACTOR</span><span>&bull;</span><span>ROLLER</span><span>&bull;</span>
+                    <span>EMBEDDED C</span><span>&bull;</span><span>CAN / J1939</span><span>&bull;</span><span>HYDAC TTC</span><span>&bull;</span><span>CANTATA</span><span>&bull;</span><span>PCAN-EXPLORER</span><span>&bull;</span><span>HYDAC MST</span><span>&bull;</span><span>PAVER</span><span>&bull;</span><span>COMPACTOR</span><span>&bull;</span><span>ROLLER</span><span>&bull;</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- LATEST HIGHLIGHTS (auto-populated from content.json) -->
+        <section class="py-8 reveal" aria-label="Latest posts and projects">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <a id="latest-blog-card" href="blogs.html" class="group block bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 transition-all">
+                    <div class="flex items-center gap-2 text-amber-400 text-xs uppercase tracking-wider font-semibold mb-3">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                        Latest post
+                    </div>
+                    <h3 class="text-xl font-bold text-white group-hover:text-amber-300 transition mb-2">Read the blog</h3>
+                    <p class="text-gray-400 text-sm">Insights on Embedded C, CAN/J1939, and real-time debugging from the field.</p>
+                </a>
+                <a id="latest-project-card" href="projects.html" class="group block bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 transition-all">
+                    <div class="flex items-center gap-2 text-amber-400 text-xs uppercase tracking-wider font-semibold mb-3">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                        Latest project
+                    </div>
+                    <h3 class="text-xl font-bold text-white group-hover:text-amber-300 transition mb-2">See the projects</h3>
+                    <p class="text-gray-400 text-sm">Paver and Compactor firmware work, J1939 stacks, and unit-tested modules.</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- SUMMARY -->
+        <section id="summary" class="py-12 sm:py-16 reveal">
+            <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-10 rounded-3xl shadow-xl border border-gray-700 glow-amber glow-amber-hover">
+                <p class="section-eyebrow">// About me</p>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white mb-6">Professional Summary</h3>
+                <p class="text-base sm:text-lg text-gray-300 leading-relaxed">
+                    Senior Embedded Software Engineer with 4+ years of experience in off-highway construction machinery, specializing in Embedded C, CAN/J1939 communication, HYDAC TTC controller platforms, software debugging, unit testing, machine validation, and functional testing. Hands-on experience developing and modifying C software for Paver and Compactor machines, debugging CAN communication using PCAN-Explorer, monitoring I/O with HYDAC MST tools, and leading CANTATA unit-testing activities across 40+ modules in four projects. Also supports third-party telematics coordination, issue escalation, and internal user guidance.
+                </p>
+            </div>
+        </section>
+
+        <!-- FEATURED PROJECT (flagship case study) -->
+        <section id="featured-project" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Flagship project</p>
+            <div class="bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur p-6 sm:p-10 rounded-3xl shadow-2xl border border-amber-400/30 glow-amber">
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                    <div class="lg:col-span-3">
+                        <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-400/10 border border-amber-400/40 rounded-full text-amber-300 text-xs font-semibold mb-4 uppercase tracking-wider">
+                            <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse"></span>
+                            In-house innovation · Prototype validated
+                        </div>
+                        <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">ESP32 Data Logger &amp; Telematics Platform</h3>
+                        <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                            I designed and built an in-house end-to-end telematics platform for Ammann Pavers and Compactors. ESP32-S3 firmware acquires CAN/J1939 data, retains logs on MicroSD, and streams live telemetry over 4G/LTE to a Flask backend and Leaflet dashboard.
+                        </p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                            <div class="text-center bg-gray-900/60 p-3 rounded-xl border border-emerald-500/30">
+                                <div class="text-2xl font-extrabold text-emerald-400">~₹45,300</div>
+                                <div class="text-xs text-gray-400 mt-1">Saved / device / yr</div>
+                            </div>
+                            <div class="text-center bg-gray-900/60 p-3 rounded-xl border border-amber-400/30">
+                                <div class="text-2xl font-extrabold text-amber-400">90%+</div>
+                                <div class="text-xs text-gray-400 mt-1">Hardware cost cut</div>
+                            </div>
+                            <div class="text-center bg-gray-900/60 p-3 rounded-xl border border-amber-400/30">
+                                <div class="text-2xl font-extrabold text-white">₹3,700</div>
+                                <div class="text-xs text-gray-400 mt-1">Hardware BOM</div>
+                            </div>
+                            <div class="text-center bg-gray-900/60 p-3 rounded-xl border border-amber-400/30">
+                                <div class="text-2xl font-extrabold text-white">100%</div>
+                                <div class="text-xs text-gray-400 mt-1">In-house ownership</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">ESP32-S3</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">CAN/J1939</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">SIM7600 4G/LTE</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">MQTT</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">Flask</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">Leaflet.js</span>
+                            <span class="bg-gray-900 text-amber-300 px-3 py-1 rounded-full text-xs font-mono border border-amber-400/30">JWT</span>
+                        </div>
+                        <a href="project-template.html?slug=ammann-data-logger-telematics" class="btn-primary">
+                            Read full case study
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <img src="images/project-telematics-hardware.svg" alt="Actual data logger prototype hardware - ESP32, 4G GSM, CAN bus, SD card, power converter" loading="lazy" class="rounded-2xl shadow-xl border border-amber-400/20 w-full">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OTHER PROJECTS (academic / supporting) -->
+        <section id="other-projects" class="py-8 reveal">
+            <p class="section-eyebrow">// Supporting projects</p>
+            <h3 class="text-2xl sm:text-3xl font-bold text-white mb-6">Academic &amp; Experimental Builds</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <a href="project-template.html?slug=remote-controlled-multipurpose-robot" class="group block bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 transition-all">
+                    <div class="flex items-center gap-2 text-amber-400 text-xs uppercase tracking-wider font-semibold mb-3">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                        Academic · GEC Gandhinagar · 2022
+                    </div>
+                    <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition mb-2">Remote-Controlled Multipurpose Robot</h4>
+                    <p class="text-gray-400 text-sm mb-4">nRF24L01 wireless robotic platform with an integrated robotic arm. End-to-end embedded wireless, motor control and robotic-system integration.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">Arduino</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">nRF24L01</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">RF Comm</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">Servo</span>
+                    </div>
+                    <p class="text-amber-400 text-sm font-semibold inline-flex items-center gap-1">View case study
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </p>
+                </a>
+                <a href="project-template.html?slug=smart-garbage-monitoring" class="group block bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 transition-all">
+                    <div class="flex items-center gap-2 text-amber-400 text-xs uppercase tracking-wider font-semibold mb-3">
+                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+                        Academic · GP Ahmedabad · Diploma
+                    </div>
+                    <h4 class="text-xl font-bold text-white group-hover:text-amber-300 transition mb-2">Smart Garbage Monitoring System</h4>
+                    <p class="text-gray-400 text-sm mb-4">Arduino Uno smart bin with ultrasonic fill-level sensing, IR person detection, automatic servo door, and GSM notifications to the garbage collector.</p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">Arduino</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">Ultrasonic</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">IR</span>
+                        <span class="bg-gray-900 text-amber-300 px-2 py-0.5 rounded-full text-xs font-mono border border-amber-400/30">GSM</span>
+                    </div>
+                    <p class="text-amber-400 text-sm font-semibold inline-flex items-center gap-1">View case study
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                    </p>
+                </a>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="py-8 reveal" aria-label="Career highlights">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl text-center border border-gray-700 glow-amber glow-amber-hover">
+                    <div class="text-4xl sm:text-5xl font-extrabold text-amber-400 stat-num"><span data-counter="4" data-suffix="+">0</span></div>
+                    <div class="text-gray-400 mt-2 text-sm font-medium">Years</div>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl text-center border border-gray-700 glow-amber glow-amber-hover">
+                    <div class="text-4xl sm:text-5xl font-extrabold text-amber-400 stat-num"><span data-counter="40" data-suffix="+">0</span></div>
+                    <div class="text-gray-400 mt-2 text-sm font-medium">Modules Tested</div>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl text-center border border-gray-700 glow-amber glow-amber-hover">
+                    <div class="text-4xl sm:text-5xl font-extrabold text-amber-400 stat-num"><span data-counter="4">0</span></div>
+                    <div class="text-gray-400 mt-2 text-sm font-medium">Projects</div>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl text-center border border-gray-700 glow-amber glow-amber-hover">
+                    <div class="text-4xl sm:text-5xl font-extrabold text-amber-400 stat-num"><span data-counter="100" data-suffix="%">0</span></div>
+                    <div class="text-gray-400 mt-2 text-sm font-medium">Safety Coverage</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORE EXPERTISE -->
+        <section id="expertise" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// What I do</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Core Expertise</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">Embedded Software</h4>
+                    <p class="text-sm text-gray-400 mt-2">Firmware for HYDAC TTC controllers in Paver &amp; Compactor machines.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 12l2-2 4-4"/><path d="M12 16l-2 2-4 4"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">CAN / J1939</h4>
+                    <p class="text-sm text-gray-400 mt-2">Protocol implementation, debugging, and validation on live machines.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">HYDAC TTC</h4>
+                    <p class="text-sm text-gray-400 mt-2">Off-highway controller platforms with I/O via HYDAC MST tools.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11h6M9 15h6M9 7h6"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">CANTATA Testing</h4>
+                    <p class="text-sm text-gray-400 mt-2">Unit-testing lead across 40+ modules and four projects.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">Machine Validation</h4>
+                    <p class="text-sm text-gray-400 mt-2">Functional testing on target machines and software verification.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">PCAN-Explorer</h4>
+                    <p class="text-sm text-gray-400 mt-2">CAN trace analysis for debugging and troubleshooting.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">Real-time Debug</h4>
+                    <p class="text-sm text-gray-400 mt-2">Live debugging on embedded targets under tight timing budgets.</p>
+                </div>
+                <div data-tilt="6" class="tilt-3d stage-3d bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400">
+                    <div class="text-amber-400 mb-3"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.55a11 11 0 0 1 14 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><circle cx="12" cy="20" r="1"/></svg></div>
+                    <h4 class="text-lg font-bold text-white">Telematics</h4>
+                    <p class="text-sm text-gray-400 mt-2">Third-party telematics coordination, issue escalation, user guidance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE -->
+        <section id="experience" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Career</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Professional Experience</h3>
+            <div class="timeline space-y-8">
+                <article class="relative">
+                    <div class="timeline-dot" style="top: 0.5rem;"></div>
+                    <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400 transition-colors">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                            <h4 class="text-xl font-bold text-amber-400">Senior Engineer</h4>
+                            <div class="flex items-center gap-2">
+                                <span class="duration-badge mono">1+ yr</span>
+                                <span class="text-sm text-gray-400 mono">2025 &ndash; Present</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-3">Ammann India Pvt. Ltd. &bull; Ahmedabad, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                            <li>Develop and modify Embedded C software for Paver and Compactor construction machinery using HYDAC TTC controller platforms.</li>
+                            <li>Work with CAN and J1939 communication for machine software development, debugging, and validation.</li>
+                            <li>Debug machine software and CAN communication using PCAN-Explorer traces and HYDAC MST tools for I/O monitoring and troubleshooting.</li>
+                            <li>Own CANTATA unit-testing activities across four projects, covering two Paver and two Compactor projects and more than 40 software modules.</li>
+                            <li>Achieved 100% coverage of the defined safety-related software scope requiring testing across the assigned projects.</li>
+                            <li>Perform machine validation and functional testing to verify software behavior on target machines.</li>
+                            <li>Coordinate with the third-party telematics implementation team, communicate technical issues, support issue resolution, and guide internal personnel on telematics system usage.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="relative">
+                    <div class="timeline-dot" style="top: 0.5rem;"></div>
+                    <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400 transition-colors">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                            <h4 class="text-xl font-bold text-amber-400">Engineer</h4>
+                            <div class="flex items-center gap-2">
+                                <span class="duration-badge mono">1 yr</span>
+                                <span class="text-sm text-gray-400 mono">2024 &ndash; 2025</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-3">Ammann India Pvt. Ltd. &bull; Ahmedabad, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                            <li>Worked on Embedded C software and CAN/J1939-based applications for Paver and Compactor/Roller machines.</li>
+                            <li>Supported software development, debugging, testing, and machine validation activities for construction machinery.</li>
+                            <li>Worked with HYDAC TTC controller environments and machine communication interfaces.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="relative">
+                    <div class="timeline-dot" style="top: 0.5rem;"></div>
+                    <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400 transition-colors">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                            <h4 class="text-xl font-bold text-amber-400">Junior Engineer</h4>
+                            <div class="flex items-center gap-2">
+                                <span class="duration-badge mono">8 mo</span>
+                                <span class="text-sm text-gray-400 mono">2023 &ndash; 2024</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-3">Ammann India Pvt. Ltd. &bull; Ahmedabad, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                            <li>Supported Embedded C software development and CAN communication for industrial automation and construction machinery.</li>
+                            <li>Assisted with software debugging, testing, and machine-level validation activities.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="relative">
+                    <div class="timeline-dot" style="top: 0.5rem;"></div>
+                    <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400 transition-colors">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                            <h4 class="text-xl font-bold text-amber-400">Graduate Trainee Engineer</h4>
+                            <div class="flex items-center gap-2">
+                                <span class="duration-badge mono">1 yr</span>
+                                <span class="text-sm text-gray-400 mono">2022 &ndash; 2023</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-3">Ammann India Pvt. Ltd. &bull; Ahmedabad, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                            <li>Gained hands-on experience in embedded software development, communication protocols, development tools, and software testing.</li>
+                            <li>Worked with Git for version control and CANTATA for unit testing and software reliability activities.</li>
+                            <li>Built a strong foundation in Embedded Systems and industrial automation.</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="relative">
+                    <div class="timeline-dot" style="top: 0.5rem;"></div>
+                    <div class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400 transition-colors">
+                        <div class="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                            <h4 class="text-xl font-bold text-amber-400">Internship Trainer</h4>
+                            <div class="flex items-center gap-2">
+                                <span class="duration-badge mono">3 mo</span>
+                                <span class="text-sm text-gray-400 mono">2022</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 font-medium mb-3">Shriji TechnoAspire Pvt. Ltd. &bull; Gandhinagar, India</p>
+                        <ul class="list-disc list-inside text-gray-300 space-y-1 text-sm">
+                            <li>Worked with Arduino, ESP8266, and ESP32 development boards and integrated ultrasonic, IR, and PIR sensors.</li>
+                            <li>Implemented UART, SPI, and I2C communication for embedded projects and sensor data exchange.</li>
+                        </ul>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Tech stack</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Technical Skills</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Programming</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Embedded C</span><span class="text-amber-400 mono">95%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 95%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Python</span><span class="text-amber-400 mono">70%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 70%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Communication Protocols</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">CAN</span><span class="text-amber-400 mono">95%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 95%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">J1939</span><span class="text-amber-400 mono">85%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 85%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">SPI &middot; UART &middot; I2C</span><span class="text-amber-400 mono">80%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 80%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Controllers &amp; Platforms</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">HYDAC TTC</span><span class="text-amber-400 mono">90%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">ESP32-S3 (data logger)</span><span class="text-amber-400 mono">82%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 82%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Arduino &middot; ESP8266</span><span class="text-amber-400 mono">75%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 75%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Telematics &amp; Cloud</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">MQTT &middot; REST &middot; WebSockets</span><span class="text-amber-400 mono">80%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 80%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Flask &middot; Python</span><span class="text-amber-400 mono">72%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 72%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Leaflet.js &middot; SQLAlchemy &middot; JWT</span><span class="text-amber-400 mono">68%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 68%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Testing &amp; Validation</h4>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">CANTATA Unit Testing</span><span class="text-amber-400 mono">90%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 90%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Machine Validation</span><span class="text-amber-400 mono">88%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 88%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Functional Testing</span><span class="text-amber-400 mono">85%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 85%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 md:col-span-2">
+                    <h4 class="text-lg font-bold text-amber-400 mb-4">Debugging &amp; Development Tools</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">PCAN-Explorer</span><span class="text-amber-400 mono">92%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 92%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">HYDAC MST</span><span class="text-amber-400 mono">88%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 88%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">Git &middot; GitHub</span><span class="text-amber-400 mono">85%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 85%;"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1"><span class="text-gray-200">VS Code &middot; Eclipse</span><span class="text-amber-400 mono">90%</span></div>
+                            <div class="skill-bar"><div class="skill-bar-fill" style="--w: 90%;"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACHIEVEMENTS / CREDENTIALS -->
+        <section id="achievements" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Credibility</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Achievements &amp; Credentials</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/30 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                    </div>
+                    <div class="text-3xl font-extrabold text-amber-400 stat-num">100%</div>
+                    <p class="text-gray-300 text-sm mt-2">Safety-critical code coverage across 4 projects</p>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/30 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <div class="text-3xl font-extrabold text-amber-400 stat-num">40+</div>
+                    <p class="text-gray-300 text-sm mt-2">Software modules under CANTATA unit testing</p>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/30 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    </div>
+                    <div class="text-3xl font-extrabold text-amber-400 stat-num">3</div>
+                    <p class="text-gray-300 text-sm mt-2">Promotions in 3 years (GTE &rarr; JE &rarr; Eng &rarr; Sr. Eng)</p>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 glow-amber-hover hover:border-amber-400 text-center">
+                    <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/30 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-400" aria-hidden="true"><circle cx="12" cy="8" r="6"/><polyline points="8.21 13.89 7 22 12 19 17 22 15.79 13.88"/></svg>
+                    </div>
+                    <div class="text-3xl font-extrabold text-amber-400 stat-num">2</div>
+                    <p class="text-gray-300 text-sm mt-2">Paver &amp; Compactor product lines shipped</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS -->
+        <section id="projects" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Selected work</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Featured Projects</h3>
+            <div id="featured-projects-grid">
+                <p class="text-gray-400 text-center">Loading latest projects...</p>
+            </div>
+            <div class="mt-8 flex justify-center">
+                <a href="projects.html" class="btn-primary">View All Projects</a>
+            </div>
+        </section>
+
+        <!-- BLOGS -->
+        <section id="blogs" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Writing</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Recent Blog Posts</h3>
+            <div id="blogs-container">
+                <p class="text-gray-400 text-center">Loading latest posts...</p>
+            </div>
+            <div class="mt-8 flex justify-center">
+                <a href="blogs.html" class="btn-primary">View All Posts</a>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section id="education" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Education</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-8">Academic Background</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400">
+                    <p class="text-sm text-amber-300 font-semibold mb-1 mono">06/2022</p>
+                    <h4 class="text-xl font-bold text-white">Bachelor of Engineering</h4>
+                    <p class="text-gray-300">Electronics and Communications Engineering</p>
+                    <p class="text-gray-400 mt-3 text-sm">Government Engineering College, Gandhinagar, India</p>
+                    <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-amber-400/10 border border-amber-400/30 rounded-full">
+                        <span class="text-amber-300 text-sm font-bold">CGPA: 7.55</span>
+                    </div>
+                </div>
+                <div data-tilt="5" class="tilt-3d stage-3d bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400">
+                    <p class="text-sm text-amber-300 font-semibold mb-1 mono">07/2019</p>
+                    <h4 class="text-xl font-bold text-white">Diploma</h4>
+                    <p class="text-gray-300">Electronics and Communications Engineering</p>
+                    <p class="text-gray-400 mt-3 text-sm">Government Polytechnic, Ahmedabad, India</p>
+                    <div class="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-amber-400/10 border border-amber-400/30 rounded-full">
+                        <span class="text-amber-300 text-sm font-bold">CGPA: 7.12</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LANGUAGES -->
+        <section class="py-8 reveal">
+            <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700 flex flex-col sm:flex-row items-center gap-6">
+                <h3 class="text-xl font-bold text-amber-400 whitespace-nowrap">Languages</h3>
+                <div class="flex flex-wrap gap-3 justify-center sm:justify-start">
+                    <span class="bg-gray-900 text-gray-100 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">English</span>
+                    <span class="bg-gray-900 text-gray-100 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Hindi</span>
+                    <span class="bg-gray-900 text-gray-100 px-4 py-2 rounded-full text-sm font-medium border border-gray-700">Gujarati</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOOLS & PLATFORMS BAND -->
+        <section class="py-8 reveal" aria-label="Tools and platforms I work with">
+            <p class="text-center text-xs uppercase tracking-[0.25em] text-gray-500 font-semibold mb-6">Tools &amp; platforms I work with</p>
+            <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 opacity-80">
+                <span class="wordmark">AMMANN</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">HYDAC</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">ESP32-S3</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">CANTATA</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">PCAN</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">MQTT</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">Flask</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">Leaflet</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">VS Code</span>
+                <span class="wordmark-sep" aria-hidden="true">/</span>
+                <span class="wordmark">Git</span>
+            </div>
+        </section>
+
+        <!-- NOW / STATUS -->
+        <section id="now" class="py-8 sm:py-12 reveal">
+            <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-12">
+                    <div class="flex-1">
+                        <p class="section-eyebrow">// Right now</p>
+                        <h3 class="text-2xl sm:text-3xl font-bold text-white mb-2">Currently <span class="text-amber-400">building</span> things that move.</h3>
+                        <p class="text-gray-300">Senior Engineer at Ammann India &middot; Embedded C &amp; CAN/J1939 firmware for off-highway machinery.</p>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 md:gap-8 text-center md:text-left">
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Location</div>
+                            <div class="text-amber-400 font-semibold flex items-center justify-center md:justify-start gap-1.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Ahmedabad, IN
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Local time</div>
+                            <div class="text-amber-400 font-mono font-semibold" id="local-time">--:--</div>
+                        </div>
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-gray-400 mb-1">Last updated</div>
+                            <div class="text-amber-400 font-mono font-semibold" id="last-updated">--</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<!-- BEYOND EMBEDDED SOFTWARE -->
+        <section id="beyond" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow">// Beyond Embedded Software</p>
+            <h3 class="text-3xl sm:text-4xl font-bold text-white mb-10">Beyond Embedded Software</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <article class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400/50 transition-colors duration-300">
+                    <div class="text-amber-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <rect x="2" y="3" width="20" height="14" rx="2"/>
+                            <path d="M8 21h8"/>
+                            <path d="M12 17v4"/>
+                            <path d="M2 9h20"/>
+                            <circle cx="8" cy="14" r="2"/>
+                            <circle cx="16" cy="14" r="2"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Embedded Prototyping</h4>
+                    <p class="text-gray-300 leading-relaxed">Building and experimenting with embedded systems, microcontrollers, sensors, communication interfaces, and hardware prototypes to turn ideas into working solutions.</p>
+                </article>
+                <article class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400/50 transition-colors duration-300">
+                    <div class="text-amber-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            <path d="M12 10v6"/>
+                            <path d="M9 13h6"/>
+                            <path d="M6 14l3 3 6-6"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Engineering & Continuous Learning</h4>
+                    <p class="text-gray-300 leading-relaxed">Continuously exploring embedded software, CAN/J1939 communication, IoT, telemetry, debugging, testing, and system-level engineering through practical projects and experimentation.</p>
+                </article>
+                <article class="bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 hover:border-amber-400/50 transition-colors duration-300">
+                    <div class="text-amber-400 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <path d="M12 2v2"/>
+                            <path d="M12 22v-2"/>
+                            <path d="M4.93 4.93l1.41 1.41"/>
+                            <path d="M17.66 17.66l1.41 1.41"/>
+                            <path d="M2 12h2"/>
+                            <path d="M22 12h-2"/>
+                        </svg>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-3">Open to Opportunities</h4>
+                    <p class="text-gray-300 leading-relaxed">Based in Ahmedabad, India. Open to suitable Embedded Software, Embedded C, CAN/J1939, Off-Highway, Machine Validation, and Functional Testing opportunities across India, with preference for Ahmedabad, Pune, Bengaluru, Chennai, Hyderabad, Mumbai, and Chakan.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="py-12 sm:py-16 reveal">
+            <p class="section-eyebrow text-center">// Get in touch</p>
+            <h3 class="text-3xl sm:text-5xl font-bold text-center text-white mb-4">Let's build something reliable.</h3>
+            <p class="text-center text-gray-400 max-w-2xl mx-auto mb-12">Open to embedded systems roles, freelance CAN/J1939 consulting, and interesting firmware challenges.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div class="lg:col-span-3 bg-gray-800/70 backdrop-blur p-6 sm:p-8 rounded-2xl border border-gray-700">
+                    <form name="contact" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-5">
+                        <p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>
+                        <div>
+                            <label for="full-name" class="block text-gray-200 text-sm font-bold mb-2">Full Name</label>
+                            <input type="text" id="full-name" name="name" autocomplete="name" required placeholder="Your Name" class="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-200 text-sm font-bold mb-2">Email</label>
+                            <input type="email" id="email" name="email" autocomplete="email" required placeholder="you@example.com" class="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-gray-200 text-sm font-bold mb-2">Message</label>
+                            <textarea id="message" name="message" rows="4" required placeholder="Your message..." class="w-full bg-gray-900 text-gray-100 border border-gray-700 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-amber-400"></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary w-full" style="border-radius: 0.75rem;">Send Message</button>
+                    </form>
+                </div>
+                <div class="lg:col-span-2 flex flex-col gap-4">
+                    <a href="tel:+919737287994" class="bg-gray-800/70 backdrop-blur p-5 rounded-2xl border border-gray-700 hover:border-amber-400 transition flex items-center gap-4">
+                        <div class="text-amber-400 shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase tracking-wide">Phone</p>
+                            <p class="text-amber-300 font-semibold">+91 97372 87994</p>
+                        </div>
+                    </a>
+                    <a href="mailto:hmdarji921@gmail.com" class="bg-gray-800/70 backdrop-blur p-5 rounded-2xl border border-gray-700 hover:border-amber-400 transition flex items-center gap-4">
+                        <div class="text-amber-400 shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase tracking-wide">Email</p>
+                            <p class="text-amber-300 font-semibold break-all">hmdarji921@gmail.com</p>
+                        </div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/hardikdarji007" target="_blank" rel="noopener noreferrer" class="bg-gray-800/70 backdrop-blur p-5 rounded-2xl border border-gray-700 hover:border-amber-400 transition flex items-center gap-4">
+                        <div class="text-amber-400 shrink-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></div>
+                        <div>
+                            <p class="text-xs text-gray-400 uppercase tracking-wide">LinkedIn</p>
+                            <p class="text-amber-300 font-semibold">linkedin.com/in/hardikdarji007</p>
+                        </div>
+                    </a>
+                    <a href="HardikDarji CV.pdf" target="_blank" rel="noopener noreferrer" class="btn-primary inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">
+                        &#11015; Download CV (PDF)
+                    </a>
+                    <a href="hardik-darji.vcf" download class="btn-outline inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Save contact (vCard)
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900/50 backdrop-blur border-t border-gray-800 text-gray-300 pt-12 pb-8 mt-12">
+        <div class="container mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-amber-400 font-bold mb-3">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" class="hover:text-amber-400">Home</a></li>
+                        <li><a href="#experience" class="hover:text-amber-400">Experience</a></li>
+                        <li><a href="projects.html" class="hover:text-amber-400">Projects</a></li>
+                        <li><a href="blogs.html" class="hover:text-amber-400">Blog</a></li>
+                        <li><a href="#contact" class="hover:text-amber-400">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-amber-400 font-bold mb-3">Recent Blogs</h3>
+                    <ul id="recent-blogs-footer" class="space-y-2 text-sm"></ul>
+                </div>
+                <div>
+                    <h3 class="text-amber-400 font-bold mb-3">Contact</h3>
+                    <p class="text-sm text-gray-400">+91 97372 87994</p>
+                    <p class="text-sm text-gray-400">hmdarji921@gmail.com</p>
+                    <p class="text-sm text-gray-400 mt-2">Ahmedabad, India</p>
+                </div>
+                <div>
+                    <h3 class="text-amber-400 font-bold mb-3">Newsletter</h3>
+                    <form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-2">
+                        <label for="newsletter-email" class="sr-only">Email</label>
+                        <input id="newsletter-email" type="email" name="email" autocomplete="email" placeholder="Enter email" required class="w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg py-2 px-3 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400">
+                        <button type="submit" class="btn-primary w-full text-sm" style="border-radius: 0.5rem; padding: 0.5rem 0.75rem;">Subscribe</button>
+                    </form>
+                    <p id="newsletter-status" class="hidden mt-2 text-xs text-green-400"></p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500 space-y-2">
+                <p>&copy; <span id="current-year"></span> Hardik Darji &mdash; Senior Embedded Software Engineer</p>
+                <p class="text-gray-600">
+                    Made with care in <span class="text-amber-400">Ahmedabad</span> &middot; Built with vanilla HTML, CSS &amp; JavaScript
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </button>
+
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+</body>
+</html>

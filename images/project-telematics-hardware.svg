@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 540" width="800" height="540" role="img" aria-label="Top-down view of the actual data logger prototype in a clear acrylic enclosure: ESP32, 4G GSM with antenna, CAN bus, SD card, and 12V/24V to 5V power converter on a perfboard">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="acrylic" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.05)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.12)"/>
+    </linearGradient>
+    <linearGradient id="perfboard" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#5b1f0a"/>
+    </linearGradient>
+    <linearGradient id="esp" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#006a5f"/>
+      <stop offset="100%" stop-color="#004d40"/>
+    </linearGradient>
+    <linearGradient id="can" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="gsm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#1e40af"/>
+    </linearGradient>
+    <linearGradient id="psu" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <pattern id="perfDots" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="10" cy="10" r="1" fill="rgba(251,191,36,0.18)"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="540" fill="url(#bg)"/>
+  <text x="400" y="34" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#fbbf24" letter-spacing="3">ACTUAL PROTOTYPE · IN-HOUSE DATA LOGGER</text>
+  <text x="400" y="54" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" fill="#9ca3af">Acrylic enclosure · perfboard assembly · 4 modules wired together</text>
+
+  <!-- ==== Clear acrylic enclosure ==== -->
+  <g>
+    <!-- outer frame (slightly transparent) -->
+    <rect x="80" y="80" width="640" height="400" rx="20" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+    <!-- inner top edge (slight reflection) -->
+    <rect x="80" y="80" width="640" height="40" rx="20" fill="rgba(255,255,255,0.06)"/>
+    <!-- top-left mounting hole -->
+    <circle cx="105" cy="105" r="4" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="695" cy="105" r="4" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="105" cy="455" r="4" fill="rgba(255,255,255,0.3)"/>
+    <circle cx="695" cy="455" r="4" fill="rgba(255,255,255,0.3)"/>
+    <!-- corner screws -->
+    <g fill="#9ca3af">
+      <rect x="100" y="100" width="10" height="3" rx="1"/>
+      <rect x="690" y="100" width="10" height="3" rx="1"/>
+      <rect x="100" y="452" width="10" height="3" rx="1"/>
+      <rect x="690" y="452" width="10" height="3" rx="1"/>
+    </g>
+  </g>
+
+  <!-- ==== Perfboard (red-brown) inside ==== -->
+  <g>
+    <rect x="180" y="200" width="440" height="200" rx="4" fill="url(#perfboard)" stroke="#fbbf24" stroke-width="1"/>
+    <rect x="180" y="200" width="440" height="200" rx="4" fill="url(#perfDots)"/>
+    <!-- perfboard holes pattern -->
+  </g>
+
+  <!-- ==== CAN Bus module (top center) ==== -->
+  <g>
+    <rect x="360" y="170" width="80" height="55" rx="4" fill="url(#can)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="400" y="194" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff">CAN</text>
+    <text x="400" y="210" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#bfdbfe">MCP2515</text>
+    <!-- 6 pin header -->
+    <g fill="#9ca3af">
+      <rect x="380" y="217" width="3" height="6" rx="0.5"/>
+      <rect x="388" y="217" width="3" height="6" rx="0.5"/>
+      <rect x="396" y="217" width="3" height="6" rx="0.5"/>
+      <rect x="404" y="217" width="3" height="6" rx="0.5"/>
+      <rect x="412" y="217" width="3" height="6" rx="0.5"/>
+      <rect x="420" y="217" width="3" height="6" rx="0.5"/>
+    </g>
+  </g>
+
+  <!-- ==== 4G GSM Module (top-right) with antenna connector ==== -->
+  <g>
+    <rect x="540" y="160" width="100" height="70" rx="6" fill="url(#gsm)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="590" y="184" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#fff">SIM7600</text>
+    <text x="590" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#bfdbfe">4G / LTE / GNSS</text>
+    <!-- LED -->
+    <circle cx="552" cy="218" r="2" fill="#10b981"/>
+    <text x="568" y="222" font-family="JetBrains Mono, monospace" font-size="6" fill="#9ca3af">NET</text>
+    <!-- SMA antenna connector on top -->
+    <rect x="582" y="156" width="12" height="8" rx="1" fill="#9ca3af" stroke="#fbbf24" stroke-width="0.5"/>
+    <rect x="586" y="150" width="4" height="6" fill="#9ca3af"/>
+    <circle cx="588" cy="146" r="2" fill="#fbbf24"/>
+  </g>
+
+  <!-- ==== Antenna cable (goes out of enclosure) ==== -->
+  <g fill="none" stroke="#111827" stroke-width="3">
+    <path d="M588 144 Q580 130 600 110 Q640 95 700 95"/>
+  </g>
+  <g fill="none" stroke="#0b1220" stroke-width="1.5">
+    <path d="M588 144 Q580 130 600 110 Q640 95 700 95"/>
+  </g>
+
+  <!-- ==== Cable glands (left side of enclosure) ==== -->
+  <g>
+    <circle cx="80" cy="240" r="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="1.5"/>
+    <circle cx="80" cy="240" r="6" fill="#1f2937"/>
+    <circle cx="80" cy="290" r="14" fill="#f3f4f6" stroke="#6b7280" stroke-width="1.5"/>
+    <circle cx="80" cy="290" r="6" fill="#1f2937"/>
+    <!-- Cables through glands -->
+    <path d="M70 240 Q40 250 25 280" fill="none" stroke="#111827" stroke-width="4"/>
+    <path d="M70 290 Q40 300 25 330" fill="none" stroke="#111827" stroke-width="4"/>
+  </g>
+
+  <!-- ==== Data Logger Brain - ESP32 (bottom center) ==== -->
+  <g>
+    <rect x="320" y="265" width="160" height="100" rx="6" fill="url(#esp)" stroke="#fbbf24" stroke-width="2"/>
+    <text x="400" y="290" text-anchor="middle" font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#fff">ESP32-S3</text>
+    <text x="400" y="306" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#a7f3d0">DATALOGGER BRAIN</text>
+    <!-- chip icon -->
+    <rect x="370" y="314" width="60" height="34" rx="3" fill="#111827" stroke="#fbbf24" stroke-width="1"/>
+    <rect x="378" y="320" width="44" height="22" rx="1" fill="none" stroke="#fbbf24" stroke-opacity="0.4" stroke-width="0.5"/>
+    <text x="400" y="334" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#fbbf24">240 MHz</text>
+    <!-- pin headers -->
+    <g fill="#9ca3af">
+      <rect x="320" y="320" width="14" height="3" rx="0.5"/><rect x="320" y="328" width="14" height="3" rx="0.5"/>
+      <rect x="320" y="336" width="14" height="3" rx="0.5"/><rect x="320" y="344" width="14" height="3" rx="0.5"/>
+      <rect x="466" y="320" width="14" height="3" rx="0.5"/><rect x="466" y="328" width="14" height="3" rx="0.5"/>
+      <rect x="466" y="336" width="14" height="3" rx="0.5"/><rect x="466" y="344" width="14" height="3" rx="0.5"/>
+    </g>
+    <!-- antenna footprint -->
+    <rect x="380" y="262" width="40" height="3" fill="#fbbf24"/>
+    <text x="400" y="259" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#9ca3af">WiFi/BT</text>
+  </g>
+
+  <!-- ==== SD Card Module (top-left) ==== -->
+  <g>
+    <rect x="220" y="160" width="80" height="55" rx="4" fill="url(#can)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="260" y="184" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fff">SD</text>
+    <text x="260" y="200" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#bfdbfe">MicroSD</text>
+    <!-- SD card slot -->
+    <rect x="232" y="206" width="56" height="4" fill="#111827" stroke="#9ca3af" stroke-width="0.5"/>
+  </g>
+
+  <!-- ==== Power Converter (right side, blue block) ==== -->
+  <g>
+    <rect x="555" y="260" width="65" height="100" rx="4" fill="url(#psu)" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="587" y="282" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#fff">PSU</text>
+    <text x="587" y="296" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#bfdbfe">DC-DC</text>
+    <line x1="555" y1="306" x2="620" y2="306" stroke="#9ca3af" stroke-width="0.5"/>
+    <text x="587" y="320" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#fff">12V/24V</text>
+    <text x="587" y="332" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">↓ 5V</text>
+    <line x1="555" y1="342" x2="620" y2="342" stroke="#9ca3af" stroke-width="0.5"/>
+    <text x="587" y="356" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="6" fill="#9ca3af">TO ESP32</text>
+  </g>
+
+  <!-- ==== Wiring traces (perfboard jumper wires) ==== -->
+  <g fill="none" stroke="#fbbf24" stroke-width="1" opacity="0.5">
+    <path d="M260 215 L320 290"/>
+    <path d="M440 215 L460 280"/>
+    <path d="M400 225 L400 265"/>
+    <path d="M540 230 L480 270"/>
+    <path d="M260 215 Q200 220 200 250"/>
+    <path d="M620 280 L480 320"/>
+  </g>
+  <g fill="#fbbf24">
+    <circle cx="320" cy="290" r="2"/>
+    <circle cx="460" cy="280" r="2"/>
+    <circle cx="200" cy="250" r="2"/>
+    <circle cx="400" cy="265" r="2"/>
+  </g>
+
+  <!-- ==== External antenna (top-right) ==== -->
+  <g>
+    <rect x="690" y="78" width="40" height="36" rx="3" fill="#111827" stroke="#fbbf24" stroke-width="1.2"/>
+    <text x="710" y="100" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#fbbf24">ANT</text>
+    <line x1="710" y1="78" x2="710" y2="70" stroke="#fbbf24" stroke-width="1.2"/>
+    <circle cx="710" cy="68" r="2" fill="#fbbf24"/>
+  </g>
+
+  <!-- ==== Callout labels (positioned around the enclosure) ==== -->
+
+  <!-- ANTENNA - top left -->
+  <g>
+    <rect x="20" y="120" width="140" height="44" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="160" y1="142" x2="68" y2="68" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="90" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">Antenna</text>
+    <text x="90" y="152" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#d1d5db">GSM + GPS</text>
+  </g>
+
+  <!-- CAN Bus - top center -->
+  <g>
+    <rect x="335" y="120" width="130" height="32" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="400" y1="152" x2="400" y2="170" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="400" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">CAN Bus Module</text>
+  </g>
+
+  <!-- SD Card - top right of top row -->
+  <g>
+    <rect x="610" y="120" width="150" height="32" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="620" y1="148" x2="540" y2="190" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="685" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">SD Card Module</text>
+  </g>
+
+  <!-- 4G GSM - right -->
+  <g>
+    <rect x="660" y="195" width="130" height="44" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="660" y1="218" x2="640" y2="200" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="725" y="213" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">4G GSM Module</text>
+    <text x="725" y="227" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#d1d5db">SIM7600</text>
+  </g>
+
+  <!-- Power Converter - right bottom -->
+  <g>
+    <rect x="650" y="290" width="150" height="56" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="650" y1="318" x2="620" y2="310" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="725" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">Power Converter</text>
+    <text x="725" y="324" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">12V / 24V → 5V</text>
+    <text x="725" y="338" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" fill="#9ca3af">wide-input DC-DC</text>
+  </g>
+
+  <!-- Datalogger Brain - bottom center -->
+  <g>
+    <rect x="320" y="395" width="160" height="60" rx="4" fill="rgba(251, 191, 36, 0.1)" stroke="#fbbf24" stroke-width="1"/>
+    <line x1="400" y1="395" x2="400" y2="365" stroke="#fbbf24" stroke-width="1" opacity="0.7"/>
+    <text x="400" y="416" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">Datalogger Brain</text>
+    <text x="400" y="432" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">(ESP32 Microcontroller)</text>
+    <text x="400" y="448" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#9ca3af">WiFi · BLE · CAN · SPI · I2C</text>
+  </g>
+
+  <!-- bottom callout -->
+  <g transform="translate(0, 500)">
+    <rect x="60" y="0" width="680" height="32" rx="16" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="1"/>
+    <text x="400" y="20" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#10b981">Functional prototype · 4 modules wired on perfboard · Wide-input DC-DC · outdoor-rated enclosure</text>
+  </g>
+</svg>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xml:lang="en" class="no-js">
+<head>
+    <script>document.documentElement.classList.remove('no-js');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Project case study - Hardik Darji's portfolio">
+    <meta name="theme-color" content="#0b1220">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <title>Project Details - Hardik Darji</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; background: radial-gradient(ellipse at top, #111827 0%, #0b1220 60%, #030712 100%); }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+        #constellation-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100%; height: 100%; opacity: 0.7; }
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen overflow-x-hidden">
+    <a href="#main" class="skip-to-main">Skip to main content</a>
+
+    <canvas id="constellation-canvas" aria-hidden="true"></canvas>
+
+    <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-md shadow-lg border-b border-gray-800">
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center" aria-label="Primary">
+            <a href="index.html" class="text-xl sm:text-2xl font-extrabold text-amber-400 flex items-center gap-2">
+                <span class="inline-block w-2 h-2 rounded-full bg-amber-400 shadow-[0_0_10px_#fbbf24]"></span>
+                Hardik Darji
+            </a>
+            <div class="flex items-center gap-2">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme"></button>
+                <a href="projects.html" class="btn-outline btn-outline-sm">All Projects</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main" class="container mx-auto px-4 sm:px-6 py-12 sm:py-16 max-w-5xl">
+        <article class="reveal">
+            <p class="section-eyebrow">// Project case study</p>
+            <h1 id="project-title" class="text-4xl lg:text-5xl font-extrabold text-white mb-3">Loading...</h1>
+            <p id="project-tag" class="text-lg text-amber-300 mb-6 leading-relaxed"></p>
+
+            <img id="project-main-image" src="" alt="Project main image" loading="lazy" class="rounded-2xl shadow-xl mb-8 w-full bg-gray-700 border border-gray-700">
+
+            <div id="project-tech" class="flex flex-wrap gap-2 mb-8"></div>
+
+            <div id="project-metrics" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12"></div>
+
+            <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-700 mb-8">
+                <h2 class="text-3xl font-bold text-amber-400 mb-4">Overview</h2>
+                <div id="project-description" class="text-gray-300"></div>
+            </div>
+
+            <div id="project-case-study" class="bg-gray-800/70 backdrop-blur p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-700 mb-8"></div>
+
+            <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-700 mb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-2xl font-bold text-amber-400">Supportive Images</h3>
+                    <span class="text-xs text-gray-500 uppercase tracking-wider">Click to zoom</span>
+                </div>
+                <div id="project-supportive-images" class="space-y-6 mt-4"></div>
+            </div>
+
+            <div id="project-github-section" class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur p-6 sm:p-10 rounded-2xl shadow-xl border border-amber-400/30 mb-8">
+                <div class="flex items-center gap-3 mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" class="text-amber-400 shrink-0" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                    <h3 class="text-2xl font-bold text-white">Source on GitHub</h3>
+                </div>
+                <p class="text-gray-300 mb-5" id="project-github-blurb">Full source code, schematics, and supporting documentation for this project live on GitHub.</p>
+                <div class="flex justify-center sm:justify-start">
+                    <a id="project-github-link" href="#" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                        View on GitHub
+                    </a>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a id="project-linkedin-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden btn-primary" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">View on LinkedIn</a>
+                <a id="project-demo-link" href="#" target="_blank" rel="noopener noreferrer" class="hidden btn-primary" style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);">Live Demo</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-gray-900/50 backdrop-blur border-t border-gray-800 text-gray-300 pt-12 pb-8 mt-12">
+        <div class="container mx-auto px-4 sm:px-6 text-center text-sm text-gray-500 space-y-2">
+            <p>&copy; <span id="current-year"></span> Hardik Darji &mdash; Senior Embedded Software Engineer</p>
+            <p class="text-gray-600">Made with care in <span class="text-amber-400">Ahmedabad</span></p>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+    </button>
+    <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+    <script src="app.js"></script>
+    <script src="renderer.js"></script>
+    <script>
+      document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Hardik Darji — Portfolio",
+  "short_name": "Hardik Darji",
+  "description": "Senior Embedded Software Engineer — Embedded C, CAN/J1939, HYDAC TTC, CANTATA, machine validation.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#fbbf24",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

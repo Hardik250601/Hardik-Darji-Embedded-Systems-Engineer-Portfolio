@@ -1,0 +1,116 @@
+{
+  "projects": [
+    {
+      "slug": "ammann-data-logger-telematics",
+      "title": "ESP32 Data Logger & Telematics Platform",
+      "short_summary": "In-house ESP32-S3 based data logger + cloud telematics platform for Ammann Paver and Compactor machines. CAN/J1939, 4G/LTE, MQTT, Flask, Leaflet dashboard. Replaced a ₹50,000 commercial telematics system with a ₹3,700 in-house build.",
+      "main_image": "images/project-telematics-hardware.svg",
+      "supportive_images": [
+        "images/project-telematics-architecture.svg",
+        "images/project-telematics-dashboard.svg"
+      ],
+      "full_description": "Designed and delivered a low-cost, in-house Data Logger and Telematics Platform for Ammann Paver and Compactor construction machinery. The system replaces a commercial telematics solution that cost ~₹50,000 per device in the first year, with an in-house build at ~₹3,700 hardware BOM and ₹1,000/yr SIM — saving ~₹45,300 per device per year (over 90% capital-cost reduction).\n\nThe platform is a complete end-to-end stack: ESP32-S3 embedded firmware on the machine, CAN/J1939 data acquisition, SIM7600 4G/LTE connectivity, MicroSD local storage, MQTT-based live telemetry, a Python Flask backend with JWT auth, SQLAlchemy-managed data, and a Leaflet-powered web dashboard for live fleet map + historical log analysis.\n\nMy contribution covered the embedded data-logger architecture (ESP32-S3 + CAN transceiver + 4G + MicroSD), the CAN/J1939 acquisition and J1939 DM1 diagnostic parsing, the local log retention strategy, the 4G/LTE telemetry path with auto-reconnect, and the cloud backend / dashboard integration as documented in the project.\n\nThe platform supports engineering-grade analysis: raw CAN traffic retention, organized daily logs, CSV/Excel/TRC download, J1939 fault decoding (DM1, SPN, FMI), and a live map of every connected machine.",
+      "github_link": "",
+      "github_blurb": "This project was built on private infrastructure at Ammann India. Browse my GitHub profile for other embedded systems work, schematics, and ESP32 / CAN-J1939 / IoT examples.",
+      "linkedin_link": "https://www.linkedin.com/in/hardikdarji007",
+      "demo_link": "",
+      "tech_stack": ["ESP32-S3", "Embedded C", "CAN/J1939", "SIM7600 4G/LTE", "MQTT", "MicroSD", "Python", "Flask", "SQLAlchemy", "JWT", "REST API", "WebSockets", "Leaflet.js", "GNSS/GPS"],
+      "metrics": {
+        "cost_reduction": "90%+",
+        "first_year_saving_inr": "₹45,300",
+        "hardware_bom_inr": "₹3,700",
+        "annual_spend_inr": "₹1,000",
+        "machines": "Paver + Compactor",
+        "status": "Prototype validation"
+      },
+      "case_study": {
+        "problem": "Commercial telematics cost ~₹50,000 per machine in the first year and locked CAN data behind a vendor platform. Internal dev and validation teams needed unrestricted access to raw CAN traffic without recurring platform fees.",
+        "architecture": "Machine CAN/J1939 traffic is acquired by an ESP32-S3, buffered to MicroSD for local retention, and selectively streamed over 4G/LTE via MQTT. A Flask backend ingests the data, manages devices and users, and exposes REST + WebSocket endpoints. A Leaflet-based web dashboard shows live machine status, location and historical logs.",
+        "outcomes": [
+          "Reduced hardware BOM from ~₹50,000 to ~₹3,700 (90%+ reduction)",
+          "Annual operational cost ~₹1,000/device (data SIM only) vs ~₹5,000+/yr commercial",
+          "In-house ownership of all telematics data — no vendor lock-in",
+          "Continuous CAN/J1939 logging with daily folder organization",
+          "Live fleet map with online/offline device health",
+          "J1939 DM1/SPN/FMI fault decoding for diagnostic workflows",
+          "CSV/Excel/TRC log downloads for engineering analysis"
+        ],
+        "future_roadmap": [
+          "Dedicated mobile app for field service",
+          "Hybrid connectivity: remote MQTT mode + local BLE service mode",
+          "Direct BLE retrieval of J1939 DM1 fault codes",
+          "Diagnostic logic from SPN/FMI information"
+        ]
+      }
+    },
+    {
+      "slug": "remote-controlled-multipurpose-robot",
+      "title": "Remote-Controlled Multipurpose Robot",
+      "short_summary": "nRF24L01 wireless robotic platform with an integrated robotic arm. Built at Government Engineering College, Gandhinagar. Demonstrates embedded wireless communication, motor control, and robotic-system integration.",
+      "main_image": "images/project-robot.svg",
+      "supportive_images": [
+        "images/project-robot-arch.svg"
+      ],
+      "full_description": "Developed a remote-controlled multipurpose robotic platform using an nRF24L01 RF communication module for wireless control. The robot incorporated a robotic arm to extend the system beyond basic mobile-robot movement and support manipulation-oriented functionality.\n\nThe system is split into two parts: a handheld remote controller, and the robot itself with a motor drive subsystem and a robotic arm mechanism. Commands are sent over the nRF24L01 RF link, decoded by the robot-side controller, and applied to the drive motors and arm servos. The result is a wirelessly controlled, multi-purpose robotic platform that can move, turn, and manipulate objects via the arm.\n\nThe project was a hands-on demonstration of embedded wireless communication, motor control, hardware interfacing, and end-to-end system integration — the same skill set that translates to machine-control firmware and CAN-based actuators in industrial embedded roles.",
+      "github_link": "",
+      "github_blurb": "This was an academic project — full source code and schematics are available on my GitHub profile.",
+      "linkedin_link": "https://www.linkedin.com/in/hardikdarji007",
+      "demo_link": "",
+      "tech_stack": ["Arduino", "nRF24L01", "RF Communication", "Embedded C", "Motor Control", "Servo Control", "Robotic Arm", "Hardware Interfacing"],
+      "metrics": {
+        "category": "Academic",
+        "institution": "GEC Gandhinagar",
+        "duration": "Jan – Apr 2022",
+        "wireless_link": "nRF24L01 2.4 GHz",
+        "subsystems": "Drive + Robotic Arm",
+        "status": "Completed"
+      },
+      "case_study": {
+        "problem": "Build a wirelessly controlled mobile robot capable of both locomotion and basic manipulation tasks, demonstrating embedded wireless communication, motor control, and robotic system integration.",
+        "architecture": "A handheld remote controller sends serialized Command structs (throttle, steer, arm) over the nRF24L01 RF link. The robot-side controller receives the command, applies differential-drive mixing to compute left/right motor speeds, and drives the robotic arm servo accordingly. The system runs on two Arduino-class microcontrollers.",
+        "outcomes": [
+          "End-to-end wireless control of a mobile robotic platform with a robotic arm",
+          "Real-time motor control with differential-drive mixing",
+          "Servo-based robotic arm control integrated with motion",
+          "Hands-on demonstration of embedded wireless communication, motor control, and system-level integration"
+        ],
+        "future_roadmap": []
+      }
+    },
+    {
+      "slug": "smart-garbage-monitoring",
+      "title": "Smart Garbage Monitoring System",
+      "short_summary": "Arduino Uno based smart bin with ultrasonic fill-level sensing, IR person detection, automatic servo door, and GSM notifications to the garbage collector. Diploma project at Government Polytechnic, Ahmedabad.",
+      "main_image": "images/project-garbage.svg",
+      "supportive_images": [
+        "images/project-garbage-arch.svg"
+      ],
+      "full_description": "Developed a smart garbage-bin monitoring and access-control system using Arduino Uno, ultrasonic sensing, GSM communication, IR sensing, and a servo motor. The system was designed to automate bin access, monitor garbage level, and notify the garbage collector when the bin became full.\n\nOperation is two-part. The IR sensor detects when a person approaches the bin, and the Arduino commands a servo motor to automatically open the door — a touch-free interaction. In parallel, the ultrasonic sensor continuously measures the garbage level inside the bin. When the level crosses a defined full threshold, the GSM module sends an SMS notification to the garbage collector, who can then come empty the bin. Per the project logic, the door remains open while the collector is emptying the bin and closes once collection is complete.\n\nThe project is a clean demonstration of sensor fusion on a small embedded controller: ultrasonic ranging for fill-level, IR sensing for presence, servo actuation for the door, and GSM for outbound notification.",
+      "github_link": "",
+      "github_blurb": "This was an academic project — full source code and schematics are available on my GitHub profile.",
+      "linkedin_link": "https://www.linkedin.com/in/hardikdarji007",
+      "demo_link": "",
+      "tech_stack": ["Arduino Uno", "Ultrasonic Sensor", "IR Sensor", "Servo Motor", "GSM Module", "Embedded C", "AT Commands", "Sensor Fusion"],
+      "metrics": {
+        "category": "Academic (Diploma)",
+        "institution": "GP Ahmedabad",
+        "controller": "Arduino Uno",
+        "sensors": "Ultrasonic + IR",
+        "actuator": "Servo Motor",
+        "status": "Completed"
+      },
+      "case_study": {
+        "problem": "Garbage bins overflow because collection crews don't know when they're full. Manual inspection is wasteful, and people often have to touch a dirty lid. Design a system that automates bin access and notifies the collector when the bin is full.",
+        "architecture": "An Arduino Uno reads an IR sensor (person presence) and an ultrasonic distance sensor (fill level). On IR detect, the controller drives a servo motor to open the bin door; when the measured distance drops below a threshold, it sends an SMS to the collector's phone via the GSM module using AT commands.",
+        "outcomes": [
+          "Touch-free automatic door opening on person approach",
+          "Continuous ultrasonic fill-level monitoring",
+          "GSM-based notification to the garbage collector when the bin is full",
+          "Door stays open during collection, closes once done"
+        ],
+        "future_roadmap": []
+      }
+    }
+  ],
+  "blogs": []
+}

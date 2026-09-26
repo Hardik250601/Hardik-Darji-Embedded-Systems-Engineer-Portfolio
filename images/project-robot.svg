@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Remote-controlled multipurpose robot with nRF24L01 wireless control and robotic arm">
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#1f2937"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#b)"/>
+
+  <text x="400" y="40" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#fbbf24" letter-spacing="4">REMOTE-CONTROLLED ROBOT · nRF24L01 RF · ROBOTIC ARM</text>
+
+  <!-- Wireless waves between remote and robot -->
+  <g fill="none" stroke="#fbbf24" stroke-width="2" opacity="0.7">
+    <path d="M250 230 Q310 200 370 230" stroke-dasharray="4 4"/>
+    <path d="M250 250 Q320 200 390 250" stroke-dasharray="4 4"/>
+    <path d="M250 270 Q330 200 410 270" stroke-dasharray="4 4"/>
+  </g>
+  <g fill="#fbbf24" font-family="JetBrains Mono, monospace" font-size="9">
+    <text x="295" y="195" text-anchor="middle">2.4 GHz RF</text>
+  </g>
+
+  <!-- REMOTE CONTROLLER (left) -->
+  <g transform="translate(60, 200)">
+    <rect x="0" y="0" width="160" height="180" rx="14" fill="#1f2937" stroke="url(#gold)" stroke-width="2"/>
+    <text x="80" y="22" text-anchor="middle" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#fbbf24">REMOTE CTRL</text>
+    <!-- Joysticks -->
+    <circle cx="40" cy="70" r="18" fill="#111827" stroke="#fbbf24" stroke-width="1.5"/>
+    <circle cx="40" cy="70" r="6" fill="#fbbf24"/>
+    <circle cx="120" cy="70" r="18" fill="#111827" stroke="#fbbf24" stroke-width="1.5"/>
+    <circle cx="120" cy="70" r="6" fill="#fbbf24"/>
+    <!-- Buttons -->
+    <circle cx="40" cy="130" r="8" fill="#0b1220" stroke="#10b981" stroke-width="1.5"/>
+    <circle cx="80" cy="130" r="8" fill="#0b1220" stroke="#fbbf24" stroke-width="1.5"/>
+    <circle cx="120" cy="130" r="8" fill="#0b1220" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="40" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#9ca3af">DRIVE</text>
+    <text x="120" y="160" text-anchor="middle" font-family="Inter, sans-serif" font-size="7" fill="#9ca3af">ARM</text>
+  </g>
+
+  <!-- ROBOT (right) -->
+  <g transform="translate(440, 160)">
+    <!-- Chassis base -->
+    <rect x="40" y="100" width="220" height="100" rx="6" fill="#1f2937" stroke="url(#gold)" stroke-width="2"/>
+    <text x="150" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="700" fill="#fbbf24">ROBOT CHASSIS</text>
+    <!-- Wheels -->
+    <circle cx="80" cy="210" r="22" fill="#111827" stroke="#fbbf24" stroke-width="2"/>
+    <circle cx="80" cy="210" r="10" fill="#1f2937"/>
+    <circle cx="220" cy="210" r="22" fill="#111827" stroke="#fbbf24" stroke-width="2"/>
+    <circle cx="220" cy="210" r="10" fill="#1f2937"/>
+    <!-- nRF24L01 module on top -->
+    <rect x="60" y="80" width="60" height="20" rx="2" fill="#1f2937" stroke="#fbbf24" stroke-width="1"/>
+    <text x="90" y="94" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="8" fill="#fbbf24">nRF24L01</text>
+    <line x1="90" y1="100" x2="90" y2="100" stroke="#fbbf24" stroke-width="0.5"/>
+    <line x1="90" y1="60" x2="90" y2="78" stroke="#fbbf24" stroke-width="1"/>
+    <circle cx="90" cy="58" r="3" fill="#fbbf24"/>
+    <!-- Robotic arm (4-DOF-ish) -->
+    <g stroke="#fbbf24" stroke-width="6" fill="none" stroke-linecap="round">
+      <line x1="160" y1="105" x2="160" y2="40"/>
+      <line x1="160" y1="40" x2="210" y2="20"/>
+      <line x1="210" y1="20" x2="250" y2="50"/>
+    </g>
+    <circle cx="160" cy="105" r="6" fill="#fbbf24"/>
+    <circle cx="160" cy="40" r="5" fill="#fbbf24"/>
+    <circle cx="210" cy="20" r="5" fill="#fbbf24"/>
+    <circle cx="250" cy="50" r="5" fill="#fbbf24"/>
+    <!-- Gripper -->
+    <path d="M250 50 L265 40 L270 50 M250 50 L265 60 L270 50" stroke="#fbbf24" stroke-width="2" fill="none"/>
+  </g>
+
+  <!-- labels -->
+  <g font-family="JetBrains Mono, monospace" font-size="9" fill="#9ca3af">
+    <text x="60" y="450">REMOTE · Arduino + nRF24L01</text>
+    <text x="440" y="450">ROBOT · Differential Drive + 4-DOF Arm</text>
+  </g>
+
+  <!-- bottom callout -->
+  <g transform="translate(60, 470)">
+    <rect width="680" height="0" fill="none"/>
+  </g>
+  <g transform="translate(0, 460)">
+    <rect x="60" y="0" width="680" height="28" rx="14" fill="rgba(251, 191, 36, 0.08)" stroke="#fbbf24" stroke-width="1"/>
+    <text x="400" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#fbbf24">Wireless robotic platform · nRF24L01 RF · Differential drive mixing · Servo arm control</text>
+  </g>
+</svg>

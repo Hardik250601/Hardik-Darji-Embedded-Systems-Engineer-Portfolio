@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Content Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 text-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <div id="crm-header"></div>
+        <div id="crm-navigation"></div>
+
+        <div class="bg-gray-900 p-6 rounded-lg shadow-lg mt-8">
+            <h2 class="text-2xl font-bold text-amber-400 mb-6">Add New Project</h2>
+            <form id="project-form" class="space-y-4">
+                <div>
+                    <label for="project-title" class="block mb-1 text-sm font-medium text-gray-400">Project Name <span id="title-count" class="text-gray-500 text-xs">(max 120 chars)</span></label>
+                    <input type="text" id="project-title" maxlength="120" class="w-full bg-gray-700 p-2 rounded" required>
+                </div>
+                <div>
+                    <label for="project-short-summary" class="block mb-1 text-sm font-medium text-gray-400">Short Summary (for list pages) <span id="summary-count" class="text-gray-500 text-xs">(max 300 chars)</span></label>
+                    <textarea id="project-short-summary" maxlength="300" class="w-full bg-gray-700 p-2 rounded h-20" required></textarea>
+                </div>
+                <div>
+                    <label for="project-description" class="block mb-1 text-sm font-medium text-gray-400">Full Project Description (for detail page) <span id="desc-count" class="text-gray-500 text-xs">(max 5000 chars)</span></label>
+                    <textarea id="project-description" maxlength="5000" class="w-full bg-gray-700 p-2 rounded h-40" required></textarea>
+                </div>
+                <div>
+                    <label for="project-main-image" class="block mb-1 text-gray-300">Main Project Image (required)</label>
+                    <input type="file" id="project-main-image" accept="image/*" class="w-full bg-gray-700 p-2 rounded" required>
+                </div>
+                <div>
+                    <label for="project-supportive-images" class="block mb-1 text-gray-300">Supportive Images (optional, select multiple)</label>
+                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="w-full bg-gray-700 p-2 rounded">
+                </div>
+                <div>
+                    <label for="project-github" class="block mb-1 text-sm font-medium text-gray-400">GitHub Repository Link (optional)</label>
+                    <input type="url" id="project-github" placeholder="https://github.com/username/repo" class="w-full bg-gray-700 p-2 rounded" maxlength="200">
+                </div>
+                <div>
+                    <label for="project-linkedin" class="block mb-1 text-sm font-medium text-gray-400">LinkedIn Link (optional)</label>
+                    <input type="url" id="project-linkedin" class="w-full bg-gray-700 p-2 rounded" placeholder="https://linkedin.com/..." maxlength="200">
+                </div>
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded">Publish Project</button>
+            </form>
+        </div>
+
+        <div class="bg-gray-900 p-6 rounded-lg shadow-lg mt-12">
+            <h2 class="text-2xl font-bold text-amber-400 mb-6">Add New Blog Post</h2>
+            <form id="blog-form" class="space-y-4">
+                <div>
+                    <label for="blog-title" class="block mb-1 text-sm font-medium text-gray-400">Blog Title <span id="blog-title-count" class="text-gray-500 text-xs">(max 120 chars)</span></label>
+                    <input type="text" id="blog-title" maxlength="120" class="w-full bg-gray-700 p-2 rounded" required>
+                </div>
+                <div>
+                    <label for="blog-date" class="block mb-1 text-sm font-medium text-gray-400">Date (e.g., October 28, 2025)</label>
+                    <input type="text" id="blog-date" class="w-full bg-gray-700 p-2 rounded" required>
+                </div>
+                <div>
+                    <label for="blog-short-summary" class="block mb-1 text-sm font-medium text-gray-400">Short Summary (for list pages) <span id="blog-summary-count" class="text-gray-500 text-xs">(max 300 chars)</span></label>
+                    <textarea id="blog-short-summary" maxlength="300" class="w-full bg-gray-700 p-2 rounded h-24" required></textarea>
+                </div>
+                <div>
+                    <label for="blog-content" class="block mb-1 text-sm font-medium text-gray-400">Full Blog Content (supports HTML tags) <span id="blog-content-count" class="text-gray-500 text-xs">(max 10000 chars)</span></label>
+                    <textarea id="blog-content" maxlength="10000" class="w-full bg-gray-700 p-2 rounded h-64" required></textarea>
+                </div>
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded">Publish Blog Post</button>
+            </form>
+        </div>
+
+        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;"></div>
+    </div>
+
+    <script>
+        // Character counters for input length limits
+        function setupCharCounter(inputId, countId) {
+            const input = document.getElementById(inputId);
+            const count = document.getElementById(countId);
+            if (!input || !count) return;
+            const max = parseInt(input.getAttribute('maxlength'), 10);
+            input.addEventListener('input', () => {
+                const len = input.value.length;
+                count.textContent = `(${len}/${max} chars)`;
+                if (len > max * 0.9) count.classList.add('text-amber-400');
+                else count.classList.remove('text-amber-400');
+            });
+        }
+        setupCharCounter('project-title', 'title-count');
+        setupCharCounter('project-short-summary', 'summary-count');
+        setupCharCounter('project-description', 'desc-count');
+        setupCharCounter('blog-title', 'blog-title-count');
+        setupCharCounter('blog-short-summary', 'blog-summary-count');
+        setupCharCounter('blog-content', 'blog-content-count');
+    </script>
+
+    <script src="crm-github.js"></script>
+    <script src="crm.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('crm-header.html')
+                .then(res => res.text())
+                .then(html => {
+                    const host = document.getElementById('crm-header');
+                    host.innerHTML = html;
+                    const title = document.getElementById('crm-page-title');
+                    if (title) title.textContent = 'Content Dashboard';
+                })
+                .catch(() => {});
+
+            fetch('crm-nav.html')
+                .then(res => res.text())
+                .then(data => { const host = document.getElementById('crm-navigation'); if (host) host.innerHTML = data; })
+                .catch(() => {});
+        });
+    </script>
+</body>
+</html>
