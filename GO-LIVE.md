@@ -28,11 +28,11 @@ git push -u origin main
 
 ---
 
-## 3. Activate Contact Forms (FormSubmit)
+## 3. Test Contact Forms
 
-The contact and newsletter forms use FormSubmit and are already configured for GitHub Pages.
+The contact and newsletter forms open a prefilled email to `hmdarji921@gmail.com` and are already configured for GitHub Pages.
 
-**Activation:** Submit a test message, then approve the activation email sent by FormSubmit to `hmdarji921@gmail.com`. Submit again after approval.
+**Test:** Submit a test message and click **Send** in the email application that opens.
 
 ---
 

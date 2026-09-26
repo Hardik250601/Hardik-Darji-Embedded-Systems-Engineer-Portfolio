@@ -64,20 +64,20 @@ https://hardikdarji921.github.io/Hardik-webpage/
 - Check all 3 themes (Amber/Dark/Light) toggle works
 - Test the 3D hero (WebGL) loads
 - Click through all 3 case studies
-- Test the contact and newsletter forms (the first FormSubmit request may require email activation)
+- Test the contact and newsletter forms (they open the visitor's email app)
 - Test CMS at `/crm.html` (requires GitHub PAT — see below)
 
 ---
 
 ## Required Post-Deploy Configuration
 
-### 1. Contact and Newsletter Forms (FormSubmit)
+### 1. Contact and Newsletter Forms (Email App)
 
-The forms use FormSubmit's AJAX endpoint, so they work on GitHub Pages without a server:
+The forms open a prefilled email to `hmdarji921@gmail.com`, so they work on GitHub Pages without a server:
 
 1. Submit a test message from the live site.
-2. Check the inbox for `hmdarji921@gmail.com` and approve the FormSubmit activation request if prompted.
-3. Submit the form again after activation.
+2. Confirm that your email application opens with the message filled in.
+3. Click **Send** in the email application.
 
 ### 2. CMS GitHub PAT
 
