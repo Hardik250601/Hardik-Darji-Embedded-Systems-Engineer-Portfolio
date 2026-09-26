@@ -100,6 +100,15 @@ The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **
 
 **Security note:** This token is client-side visible. For production, move the GitHub API calls to a Cloudflare Worker or Netlify Function (see `PROJECT_AUDIT.md` Phase 3).
 
+### 3. Brevo notifications
+
+The `Notify Brevo subscribers` workflow sends a campaign when a new project or blog slug is added to `content.json`. Configure these GitHub Actions secrets before adding new content:
+
+- `BREVO_API_KEY`: Brevo API key
+- `BREVO_LIST_ID`: `3`
+
+The sender email `hmdarji921@gmail.com` must be verified in Brevo.
+
 ---
 
 ## Optional: Custom Domain

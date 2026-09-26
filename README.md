@@ -125,6 +125,7 @@ Then visit http://localhost:8000/.
 
 ## Notes
 - The contact and newsletter forms use separate Formspree endpoints and submit asynchronously from GitHub Pages.
+- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list.
 - Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
 
 ## Features

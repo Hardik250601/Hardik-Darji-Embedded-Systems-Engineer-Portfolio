@@ -1,0 +1,27 @@
+name: Notify Brevo subscribers
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - content.json
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Send Brevo update
+        env:
+          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID: ${{ secrets.BREVO_LIST_ID }}
+          BREVO_SENDER_EMAIL: hmdarji921@gmail.com
+          BREVO_SENDER_NAME: Hardik Darji
+          BEFORE_SHA: ${{ github.event.before }}
+        run: node .github/scripts/send-brevo-update.mjs
