@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  },
+  "name": "hardik-darji-portfolio",
+  "private": true,
+  "description": "Static portfolio site for Hardik Darji (Senior Embedded Software Engineer).",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/tailwind.css -o ./tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./src/tailwind.css -o ./tailwind.css --watch",
+    "build": "npm run build:css"
+  }
+}

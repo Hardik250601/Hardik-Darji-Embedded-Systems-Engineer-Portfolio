@@ -54,7 +54,8 @@
   function initTabs() {
     const tabs = [
       { button: document.getElementById('tab-project'), panel: document.getElementById('panel-project') },
-      { button: document.getElementById('tab-blog'), panel: document.getElementById('panel-blog') }
+      { button: document.getElementById('tab-blog'), panel: document.getElementById('panel-blog') },
+      { button: document.getElementById('tab-testimonial'), panel: document.getElementById('panel-testimonial') }
     ].filter(t => t.button && t.panel);
 
     tabs.forEach(tab => {
@@ -77,6 +78,7 @@
       ['project-short-summary', 'summary-count'],
       ['project-description', 'desc-count'],
       ['blog-title', 'blog-title-count'],
+      ['testimonial-quote', 'quote-count'],
       ['blog-short-summary', 'blog-summary-count'],
       ['blog-content', 'blog-content-count']
     ];
@@ -380,6 +382,58 @@
     });
   }
 
+  // ---------- Testimonial form ----------
+
+  function initTestimonialForm() {
+    const form = document.getElementById('testimonial-form');
+    const status = document.getElementById('status-message');
+    if (!form) return;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      if (!window.crmGit.hasToken()) {
+        window.crmGit.showMessage(status, 'Not connected to GitHub. Add your token in the bar at the top of the page.', 'bg-red-500');
+        return;
+      }
+
+      const name = value('testimonial-name');
+      const quote = value('testimonial-quote');
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalLabel = submitButton ? submitButton.textContent : '';
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Publishing...';
+      }
+      window.crmGit.showMessage(status, 'Publishing testimonial...', 'bg-yellow-500');
+
+      try {
+        const { content, sha } = await window.crmGit.loadContent();
+        if (!Array.isArray(content.testimonials)) content.testimonials = [];
+
+        const entry = {
+          quote,
+          name,
+          role: value('testimonial-role'),
+          company: value('testimonial-company')
+        };
+        content.testimonials.push(entry);
+
+        await window.crmGit.saveContent(content, sha, `CMS: Add testimonial - ${name}`);
+        window.crmGit.showMessage(status, 'Testimonial published!', 'bg-green-500');
+        form.reset();
+      } catch (error) {
+        window.crmGit.showMessage(status, `Error: ${error.message}`, 'bg-red-500');
+      } finally {
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalLabel;
+        }
+      }
+    });
+  }
+
   // ---------- Boot ----------
 
   function init() {
@@ -391,6 +445,7 @@
     initConnectionStatus();
     initProjectForm();
     initBlogForm();
+    initTestimonialForm();
   }
 
   if (document.readyState === 'loading') {

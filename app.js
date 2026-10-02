@@ -233,6 +233,41 @@
     });
   }
 
+  // ---------- Testimonials ----------
+  function testimonialCard(t) {
+    const quote = escapeHtml(t.quote || '');
+    const name = escapeHtml(t.name || '');
+    const role = escapeHtml(t.role || '');
+    const company = escapeHtml(t.company || '');
+    const meta = [role, company].filter(Boolean).map(escapeHtml).join(' &middot; ');
+    const initial = name.trim().charAt(0).toUpperCase() || '?';
+    return `
+      <figure class="h-full bg-gray-800/70 backdrop-blur p-6 rounded-2xl border border-gray-700 flex flex-col">
+        <span class="text-amber-400 text-3xl leading-none mb-3" aria-hidden="true">&ldquo;</span>
+        <blockquote class="text-gray-300 text-sm leading-relaxed flex-1">${quote}</blockquote>
+        <figcaption class="flex items-center gap-3 mt-5 pt-4 border-t border-gray-700">
+          <span class="w-10 h-10 rounded-full bg-amber-400/15 border border-amber-400/40 text-amber-300 font-bold flex items-center justify-center shrink-0" aria-hidden="true">${escapeHtml(initial)}</span>
+          <span class="min-w-0">
+            <span class="block text-white font-semibold text-sm truncate">${name}</span>
+            ${meta ? `<span class="block text-gray-400 text-xs truncate">${meta}</span>` : ''}
+          </span>
+        </figcaption>
+      </figure>`;
+  }
+
+  async function initTestimonials() {
+    const section = document.getElementById('testimonials');
+    const grid = document.getElementById('testimonials-grid');
+    if (!section || !grid) return;
+    try {
+      const data = await loadContent();
+      const items = Array.isArray(data.testimonials) ? data.testimonials : [];
+      if (!items.length) return; // stays hidden - no empty section on the page
+      grid.innerHTML = items.map(testimonialCard).join('');
+      section.classList.remove('hidden');
+    } catch (e) { /* leave hidden */ }
+  }
+
   // ---------- Home sections ----------
   async function initHomeSections() {
     const projectGrid = document.getElementById('featured-projects-grid');
@@ -782,6 +817,7 @@
       ['scrollSpy', initScrollSpy],
       ['forms', initFormspreeForms],
       ['homeSections', initHomeSections],
+      ['testimonials', initTestimonials],
       ['tilt', initTilt],
       ['counters', initCounters],
       ['reveal', initReveal],

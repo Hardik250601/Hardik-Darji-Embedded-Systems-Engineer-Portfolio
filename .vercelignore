@@ -17,3 +17,12 @@ Hardik Profile PIC.png
 .github
 .gitignore
 .nojekyll
+
+# Tailwind build inputs. tailwind.css is generated and COMMITTED, so hosting
+# needs no install or build step - it just serves the static output.
+# Delete these lines only if you configure a build command on Vercel.
+node_modules
+src
+package.json
+package-lock.json
+tailwind.config.js

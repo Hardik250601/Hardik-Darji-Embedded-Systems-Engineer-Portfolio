@@ -416,6 +416,38 @@ html[data-theme="light"] .text-amber-400 { color: var(--accent) !important; }
 html[data-theme="light"] #mobile-menu { background: rgba(255, 255, 255, 0.98) !important; }
 html[data-theme="light"] #mobile-menu a { color: var(--fg-1) !important; }
 
+/* Solid primary button: accent fill with dark text. Paired with .btn-outline.
+   NOTE: this rule was referenced 13 times in the markup but never defined, so
+   every element relying on it alone rendered as an unstyled link. */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  background-color: var(--accent);
+  color: #1a1300;
+  border: 2px solid var(--accent);
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 10px 28px -8px var(--accent);
+  filter: brightness(1.06);
+}
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.btn-primary-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
 /* Generic outline button: white text on dark amber fill on hover — high contrast always */
 .btn-outline {
   display: inline-flex;

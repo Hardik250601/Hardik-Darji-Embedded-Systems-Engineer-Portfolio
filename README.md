@@ -32,12 +32,17 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 ├── crm-header.html         # CMS shared header fragment
 ├── crm-nav.html            # CMS shared nav fragment
 │
-├── styles.css              # Small site-wide CSS
+├── styles.css              # Small site-wide CSS (also defines .btn-primary etc.)
+├── src/tailwind.css        # Tailwind entry point (@tailwind directives)
+├── tailwind.config.js      # Content globs — must list every page that uses Tailwind
+├── tailwind.css            # GENERATED, minified, and committed (see build below)
+├── package.json            # Build tooling only — the site itself has no runtime deps
 ├── images/                 # Static images, plus where the CMS uploads project images
 │   └── og-image.png        # 1200x630 social preview (rendered from og-image.svg)
 ├── robots.txt              # Allows crawling; disallows the CMS pages
 ├── sitemap.xml             # All public URLs
 ├── favicon.svg
+├── apple-touch-icon.png    # 180x180 home-screen icon (iOS ignores SVG)
 ├── manifest.json           # PWA manifest
 ├── hardik-darji.vcf        # vCard download
 ├── .vercelignore           # Keeps internal docs out of the Vercel deployment
@@ -115,12 +120,13 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 
 ### Adding and editing content
 
-`crm.html` has two tabs — **Add Project** and **Add Blog Post** — and accepts the full schema:
+`crm.html` has three tabs — **Add Project**, **Add Blog Post** and **Add Testimonial**:
 
 - **Slug** auto-generates from the title. Set it *before* adding images; image paths are built from it.
 - **Metrics** accept any label/value pair. **Case study** outcomes and roadmap are one item per line.
 - Re-submitting an existing slug **replaces** that entry rather than duplicating it.
 - **Tech stack** is comma separated and renders as chips.
+- **Add Testimonial** takes a quote, name, role and optional company. Only paste quotes a real person actually gave you. The tab warns that the CMS needs repository **write** permission for this, whereas the project and blog tabs can be used read-only.
 
 `crm-projects.html` and `crm-blogs.html` list existing content with Edit / Delete. Both editors cover the full schema and **never change the slug**, so editing a published item cannot silently move its URL.
 
@@ -159,9 +165,22 @@ Publishing commits directly to `content.json`, which triggers a Vercel (and Page
       "short_description": "Short summary used on listing cards.",
       "content": "<p>Full HTML content of the post.</p>"
     }
+  ],
+  "testimonials": [
+    {
+      "quote": "What the colleague actually said.",
+      "name": "Their Name",
+      "role": "Team Lead",
+      "company": "Optional"
+    }
   ]
 }
 ```
+
+`testimonials` is optional and currently empty. The homepage section renders only when
+this array has entries, so leaving it empty means no empty heading appears. Add quotes
+through the CMS (**Add Testimonial** tab) or edit the array directly — **never invent
+them**; they must be something a real person actually said.
 
 ## Local development
 
@@ -177,13 +196,34 @@ npx http-server . -a 0.0.0.0 -p 8000
 
 Then visit http://localhost:8000/.
 
-There is no build step, so there is nothing to install and nothing to compile.
+## CSS build step
+
+Tailwind is compiled **ahead of time**, not loaded from a CDN, so first paint no longer
+waits on a runtime compiler.
+
+```bash
+npm install          # once, installs only Tailwind
+npm run build:css    # regenerates tailwind.css (minified)
+npm run watch:css    # optional: rebuild on save while editing markup
+```
+
+`tailwind.css` is **committed**, so neither Vercel nor GitHub Pages needs an install or
+build step — both just serve the static file. Two consequences:
+
+- **If you edit any HTML, re-run `npm run build:css` and commit the result.** A new
+  utility class will not exist in `tailwind.css` until you do, and it will silently render
+  unstyled.
+- If you add a *new page*, add its path to `content` in `tailwind.config.js`, or Tailwind
+  will not scan it.
+
+`styles.css` holds the hand-written component classes (`.btn-primary`, `.reveal`,
+`.timeline`, `.skill-bar`, …). It is plain CSS with no `@apply`, so it needs no build.
 
 ## Notes
 - The contact and newsletter forms use separate Formspree endpoints and submit asynchronously.
 - New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. It needs the `BREVO_API_KEY` and `BREVO_LIST_ID` Actions secrets; without them that workflow fails harmlessly and does not block the deploy. **Once set, every CMS publish emails the whole subscriber list.**
 - The site URL used in those emails comes from the `SITE_URL` workflow variable, defaulting to the canonical URL.
-- Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
+- Tailwind is **not** on a CDN anymore. It is compiled to `tailwind.css` and committed — see [CSS build step](#css-build-step). If you add markup using a class that is not already in `tailwind.css`, rebuild before deploying.
 - `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only opening paragraphs are duplicated; **keep it in sync when you edit a post.**
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.
 - `images/og-image.svg` is the editable source for the social preview; `images/og-image.png` is what the meta tags point at. See `FINAL-GO-LIVE.md` for how to re-render it — note that Inter must be available or the text silently disappears from the PNG.
@@ -200,6 +240,8 @@ There is no build step, so there is nothing to install and nothing to compile.
 - **Latest post / latest project** highlight cards that auto-populate from `content.json`.
 - **"Now" status block** with live Ahmedabad local time + last-updated date.
 - **Tools & platforms wordmark band**, **Beyond-code interests** section.
+- **"What colleagues say" testimonials section** — data-driven from `content.json.testimonials` and hidden entirely while that array is empty. Add real quotes via the CMS.
+- **"Target role" role-fit block** high on the page, stating who the site is for and what you are looking for, with CTAs to contact and résumé.
 - **Open-to-work status pill** in the hero with pulsing green dot.
 - **Achievements / credentials** section (4 stat cards with 3D tilt).
 - **Floating back-to-top button**, **scroll progress bar** at top of page, **share-link buttons** per section, **URL hash sync** as you scroll.

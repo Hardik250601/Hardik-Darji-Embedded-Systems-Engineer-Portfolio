@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
     <title>Content Management</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="tailwind.css">
     <style>
         /* Keep tab panels and the sticky action bar usable without Tailwind's
            dynamic class generation (the CDN build scans the DOM at runtime). */
@@ -39,6 +39,9 @@
             </button>
             <button type="button" id="tab-blog" class="crm-tab px-5 py-3 rounded-t-lg bg-gray-900 text-gray-200 font-semibold border border-b-0 border-gray-700" role="tab" aria-selected="false" aria-controls="panel-blog">
                 Add Blog Post
+            </button>
+            <button type="button" id="tab-testimonial" class="crm-tab px-5 py-3 rounded-t-lg bg-gray-900 text-gray-200 font-semibold border border-b-0 border-gray-700" role="tab" aria-selected="false" aria-controls="panel-testimonial">
+                Add Testimonial
             </button>
         </div>
 
@@ -184,6 +187,42 @@
 
                 <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
                     Publish Blog Post
+                </button>
+            </form>
+        </section>
+
+        <!-- ========================= TESTIMONIAL PANEL ========================= -->
+        <section id="panel-testimonial" class="crm-panel bg-gray-900 rounded-b-lg p-6 shadow-lg" role="tabpanel" aria-labelledby="tab-testimonial">
+            <form id="testimonial-form" class="space-y-6">
+
+                <p class="p-4 rounded-lg bg-amber-900/20 border border-amber-700 text-amber-200 text-sm">
+                    <strong>Only add quotes you have been given permission to publish.</strong>
+                    Ask the person first. An unapproved or invented testimonial is worse
+                    than having none - the section stays hidden until you add a real one.
+                </p>
+
+                <div>
+                    <label for="testimonial-quote" class="field-label">Quote <span class="char-count" id="quote-count">(max 400)</span></label>
+                    <textarea id="testimonial-quote" maxlength="400" class="field-input h-28" required></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <label for="testimonial-name" class="field-label">Name</label>
+                        <input type="text" id="testimonial-name" class="field-input" required>
+                    </div>
+                    <div>
+                        <label for="testimonial-role" class="field-label">Role</label>
+                        <input type="text" id="testimonial-role" class="field-input" placeholder="Engineering Manager">
+                    </div>
+                    <div>
+                        <label for="testimonial-company" class="field-label">Company</label>
+                        <input type="text" id="testimonial-company" class="field-input">
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
+                    Publish Testimonial
                 </button>
             </form>
         </section>
