@@ -4,7 +4,9 @@
 // but we still render title/date via textContent to be safe.
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
-  const blogSlug = params.get('slug');
+  // Generated per-post pages (blog-<slug>.html) carry the slug on <body>, because
+  // social crawlers read those files directly and cannot run JavaScript.
+  const blogSlug = params.get('slug') || document.body.dataset.slug;
 
   const main = document.querySelector('main');
   if (!blogSlug) {

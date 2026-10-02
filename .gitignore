@@ -6,6 +6,9 @@ dist/
 *.min.js
 *.min.css
 
+# OG image generation cache (re-downloaded on demand by scripts/generate-og.mjs)
+.og-cache/
+
 # Editor / OS
 .vscode/
 .idea/

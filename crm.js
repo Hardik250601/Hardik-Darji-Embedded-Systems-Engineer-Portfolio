@@ -297,7 +297,7 @@
         await window.crmGit.saveContent(content, sha, `CMS: Add project - ${title}`);
         window.crmGit.showMessage(
           status,
-          `Project published! View it at project-template.html?slug=${slug}`,
+          `Project published! View it at project-${slug}.html`,
           'bg-green-500'
         );
         form.reset();
@@ -366,7 +366,7 @@
         await window.crmGit.saveContent(content, sha, `CMS: Add blog - ${title}`);
         window.crmGit.showMessage(
           status,
-          `Blog post published! View it at blog-template.html?slug=${slug}`,
+          `Blog post published! View it at blog-${slug}.html`,
           'bg-green-500'
         );
         form.reset();

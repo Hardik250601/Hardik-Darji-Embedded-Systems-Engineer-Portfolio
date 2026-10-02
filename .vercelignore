@@ -26,3 +26,9 @@ src
 package.json
 package-lock.json
 tailwind.config.js
+
+# OG/social-image generator and its font cache. The generated images and the
+# static per-entry pages ARE published (images/og/ and project-*.html /
+# blog-*.html at the repo root) - only the tooling that creates them is not.
+scripts
+.og-cache

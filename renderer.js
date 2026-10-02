@@ -1,7 +1,9 @@
 // renderer.js - hydrates project-template.html from content.json
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
-  const projectSlug = params.get('slug');
+  // Generated per-project pages (project-<slug>.html) carry the slug on <body>,
+  // because social crawlers read those files directly and cannot run JS.
+  const projectSlug = params.get('slug') || document.body.dataset.slug;
 
   const main = document.querySelector('main');
   if (!projectSlug) {

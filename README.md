@@ -36,16 +36,22 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 ├── src/tailwind.css        # Tailwind entry point (@tailwind directives)
 ├── tailwind.config.js      # Content globs — must list every page that uses Tailwind
 ├── tailwind.css            # GENERATED, minified, and committed (see build below)
+├── scripts/                # Build tooling (not published)
+│   ├── generate-og.mjs     # Per-project/per-post social image + static page generator
+│   └── generate-sitemap.mjs# Rewrites sitemap.xml from content.json
 ├── package.json            # Build tooling only — the site itself has no runtime deps
 ├── images/                 # Static images, plus where the CMS uploads project images
-│   └── og-image.png        # 1200x630 social preview (rendered from og-image.svg)
+│   ├── og-image.png        # 1200x630 social preview (rendered from og-image.svg)
+│   └── og/<slug>.png       # GENERATED: one social preview per project / blog post
+├── project-<slug>.html     # GENERATED: canonical project page with static OG tags
+├── blog-<slug>.html        # GENERATED: canonical blog page with static OG tags
 ├── robots.txt              # Allows crawling; disallows the CMS pages
 ├── sitemap.xml             # All public URLs
 ├── favicon.svg
 ├── apple-touch-icon.png    # 180x180 home-screen icon (iOS ignores SVG)
 ├── manifest.json           # PWA manifest
 ├── hardik-darji.vcf        # vCard download
-├── .vercelignore           # Keeps internal docs out of the Vercel deployment
+├── .vercelignore           # Keeps internal docs and build scripts out of the deployment
 └── README.md
 ```
 
@@ -218,6 +224,37 @@ build step — both just serve the static file. Two consequences:
 
 `styles.css` holds the hand-written component classes (`.btn-primary`, `.reveal`,
 `.timeline`, `.skill-bar`, …). It is plain CSS with no `@apply`, so it needs no build.
+
+## Social preview images (OG)
+
+Every project and blog post gets its own 1200×630 preview image at
+`images/og/<slug>.png`, so a shared link shows that entry's title instead of the
+homepage card. `npm run build:og` generates them.
+
+```bash
+npm run build            # css + og images + sitemap
+npm run build:og         # just the images and static pages
+npm run build:sitemap    # just sitemap.xml
+```
+
+**Social crawlers do not run JavaScript.** Facebook, X and LinkedIn fetch raw
+HTML, so meta tags set at runtime are invisible to them. Because this site renders
+everything from `content.json` in the browser, each entry also gets a **generated
+static page** — `project-<slug>.html` and `blog-<slug>.html` — with its `og:` tags
+baked into the HTML and the slug on `<body data-slug>`. Those are the canonical
+URLs, they are what the sitemap lists, and all listing links point at them.
+`project-template.html?slug=…` still works for older shared links and sets a
+canonical tag back to the static page.
+
+**After adding or renaming a project or post, run `npm run build` and commit the
+result** — otherwise the new entry has no preview image and is missing from the
+sitemap. Inter is downloaded on first run into `.og-cache/` (gitignored); without
+it the renderer silently produces images with no text, so the script fails loudly
+instead.
+
+Each PNG has its editable SVG source saved next to it in `images/og/`. To restyle
+the card, change the `card()` function in `scripts/generate-og.mjs` and re-run the
+build — the SVGs are outputs, not inputs.
 
 ## Notes
 - The contact and newsletter forms use separate Formspree endpoints and submit asynchronously.

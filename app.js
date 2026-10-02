@@ -30,7 +30,7 @@
     const slug = escapeHtml(p.slug), title = escapeHtml(p.title);
     const summary = escapeHtml(p.short_summary || '');
     const image = p.main_image ? escapeHtml(p.main_image) : 'images/placeholder-project.svg';
-    return `<a href="project-template.html?slug=${slug}" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
+    return `<a href="project-${slug}.html" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
       <div class="overflow-hidden rounded-lg mb-4 h-40 w-full bg-gray-600">
         <img src="${image}" alt="${title}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
       </div>
@@ -42,7 +42,7 @@
     const slug = escapeHtml(b.slug), title = escapeHtml(b.title);
     const desc = escapeHtml(b.short_description || b.short_summary || '');
     const date = formatDate(b.date);
-    return `<a href="blog-template.html?slug=${slug}" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
+    return `<a href="blog-${slug}.html" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
       <p class="text-sm text-gray-400 mb-2">${date}</p>
       <h4 class="text-xl font-bold text-amber-400 mb-2">${title}</h4>
       <p class="text-gray-300 text-sm">${desc}</p>
@@ -50,7 +50,7 @@
   }
   function blogListItem(b) {
     const slug = escapeHtml(b.slug), title = escapeHtml(b.title), date = formatDate(b.date);
-    return `<li class="mb-2"><a href="blog-template.html?slug=${slug}" class="hover:text-amber-400">${title}</a><p class="text-sm text-gray-400">${date}</p></li>`;
+    return `<li class="mb-2"><a href="blog-${slug}.html" class="hover:text-amber-400">${title}</a><p class="text-sm text-gray-400">${date}</p></li>`;
   }
 
   // ---------- Mobile menu ----------
@@ -304,7 +304,7 @@
           <p class="mt-4 text-amber-400 text-sm font-semibold inline-flex items-center gap-1">Read post
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </p>`;
-        latestBlogCard.href = `blog-template.html?slug=${encodeURIComponent(latestBlog.slug)}`;
+        latestBlogCard.href = `blog-${latestBlog.slug}.html`;
       } else {
         // No posts published yet. Hide the card rather than leave placeholder
         // copy ("Read the blog") pointing at an empty listing page.
@@ -326,7 +326,7 @@
           <p class="mt-4 text-amber-400 text-sm font-semibold inline-flex items-center gap-1">View project
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </p>`;
-        latestProjectCard.href = `project-template.html?slug=${encodeURIComponent(latestProject.slug)}`;
+        latestProjectCard.href = `project-${latestProject.slug}.html`;
       }
     }
   }

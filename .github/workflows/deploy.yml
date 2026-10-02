@@ -33,6 +33,11 @@ jobs:
           # dead weight to every page load.
           rm -f PROJECT_AUDIT.md DEPLOY.md GO-LIVE.md FINAL-GO-LIVE.md README.md WHAT-CHANGED.md
           rm -f "Hardik Profile PIC.png"
+          # Build tooling. The generated social images (images/og/) and the
+          # static per-entry pages (project-*.html, blog-*.html) are still
+          # published - only the scripts that produce them are removed.
+          rm -rf scripts .og-cache src
+          rm -f package.json package-lock.json tailwind.config.js
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
