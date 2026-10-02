@@ -6,6 +6,8 @@ const listId = Number(process.env.BREVO_LIST_ID || 3);
 const beforeSha = process.env.BEFORE_SHA;
 const senderEmail = process.env.BREVO_SENDER_EMAIL || 'hmdarji921@gmail.com';
 const senderName = process.env.BREVO_SENDER_NAME || 'Hardik Darji';
+// Must match the repo owner used in index.html (canonical/og:url) and crm-github.js.
+const SITE_URL = process.env.SITE_URL || 'https://hardikdarji921.github.io/Hardik-webpage';
 
 if (!apiKey) throw new Error('BREVO_API_KEY is not configured');
 if (!Number.isInteger(listId)) throw new Error('BREVO_LIST_ID must be an integer');
@@ -28,8 +30,8 @@ const previousSlugs = new Set([
 const addedProjects = (current.projects || []).filter(item => !previousSlugs.has(`project:${item.slug}`));
 const addedBlogs = (current.blogs || []).filter(item => !previousSlugs.has(`blog:${item.slug}`));
 const additions = [
-  ...addedProjects.map(item => ({ ...item, kind: 'Project', url: `https://hardik250601.github.io/Hardik-webpage/project-template.html?slug=${encodeURIComponent(item.slug)}` })),
-  ...addedBlogs.map(item => ({ ...item, kind: 'Blog post', url: `https://hardik250601.github.io/Hardik-webpage/blog-template.html?slug=${encodeURIComponent(item.slug)}` }))
+  ...addedProjects.map(item => ({ ...item, kind: 'Project', url: `${SITE_URL}/project-template.html?slug=${encodeURIComponent(item.slug)}` })),
+  ...addedBlogs.map(item => ({ ...item, kind: 'Blog post', url: `${SITE_URL}/blog-template.html?slug=${encodeURIComponent(item.slug)}` }))
 ];
 
 if (!additions.length) {

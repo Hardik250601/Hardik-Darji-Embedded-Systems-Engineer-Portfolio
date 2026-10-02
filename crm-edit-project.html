@@ -6,17 +6,136 @@
     <meta name="robots" content="noindex">
     <title>Edit Project</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .metric-row { display: grid; grid-template-columns: 14rem 1fr auto; gap: 0.5rem; align-items: center; }
+        @media (max-width: 640px) { .metric-row { grid-template-columns: 1fr auto; } }
+        .field-label { display: block; margin-bottom: 0.25rem; font-size: 0.875rem; font-weight: 500; color: #9ca3af; }
+        .field-input { width: 100%; background: #374151; padding: 0.5rem; border-radius: 0.25rem; }
+        .field-hint { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+    </style>
 </head>
-<body class="bg-gray-800 text-gray-100 p-8">
+<body class="bg-gray-800 text-gray-100 p-6 sm:p-8">
     <div class="max-w-4xl mx-auto">
         <div id="crm-header"></div>
         <div id="crm-navigation"></div>
 
-        <form id="project-form" class="space-y-4 bg-gray-900 p-6 rounded-lg shadow-lg mt-8">
-            <p class="text-gray-400">Loading project data...</p>
+        <div id="edit-notice" class="mt-6 p-4 rounded-lg border border-gray-700 bg-gray-900 text-sm text-gray-300">
+            Loading project...
+        </div>
+
+        <form id="project-form" class="hidden space-y-6 bg-gray-900 p-6 rounded-lg shadow-lg mt-4">
+
+            <div>
+                <label for="project-title" class="field-label">Project Name</label>
+                <input type="text" id="project-title" class="field-input" required>
+            </div>
+
+            <div>
+                <label class="field-label">Slug</label>
+                <p><code id="project-slug" class="text-amber-400"></code></p>
+                <p class="field-hint" style="margin-top:0">
+                    The slug is the page URL and is <strong>never changed</strong> by an edit,
+                    so links you have already shared keep working. It can only be changed by
+                    editing <code>content.json</code> directly.
+                </p>
+            </div>
+
+            <div>
+                <label for="project-short-summary" class="field-label">Short Summary (listing cards)</label>
+                <textarea id="project-short-summary" class="field-input h-20" required></textarea>
+            </div>
+
+            <div>
+                <label for="project-description" class="field-label">Full Description (detail page)</label>
+                <textarea id="project-description" class="field-input h-40" required></textarea>
+                <p class="field-hint">Separate paragraphs with a blank line.</p>
+            </div>
+
+            <div>
+                <label for="project-tech" class="field-label">Tech Stack</label>
+                <input type="text" id="project-tech" class="field-input" placeholder="Embedded C, CAN, J1939">
+                <p class="field-hint">Comma separated. Leave blank to remove all chips.</p>
+            </div>
+
+            <div>
+                <span class="field-label">Metrics</span>
+                <p class="field-hint" style="margin-top:0">
+                    Rename a key by editing the left box; delete a row with Remove.
+                </p>
+                <div id="project-metrics-rows" class="space-y-2 mt-2"></div>
+                <button type="button" id="add-metric" class="mt-2 bg-gray-700 hover:bg-gray-600 text-gray-100 font-semibold px-3 py-2 rounded text-sm">
+                    + Add metric
+                </button>
+            </div>
+
+            <div class="border border-gray-700 rounded-lg p-4 space-y-4">
+                <p class="field-label" style="margin-bottom:0">Case Study</p>
+                <div>
+                    <label for="cs-problem" class="field-label">Problem</label>
+                    <textarea id="cs-problem" class="field-input h-20"></textarea>
+                </div>
+                <div>
+                    <label for="cs-architecture" class="field-label">Architecture</label>
+                    <textarea id="cs-architecture" class="field-input h-20"></textarea>
+                </div>
+                <div>
+                    <label for="cs-outcomes" class="field-label">Key Outcomes <span class="text-gray-600">(one per line)</span></label>
+                    <textarea id="cs-outcomes" class="field-input h-24"></textarea>
+                </div>
+                <div>
+                    <label for="cs-roadmap" class="field-label">Future Roadmap <span class="text-gray-600">(one per line)</span></label>
+                    <textarea id="cs-roadmap" class="field-input h-20"></textarea>
+                </div>
+            </div>
+
+            <div class="border border-gray-700 rounded-lg p-4 space-y-4">
+                <p class="field-label" style="margin-bottom:0">Images</p>
+                <p class="field-hint" style="margin-top:0">
+                    Existing images are kept unless you replace them.
+                </p>
+                <p class="text-sm text-gray-400">Current main image: <code id="current-main-image" class="text-amber-400">none</code></p>
+                <div>
+                    <label for="project-main-image" class="field-label">Replace main image (optional)</label>
+                    <input type="file" id="project-main-image" accept="image/*" class="field-input">
+                </div>
+                <div>
+                    <label for="project-supportive-images" class="field-label">Add more supportive images (optional)</label>
+                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="field-input">
+                </div>
+                <p class="text-sm text-gray-400">Current supportive images:</p>
+                <ul id="current-supportive-images" class="text-sm text-gray-400 list-disc ml-5"></ul>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="project-github" class="field-label">GitHub Link</label>
+                    <input type="url" id="project-github" placeholder="https://github.com/..." class="field-input">
+                </div>
+                <div>
+                    <label for="project-github-blurb" class="field-label">GitHub Blurb</label>
+                    <input type="text" id="project-github-blurb" class="field-input">
+                </div>
+                <div>
+                    <label for="project-linkedin" class="field-label">LinkedIn Link</label>
+                    <input type="url" id="project-linkedin" placeholder="https://linkedin.com/..." class="field-input">
+                </div>
+                <div>
+                    <label for="project-demo" class="field-label">Live Demo Link</label>
+                    <input type="url" id="project-demo" placeholder="https://..." class="field-input">
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded">
+                    Save Changes
+                </button>
+                <a href="crm-projects.html" class="bg-gray-700 hover:bg-gray-600 text-gray-100 font-bold py-2 px-5 rounded inline-block">
+                    Back to Manage Projects
+                </a>
+            </div>
         </form>
 
-        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;"></div>
+        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;" role="status" aria-live="polite"></div>
     </div>
 
     <script src="crm-github.js"></script>
@@ -26,8 +145,7 @@
             fetch('crm-header.html')
                 .then(res => res.text())
                 .then(html => {
-                    const host = document.getElementById('crm-header');
-                    host.innerHTML = html;
+                    document.getElementById('crm-header').innerHTML = html;
                     const title = document.getElementById('crm-page-title');
                     if (title) title.textContent = 'Edit Project';
                 })
@@ -35,7 +153,7 @@
 
             fetch('crm-nav.html')
                 .then(res => res.text())
-                .then(data => { const host = document.getElementById('crm-navigation'); if (host) host.innerHTML = data; })
+                .then(data => { document.getElementById('crm-navigation').innerHTML = data; })
                 .catch(() => {});
         });
     </script>

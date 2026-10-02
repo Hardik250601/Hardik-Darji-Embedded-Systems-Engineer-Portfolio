@@ -1,26 +1,95 @@
 // crm-github.js - shared GitHub API helpers + utility functions for the CMS pages.
 // Exposed as window.crmGit.
+//
+// SECURITY MODEL
+// ====================================================================
+// There is deliberately NO token constant in this file.
+//
+// The CMS runs entirely in the browser and writes to content.json through
+// the GitHub Contents API. An earlier version asked you to paste a
+// fine-grained PAT directly into this file and commit it -- which published
+// a live write credential for the repo to every visitor of /crm.html.
+//
+// Instead the token is supplied at runtime and held in sessionStorage, so
+// it exists only in your own tab, is dropped when the tab closes, and can
+// never be committed by accident.
+//
+// Use a FINE-GRAINED PAT scoped to this single repository with only
+// "Contents: Read and write". Rotate it periodically.
+//
+// If you later want multi-device access without re-entering a token, move
+// this call behind GitHub OAuth + a small serverless proxy that holds the
+// credential server-side. See README.md ("CMS security").
+// ====================================================================
 
 (function () {
   'use strict';
 
-  // --- CONFIGURATION ---
-  // ====================================================================
-  // IMPORTANT: Replace the placeholder below with a fine-grained GitHub PAT
-  // that has Contents: Read & write access ONLY to this repo.
-  //
-  // SECURITY WARNING: Because this token ships in the client-side JS file,
-  // anyone who visits /crm.html can extract it. To minimise the blast radius:
-  //   1. Use a fine-grained PAT scoped to a SINGLE repository.
-  //   2. Set the PAT to expire (max 1 year).
-  //   3. Restrict the PAT to "Contents: Read and write" only.
-  //   4. Move this code to a serverless function (Cloudflare Worker /
-  //      Netlify Function) and proxy the request server-side.
-  // ====================================================================
-  const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE';
+  // --- CONFIGURATION (non-secret) ---
   const GITHUB_USERNAME = 'Hardikdarji921';
   const GITHUB_REPO = 'Hardik-webpage';
   const CONTENT_FILE_PATH = 'content.json';
+  const TOKEN_STORAGE_KEY = 'crm_github_token';
+
+  // --- Token handling (session-only, never persisted to the repo) ---
+
+  function getToken() {
+    let token = '';
+    try {
+      token = sessionStorage.getItem(TOKEN_STORAGE_KEY) || '';
+    } catch (e) {
+      // sessionStorage can throw in private browsing / sandboxed frames.
+      token = '';
+    }
+    if (!token) {
+      throw new Error(
+        'Not connected to GitHub yet. Enter a fine-grained token in the ' +
+        '"Connect to GitHub" bar at the top of this page.'
+      );
+    }
+    return token;
+  }
+
+  function setToken(token) {
+    const trimmed = String(token || '').trim();
+    if (!trimmed) return false;
+    try {
+      sessionStorage.setItem(TOKEN_STORAGE_KEY, trimmed);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function clearToken() {
+    try {
+      sessionStorage.removeItem(TOKEN_STORAGE_KEY);
+    } catch (e) { /* nothing to clear */ }
+  }
+
+  function hasToken() {
+    try {
+      return Boolean(sessionStorage.getItem(TOKEN_STORAGE_KEY));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  // Reading content.json from a PUBLIC repo needs no credential at all --
+  // the GitHub Contents API serves it unauthenticated. Only writes do.
+  // So the listing and edit pages stay usable (read-only) before you connect,
+  // and getToken() is only invoked on the write path.
+  function readHeaders() {
+    const headers = { 'Accept': 'application/vnd.github+json' };
+    let token = '';
+    try {
+      token = sessionStorage.getItem(TOKEN_STORAGE_KEY) || '';
+    } catch (e) {
+      token = '';
+    }
+    if (token) headers['Authorization'] = `token ${token}`;
+    return headers;
+  }
 
   // Modern Unicode-safe base64 helpers (the old btoa/unescape trick is
   // deprecated; these work in all current browsers).
@@ -28,15 +97,29 @@
     return btoa(unescape(encodeURIComponent(str)));
   }
   function fromBase64(b64) {
-    return decodeURIComponent(escape(atob(b64)));
+    // GitHub returns file contents as base64 wrapped at 60 characters. Strip the
+    // line breaks before decoding: browsers tolerate this in atob(), but other
+    // runtimes throw InvalidCharacterError on the whitespace.
+    const clean = String(b64 == null ? '' : b64).replace(/\s+/g, '');
+    return decodeURIComponent(escape(atob(clean)));
+  }
+
+  function apiUrl(path) {
+    return `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${path}`;
   }
 
   async function getFile(path) {
-    const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${path}`;
-    const response = await fetch(url, {
-      headers: { 'Authorization': `token ${GITHUB_TOKEN}`, 'Accept': 'application/vnd.github+json' }
-    });
+    const response = await fetch(apiUrl(path), { headers: readHeaders() });
     if (response.status === 404) return null;
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(
+        hasToken()
+          ? 'GitHub rejected the token (401/403). Check it has "Contents: Read and write" access to ' +
+            `${GITHUB_USERNAME}/${GITHUB_REPO}.`
+          : `Could not read ${GITHUB_USERNAME}/${GITHUB_REPO} (403). If the repository is private, ` +
+            'connect a token that has access to it.'
+      );
+    }
     if (!response.ok) {
       const err = await response.json().catch(() => ({}));
       throw new Error(err.message || `Failed to fetch file: ${path}`);
@@ -45,15 +128,14 @@
   }
 
   async function updateFile(path, content, sha, message) {
-    const url = `https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${path}`;
     const isJson = typeof content === 'object';
     const encodedContent = isJson ? toBase64(JSON.stringify(content, null, 2)) : content;
     const body = { message, content: encodedContent };
     if (sha) body.sha = sha;
-    const response = await fetch(url, {
+    const response = await fetch(apiUrl(path), {
       method: 'PUT',
       headers: {
-        'Authorization': `token ${GITHUB_TOKEN}`,
+        'Authorization': `token ${getToken()}`,
         'Content-Type': 'application/json',
         'Accept': 'application/vnd.github+json'
       },
@@ -104,6 +186,91 @@
       .replace(/'/g, '&#39;');
   }
 
+  // --- Connect bar -----------------------------------------------------
+  // Mounted automatically on any page that loads this script, so every CMS
+  // page gets it without extra markup.
+
+  function mountConnectBar() {
+    if (document.getElementById('crm-connect-bar')) return;
+
+    const bar = document.createElement('div');
+    bar.id = 'crm-connect-bar';
+    bar.className = 'bg-gray-900 border-b border-gray-700 px-6 py-4';
+    bar.innerHTML = `
+      <div class="max-w-4xl mx-auto flex flex-wrap items-center gap-3">
+        <label for="crm-token-input" class="text-sm font-medium text-gray-300">
+          Connect to GitHub
+          <span class="block text-xs text-gray-500 font-normal">
+            Fine-grained token &middot; Contents: Read and write &middot;
+            ${esc(GITHUB_USERNAME)}/${esc(GITHUB_REPO)}
+          </span>
+        </label>
+        <input id="crm-token-input" type="password" autocomplete="off" spellcheck="false"
+               placeholder="github_pat_..."
+               class="flex-1 min-w-[16rem] bg-gray-700 p-2 rounded text-sm">
+        <button id="crm-token-save" type="button"
+                class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded text-sm">
+          Connect
+        </button>
+        <button id="crm-token-clear" type="button"
+                class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-4 rounded text-sm">
+          Disconnect
+        </button>
+        <span id="crm-token-status" class="text-xs text-gray-400" role="status"></span>
+      </div>
+      <p class="max-w-4xl mx-auto mt-2 text-xs text-gray-500">
+        Stored in this browser tab only (sessionStorage) and cleared when you close it.
+        It is never written to the repository.
+      </p>`;
+
+    document.body.insertBefore(bar, document.body.firstChild);
+
+    const input = bar.querySelector('#crm-token-input');
+    const status = bar.querySelector('#crm-token-status');
+
+    function refreshStatus() {
+      if (!hasToken()) {
+        status.textContent = 'Not connected.';
+        status.className = 'text-xs text-amber-400';
+      } else {
+        status.textContent = 'Connected for this tab.';
+        status.className = 'text-xs text-green-400';
+        input.value = '';
+        input.type = 'password';
+        input.placeholder = 'Connected';
+      }
+    }
+
+    bar.querySelector('#crm-token-save').addEventListener('click', () => {
+      if (setToken(input.value)) {
+        refreshStatus();
+        // Re-dispatch so any CMS page re-runs its load with the new token.
+        window.dispatchEvent(new CustomEvent('crm:token-changed'));
+        window.location.reload();
+      } else {
+        status.textContent = 'Could not store the token in this browser.';
+        status.className = 'text-xs text-red-400';
+      }
+    });
+
+    bar.querySelector('#crm-token-clear').addEventListener('click', () => {
+      clearToken();
+      refreshStatus();
+    });
+
+    input.addEventListener('keydown', event => {
+      if (event.key === 'Enter') bar.querySelector('#crm-token-save').click();
+    });
+
+    refreshStatus();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mountConnectBar);
+  } else {
+    mountConnectBar();
+  }
+
   window.crmGit = {
     getFile,
     updateFile,
@@ -113,8 +280,12 @@
     toBase64File,
     showMessage,
     esc,
+    getToken,
+    setToken,
+    clearToken,
+    hasToken,
     CONTENT_FILE_PATH,
     GITHUB_USERNAME,
-    GITHUB_REPO,
+    GITHUB_REPO
   };
 })();

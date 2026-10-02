@@ -89,6 +89,7 @@
     const canvas = document.getElementById('constellation-canvas');
     if (!canvas || !canvas.getContext) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // context creation can fail (privacy mode, exhausted contexts)
     let w = 0, h = 0, dots = [], raf = null;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const max = 140, count = window.innerWidth < 640 ? 40 : 80;
@@ -269,6 +270,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </p>`;
         latestBlogCard.href = `blog-template.html?slug=${encodeURIComponent(latestBlog.slug)}`;
+      } else {
+        // No posts published yet. Hide the card rather than leave placeholder
+        // copy ("Read the blog") pointing at an empty listing page.
+        latestBlogCard.classList.add('hidden');
+        const grid = latestBlogCard.parentElement;
+        if (grid) grid.classList.remove('md:grid-cols-2');
       }
     }
     if (latestProjectCard) {
@@ -763,20 +770,33 @@
   window.app = { loadContent, escapeHtml, formatDate, projectCard, blogCard, blogListItem, setTheme };
 
   document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initThemeToggle();
-    initMobileMenu();
-    initConstellation();
-    initScrollSpy();
-    initFormspreeForms();
-    initHomeSections();
-    initTilt();
-    initCounters();
-    initReveal();
-    initBackToTop();
-    initHashSync();
-    initHeroParticles();
-    initNowBlock();
-    initHero3D();
+    // Each feature initialises independently. A failure in one (for example a
+    // canvas context that cannot be created) must not stop the rest from
+    // running, otherwise a single decorative animation takes the whole page
+    // down with it.
+    const inits = [
+      ['theme', initTheme],
+      ['themeToggle', initThemeToggle],
+      ['mobileMenu', initMobileMenu],
+      ['constellation', initConstellation],
+      ['scrollSpy', initScrollSpy],
+      ['forms', initFormspreeForms],
+      ['homeSections', initHomeSections],
+      ['tilt', initTilt],
+      ['counters', initCounters],
+      ['reveal', initReveal],
+      ['backToTop', initBackToTop],
+      ['hashSync', initHashSync],
+      ['heroParticles', initHeroParticles],
+      ['nowBlock', initNowBlock],
+      ['hero3d', initHero3D]
+    ];
+    inits.forEach(([name, fn]) => {
+      try {
+        fn();
+      } catch (error) {
+        console.warn(`[app] ${name} failed to initialise:`, error);
+      }
+    });
   });
 })();

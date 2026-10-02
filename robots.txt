@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# CMS pages are private tooling, not content. Keep them out of search results.
+Disallow: /crm.html
+Disallow: /crm-projects.html
+Disallow: /crm-blogs.html
+Disallow: /crm-edit-project.html
+Disallow: /crm-edit-blog.html
+
+Sitemap: https://hardikdarji921.github.io/Hardik-webpage/sitemap.xml

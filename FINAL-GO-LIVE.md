@@ -1,152 +1,74 @@
-# FINAL GO-LIVE CHECKLIST — One Document, Exact Steps
+# Go-Live Status
 
-**Target:** `https://hardikmdarji.work.gd/`
-**Repo:** `https://github.com/Hardikdarji921/Hardik-webpage`
+> **This file used to be a "final go-live checklist".** It targeted a custom
+> domain that was never configured and instructed committing a live GitHub PAT
+> into `crm-github.js`, which would have published repo write access to every
+> visitor of `/crm.html`. Both are fixed — see `GO-LIVE.md` for the current,
+> accurate procedure.
 
----
-
-## ✅ FILES TO EDIT (3 files, 4 changes total)
-
-### 1. `index.html` — Fix Contact Form (2 changes)
-
-**File:** `C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage\index.html`
-
-| Line | Find | Replace With |
-|------|------|--------------|
-| ~843 | `<form name="contact" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-5">` | `<form name="contact" method="POST" action="https://formspree.io/f/YOUR_FORMSPREE_ID" class="space-y-5">` |
-| ~844 | `<p class="hidden"><label>Don't fill this out: <input name="bot-field"></label></p>` | `<input type="text" name="_gotcha" style="display:none">` (add after line 843) |
-| ~919 | `<form id="newsletter-form" name="newsletter" method="POST" data-netlify="true" action="/?form-success=true" class="space-y-2">` | `<form id="newsletter-form" name="newsletter" method="POST" action="https://formspree.io/f/YOUR_FORMSPREE_ID" class="space-y-2">` |
-| ~920 | (after opening form tag) | `<input type="text" name="_gotcha" style="display:none">` (add after line 919) |
-
-> **Get YOUR_FORMSPREE_ID:** Sign up at https://formspree.io → Create form → Copy ID (looks like `x123abcd`)
+**Live URL:** https://hardikdarji921.github.io/Hardik-webpage/
 
 ---
 
-### 2. `crm-github.js` — Add GitHub PAT (1 change)
+## Current state
 
-**File:** `C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage\crm-github.js`
-
-| Line | Find | Replace With |
-|------|------|--------------|
-| 20 | `const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE';` | `const GITHUB_TOKEN = 'ghp_YOUR_ACTUAL_TOKEN_HERE';` |
-
-> **Get token:** https://github.com/settings/tokens?type=beta → Generate new token (fine-grained) → Repo: `Hardik-webpage` → Contents: Read & write → Copy token (starts with `ghp_`)
-
----
-
-### 3. Create `CNAME` file (1 new file)
-
-**File:** `C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage\CNAME` (create new)
-
-**Content:**
-```
-hardikmdarji.work.gd
-```
+| Item | Status |
+|------|--------|
+| GitHub Pages deployment | Live via `.github/workflows/deploy.yml` on every push to `main` |
+| Contact form (Formspree) | Configured — `xjyvankq` |
+| Newsletter form (Formspree) | Configured — `xgaengoz` |
+| Brevo campaign automation | Wired to `content.json` changes; needs `BREVO_API_KEY` + `BREVO_LIST_ID` secrets |
+| CMS (`crm.html`) | Working; token is entered at runtime, never committed |
+| Blog section | Empty — `content.json` has `blogs: []` |
+| Custom domain | **Not configured** (no `CNAME` file) |
+| `og:image` | PNG at `images/og-image.png` (1200x630), rendered from the SVG source |
 
 ---
 
-## ✅ COMMANDS TO RUN (in PowerShell, in order)
+## Remaining work
 
-```powershell
-# 1. Open project folder
-cd "C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage"
+1. **Write the blog posts.** `content.json` has an empty `blogs` array, so
+   `blogs.html` shows an honest empty state and the homepage hides the
+   "Latest post" card. Add posts via `crm.html`, or edit `content.json`
+   directly. `data.js` holds five placeholder posts for `file://` previews
+   only — they are intentionally not published.
 
-# 2. Initialize git (if not already)
-git init
+2. **Regenerate the PNG social preview when the SVG changes.**
+   `images/og-image.svg` is the editable source of truth; `images/og-image.png`
+   is what the `og:image` / `twitter:image` tags point at, because most social
+   platforms refuse to render SVG. After editing the SVG, re-render it:
 
-# 3. Add all files (including new CNAME)
-git add .
+   ```bash
+   npx @resvg/resvg-js-cli --fit-width 1200 images/og-image.svg images/og-image.png
+   ```
 
-# 4. Commit
-git commit -m "Go-live: Formspree forms, GitHub PAT, custom domain CNAME"
+   The artwork uses **Inter** at weights 500/600/800. If Inter is not installed
+   system-wide, point the renderer at the font files explicitly, otherwise the
+   text silently disappears from the output:
 
-# 5. Set main branch
-git branch -M main
+   ```bash
+   npx @resvg/resvg-js-cli \
+     --no-system-font \
+     --font-dir ./fonts \
+     --font-default-family "Inter" --font-sans-serif-family "Inter" \
+     --fit-width 1200 images/og-image.svg images/og-image.png
+   ```
 
-# 6. Connect to GitHub (run ONCE)
-git remote add origin https://github.com/Hardikdarji921/Hardik-webpage.git
+   Always check the result is **1200x630** and visibly non-blank before pushing.
 
-# 7. Push
-git push -u origin main
-```
+3. **Set the Brevo secrets** (only if you want campaign emails):
+   `Settings → Secrets and variables → Actions` → `BREVO_API_KEY`,
+   `BREVO_LIST_ID`.
 
----
-
-## ✅ GITHUB SETTINGS (3 clicks)
-
-1. Open: https://github.com/Hardikdarji921/Hardik-webpage
-2. **Settings** → **Pages** (left sidebar)
-3. **Source:** "Deploy from a branch"
-4. **Branch:** `main` / `/(root)` → **Save**
-5. **Custom domain:** `hardikmdarji.work.gd` → **Save**
-6. Wait for "DNS check passed" → **Enable Enforce HTTPS**
-
----
-
-## ✅ DNS SETTINGS (at your DNS provider — work.gd)
-
-| Type | Host/Name | Value/Target |
-|------|-----------|--------------|
-| **CNAME** | `@` | `hardikdarji921.github.io` |
-
-> If `@` not allowed, use `hardikmdarji` as Host/Name
+4. **Optional: custom domain.** See section 6 of `GO-LIVE.md`. If you add one,
+   update the canonical URL, Open Graph tags, `robots.txt` and `sitemap.xml`
+   at the same time — they all hardcode the current address.
 
 ---
 
-## ✅ VERIFY (after DNS propagates ~5-30 min)
+## Repo hygiene
 
-| Test | URL | Expected |
-|------|-----|----------|
-| Home | `https://hardikmdarji.work.gd/` | Loads, 3D hero works |
-| Projects | `https://hardikmdarji.work.gd/projects.html` | 3 cards visible |
-| Case study | `https://hardikmdarji.work.gd/project-template.html?slug=ammann-data-logger-telematics` | Full case study |
-| Contact form | Submit test message | Formspree email received |
-| Newsletter | Submit test email | Formspree email received |
-| CMS | `https://hardikmdarji.work.gd/crm.html` | Can add project |
-| Themes | Toggle Amber/Dark/Light | All 3 work |
-| Mobile | Resize browser | Responsive |
-
----
-
-## 📋 QUICK COPY-PASTE SUMMARY
-
-**Run this entire block in PowerShell:**
-
-```powershell
-cd "C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage"
-echo "hardikmdarji.work.gd" > CNAME
-git init
-git add .
-git commit -m "Go-live: Formspree forms, GitHub PAT, custom domain CNAME"
-git branch -M main
-git remote add origin https://github.com/Hardikdarji921/Hardik-webpage.git
-git push -u origin main
-```
-
-**Then edit these 2 files manually:**
-1. `index.html` — Lines ~843, ~844, ~919, ~920 (replace Formspree ID)
-2. `crm-github.js` — Line 20 (replace PAT)
-
-**Then push again:**
-```powershell
-git add .; git commit -m "Formspree ID + PAT"; git push
-```
-
-**Then GitHub Settings → Pages → Custom domain: `hardikmdarji.work.gd` → Save → Enforce HTTPS**
-
-**Then DNS: CNAME @ → hardikdarji921.github.io**
-
----
-
-## ⚠️ DO NOT FORGET
-
-- [ ] Formspree ID in `index.html` (2 forms)
-- [ ] GitHub PAT in `crm-github.js:20`
-- [ ] `CNAME` file committed
-- [ ] GitHub Pages custom domain set
-- [ ] DNS CNAME record added
-- [ ] Enforce HTTPS enabled
-
----
-
-**Done.** Site lives at `https://hardikmdarji.work.gd/`
+`deploy.yml` deletes `README.md`, `DEPLOY.md`, `GO-LIVE.md`,
+`FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md` and the unused profile photo before
+uploading the site artifact, so internal notes (which contain local filesystem
+paths and employer details) are never served at public URLs.

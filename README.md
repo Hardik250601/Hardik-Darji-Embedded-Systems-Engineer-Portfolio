@@ -52,21 +52,29 @@ All links in this site are **relative** (`projects.html`, `blog-template.html?sl
 
 The CMS lives at `crm.html`. It writes to `content.json` (and uploads images to `images/projects/...`) via the **GitHub Contents API**.
 
-### One-time setup
+### Setup
 
 1. **Generate a fine-grained GitHub PAT** (Settings → Developer settings → Personal access tokens → Fine-grained tokens).  
    - Resource owner: your account
    - Repository access: **Only select repositories** → choose the portfolio repo
    - Permissions: **Contents → Read and write**
-   - Copy the token.
-2. **Open `crm-github.js`** and replace `const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN_HERE';` with your token.
-3. **Commit & push** the change.
+   - Set the shortest expiry that works (max 1 year)
+2. **Open `/crm.html`.** A "Connect to GitHub" bar appears at the top of the page.
+3. **Paste the token into that bar** and press Connect.
 
-### Security warning
-Because the token is in a public JS file, anyone visiting `crm.html` can extract it. Mitigation:
-- Use a **fine-grained PAT scoped to one repo** (not the broad `repo` scope).
-- Delete / rotate the token regularly.
-- If you outgrow this, move the CMS behind a small serverless function (Netlify Functions, Cloudflare Workers, etc.) that holds the secret server-side.
+There is **no token stored in this repository** and nothing to commit. The token is kept in `sessionStorage` for the current browser tab only and is discarded when the tab closes. Press "Disconnect" to drop it immediately.
+
+> **Why not a token in the source?** Earlier versions of this repo instructed you to paste the PAT into `crm-github.js` and commit it. That publishes a live write credential for the repository to every visitor of `/crm.html`. Never commit a token here — `.github/copilot-instructions.md` forbids it too.
+
+### CMS security
+
+Even with a session-scoped token, the CMS pages are served publicly, so:
+
+- Always use a **fine-grained PAT scoped to this single repo** (never the broad `repo` scope).
+- Give it the **shortest expiry that works** and rotate it.
+- Prefer working against a local server (`python -m http.server`) rather than the public URL.
+
+**Longer term:** replace the pasted token with GitHub OAuth plus a small serverless proxy that holds the credential server-side, so the browser never handles a repo-wide secret. All CMS I/O is already isolated behind `window.crmGit` (`getFile` / `updateFile`), so swapping the transport is a contained change.
 
 ### Adding content
 - Go to `https://<your-site>/crm.html`.
@@ -88,7 +96,7 @@ Because the token is in a public JS file, anyone visiting `crm.html` can extract
       "github_blurb": "Source code and schematics for this project live on my GitHub.",
       "linkedin_link": "https://linkedin.com/...",
       "tech_stack": ["ESP32", "C", "CAN"],
-      "metrics": { "duration": "3 mo", "status": "Completed" },
+      "metrics": { "cost_reduction": "90%+", "status": "Completed" },
       "case_study": {
         "problem": "...",
         "architecture": "...",
@@ -125,8 +133,11 @@ Then visit http://localhost:8000/.
 
 ## Notes
 - The contact and newsletter forms use separate Formspree endpoints and submit asynchronously from GitHub Pages.
-- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list.
+- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. The site URL used in those emails comes from the `SITE_URL` workflow variable (defaults to the canonical GitHub Pages URL).
 - Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
+- `.github/workflows/deploy.yml` deletes the internal planning docs (`PROJECT_AUDIT.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `README.md`) and the unused profile photo before uploading the artifact, so they are never served at public URLs.
+- `data.js` holds offline fallback blog posts for `file://` previews; it is only used when `content.json` cannot be fetched.
+- `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.
 
 ## Features
 

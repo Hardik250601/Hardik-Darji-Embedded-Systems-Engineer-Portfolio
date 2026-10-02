@@ -6,17 +6,68 @@
     <meta name="robots" content="noindex">
     <title>Edit Blog</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .field-label { display: block; margin-bottom: 0.25rem; font-size: 0.875rem; font-weight: 500; color: #9ca3af; }
+        .field-input { width: 100%; background: #374151; padding: 0.5rem; border-radius: 0.25rem; }
+        .field-hint { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+    </style>
 </head>
-<body class="bg-gray-800 text-gray-100 p-8">
+<body class="bg-gray-800 text-gray-100 p-6 sm:p-8">
     <div class="max-w-4xl mx-auto">
         <div id="crm-header"></div>
         <div id="crm-navigation"></div>
 
-        <form id="blog-form" class="space-y-4 bg-gray-900 p-6 rounded-lg shadow-lg mt-8">
-            <p class="text-gray-400">Loading blog post...</p>
+        <div id="edit-notice" class="mt-6 p-4 rounded-lg border border-gray-700 bg-gray-900 text-sm text-gray-300">
+            Loading blog post...
+        </div>
+
+        <form id="blog-form" class="hidden space-y-6 bg-gray-900 p-6 rounded-lg shadow-lg mt-4">
+
+            <div>
+                <label for="blog-title" class="field-label">Title</label>
+                <input type="text" id="blog-title" class="field-input" required>
+            </div>
+
+            <div>
+                <label class="field-label">Slug</label>
+                <p><code id="blog-slug" class="text-amber-400"></code></p>
+                <p class="field-hint" style="margin-top:0">
+                    The slug is the page URL and is <strong>never changed</strong> by an edit,
+                    so links you have already shared keep working.
+                </p>
+            </div>
+
+            <div>
+                <label for="blog-date" class="field-label">Date</label>
+                <input type="date" id="blog-date" class="field-input" required>
+            </div>
+
+            <div>
+                <label for="blog-short-summary" class="field-label">Short Summary (listing cards)</label>
+                <textarea id="blog-short-summary" class="field-input h-24" required></textarea>
+            </div>
+
+            <div>
+                <label for="blog-content" class="field-label">Full Content</label>
+                <textarea id="blog-content" class="field-input h-96" required></textarea>
+                <p class="field-hint">
+                    HTML is allowed: <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>,
+                    <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>,
+                    <code>&lt;pre&gt;&lt;code&gt;</code></pre>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-3">
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-5 rounded">
+                    Save Changes
+                </button>
+                <a href="crm-blogs.html" class="bg-gray-700 hover:bg-gray-600 text-gray-100 font-bold py-2 px-5 rounded inline-block">
+                    Back to Manage Blogs
+                </a>
+            </div>
         </form>
 
-        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;"></div>
+        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;" role="status" aria-live="polite"></div>
     </div>
 
     <script src="crm-github.js"></script>
@@ -26,8 +77,7 @@
             fetch('crm-header.html')
                 .then(res => res.text())
                 .then(html => {
-                    const host = document.getElementById('crm-header');
-                    host.innerHTML = html;
+                    document.getElementById('crm-header').innerHTML = html;
                     const title = document.getElementById('crm-page-title');
                     if (title) title.textContent = 'Edit Blog Post';
                 })
@@ -35,7 +85,7 @@
 
             fetch('crm-nav.html')
                 .then(res => res.text())
-                .then(data => { const host = document.getElementById('crm-navigation'); if (host) host.innerHTML = data; })
+                .then(data => { document.getElementById('crm-navigation').innerHTML = data; })
                 .catch(() => {});
         });
     </script>

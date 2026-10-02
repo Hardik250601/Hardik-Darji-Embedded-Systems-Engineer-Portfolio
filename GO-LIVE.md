@@ -4,10 +4,9 @@
 
 ---
 
-## 1. Push to GitHub (run in PowerShell)
+## 1. Push to GitHub
 
-```powershell
-cd "C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage"
+```bash
 git init
 git add .
 git commit -m "Initial commit: portfolio ready for GitHub Pages"
@@ -36,22 +35,20 @@ The contact and newsletter forms use Formspree and are already configured for Gi
 
 ---
 
-## 4. Enable CMS (GitHub PAT)
+## 4. Enable CMS (GitHub token)
 
-**Current issue:** `crm-github.js` has placeholder token.
+**Nothing to commit.** The CMS takes the token at runtime — there is no token constant in the source.
 
-**Fix (3 min):**
 1. Go to: https://github.com/settings/tokens?type=beta
 2. **Generate new token (fine-grained)**
 3. Name: `Hardik-webpage CMS`
 4. Repo: **Only select repositories** → `Hardik-webpage`
 5. Permissions → **Contents: Read and write**
-6. **Generate token** → copy it
-7. Edit `crm-github.js` line 20:
-   ```js
-   const GITHUB_TOKEN = 'ghp_YOUR_COPIED_TOKEN_HERE';
-   ```
-8. `git add . && git commit -m "Add CMS GitHub PAT" && git push`
+6. Set an expiry date (max 1 year)
+7. **Generate token** → copy it
+8. Open `.../crm.html` and paste it into the **Connect to GitHub** bar at the top of the page
+
+The token lives in `sessionStorage` for that browser tab only and disappears when you close the tab. Never add it to a committed file — that is what the old setup did, and it exposed repo write access to every visitor of `/crm.html`.
 
 ---
 
@@ -70,14 +67,16 @@ The contact and newsletter forms use Formspree and are already configured for Gi
 
 ## 6. Optional: Custom Domain
 
-1. Buy domain (e.g., `hardikdarji.dev`)
-2. Repo **Settings → Pages → Custom domain** → enter domain
-3. Add `CNAME` file to repo root:
-   ```
-   hardikdarji.dev
-   ```
-4. DNS at registrar: `CNAME @ hardikdarji921.github.io`
+**Not currently configured.** The site is served from `hardikdarji921.github.io/Hardik-webpage/` and has no `CNAME` file.
+
+If you add one later:
+1. Register a domain you control
+2. Repo **Settings → Pages → Custom domain** → enter the domain
+3. Add a `CNAME` file to the repo root containing just the domain name
+4. DNS at the registrar: `CNAME @ hardikdarji921.github.io`
 5. Enable **Enforce HTTPS** in Pages settings
+
+Note that the canonical URL, Open Graph tags, `robots.txt` and `sitemap.xml` all hardcode the current GitHub Pages address — update them at the same time.
 
 ---
 
@@ -88,16 +87,21 @@ The contact and newsletter forms use Formspree and are already configured for Gi
 - `project-template.html`
 - `styles.css`
 - `app.js`
+- `data.js`
 - `renderer.js`
 - `content.json`
-- `images/` folder with 9 SVGs
+- `robots.txt`
+- `sitemap.xml`
+- `images/` folder with the project SVGs
+
+Internal docs (`README.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`) and the unused profile photo are stripped by `deploy.yml` before the site is uploaded.
 
 ---
 
 ## One-Command Deploy (after initial setup)
 
-```powershell
-git add .; git commit -m "Update"; git push
+```bash
+git add . && git commit -m "Update" && git push
 ```
 
 GitHub Pages auto-rebuilds on every push to `main`.
@@ -108,4 +112,4 @@ GitHub Pages auto-rebuilds on every push to `main`.
 
 - Full guide: `DEPLOY.md`
 - Issues audit: `PROJECT_AUDIT.md`
-- CMS security: Move PAT to Cloudflare Worker (see `PROJECT_AUDIT.md` Phase 3)
+- CMS security: see the "CMS security" section of `README.md`

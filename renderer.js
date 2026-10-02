@@ -49,21 +49,56 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // ---- Metrics strip ----
+  // Renders whatever keys a project actually defines, so a professional
+  // project (cost figures) and an academic one (institution, controller)
+  // both produce a correct strip instead of a row of blank cards.
   const metricsEl = document.getElementById('project-metrics');
-  if (metricsEl && project.metrics) {
-    const m = project.metrics;
-    const cards = [
-      { label: 'Cost reduction', value: m.cost_reduction, accent: 'text-emerald-400' },
-      { label: 'First-year saving', value: m.first_year_saving_inr, accent: 'text-amber-400' },
-      { label: 'Hardware BOM', value: m.hardware_bom_inr, accent: 'text-white' },
-      { label: 'Annual spend', value: m.annual_spend_inr, accent: 'text-white' },
-    ];
-    metricsEl.innerHTML = cards.map(c => `
-      <div class="bg-gray-800/70 backdrop-blur p-5 rounded-2xl border border-gray-700 text-center">
-        <div class="text-3xl sm:text-4xl font-extrabold ${c.accent}">${esc(c.value)}</div>
-        <div class="text-gray-400 mt-1 text-xs uppercase tracking-wider">${esc(c.label)}</div>
-      </div>
-    `).join('');
+  if (metricsEl) {
+    const labels = {
+      cost_reduction: 'Cost reduction',
+      first_year_saving_inr: 'First-year saving',
+      hardware_bom_inr: 'Hardware BOM',
+      annual_spend_inr: 'Annual spend',
+      machines: 'Machines',
+      status: 'Status',
+      category: 'Category',
+      institution: 'Institution',
+      duration: 'Duration',
+      wireless_link: 'Wireless link',
+      subsystems: 'Subsystems',
+      controller: 'Controller',
+      sensors: 'Sensors',
+      actuator: 'Actuator'
+    };
+    const accents = ['text-emerald-400', 'text-amber-400', 'text-sky-400', 'text-white'];
+
+    const entries = Object.entries(project.metrics || {})
+      .map(([key, raw]) => ({
+        key,
+        value: Array.isArray(raw) ? raw.join(', ') : raw
+      }))
+      .filter(entry => entry.value !== null && entry.value !== undefined && String(entry.value).trim() !== '');
+
+    metricsEl.innerHTML = entries.map((entry, i) => {
+      const label = labels[entry.key]
+        || String(entry.key)
+          .replace(/_inr$/i, '')
+          .replace(/_/g, ' ')
+          .replace(/^\w/, character => character.toUpperCase());
+      const value = String(entry.value);
+      // Short values (figures, part numbers) read as big stats; longer
+      // descriptive values get a smaller type size so they don't overflow.
+      const valueSize = value.length <= 14 && !value.includes(' ')
+        ? 'text-3xl sm:text-4xl'
+        : 'text-lg sm:text-xl';
+      return `
+        <div class="bg-gray-800/70 backdrop-blur p-5 rounded-2xl border border-gray-700 text-center">
+          <div class="${valueSize} font-extrabold ${accents[i % accents.length]} break-words">${esc(value)}</div>
+          <div class="text-gray-400 mt-1 text-xs uppercase tracking-wider">${esc(label)}</div>
+        </div>`;
+    }).join('');
+
+    metricsEl.classList.toggle('hidden', entries.length === 0);
   }
 
   // ---- Description ----

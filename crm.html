@@ -6,94 +6,198 @@
     <meta name="robots" content="noindex">
     <title>Content Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Keep tab panels and the sticky action bar usable without Tailwind's
+           dynamic class generation (the CDN build scans the DOM at runtime). */
+        .crm-panel { display: none; }
+        .crm-panel.is-active { display: block; }
+        .crm-tab.is-active { background: #f59e0b; color: #111827; border-color: #f59e0b; }
+        .metric-row { display: grid; grid-template-columns: 14rem 1fr auto; gap: 0.5rem; align-items: center; }
+        @media (max-width: 640px) { .metric-row { grid-template-columns: 1fr auto; } }
+        .field-label { display: block; margin-bottom: 0.25rem; font-size: 0.875rem; font-weight: 500; color: #9ca3af; }
+        .field-input { width: 100%; background: #374151; padding: 0.5rem; border-radius: 0.25rem; }
+        .field-hint { font-size: 0.75rem; color: #6b7280; margin-top: 0.25rem; }
+        .char-count { font-size: 0.75rem; color: #6b7280; }
+        .char-count.is-warning { color: #fbbf24; }
+    </style>
 </head>
-<body class="bg-gray-800 text-gray-100 p-8">
+<body class="bg-gray-800 text-gray-100 p-6 sm:p-8">
     <div class="max-w-4xl mx-auto">
+
         <div id="crm-header"></div>
         <div id="crm-navigation"></div>
 
-        <div class="bg-gray-900 p-6 rounded-lg shadow-lg mt-8">
-            <h2 class="text-2xl font-bold text-amber-400 mb-6">Add New Project</h2>
-            <form id="project-form" class="space-y-4">
-                <div>
-                    <label for="project-title" class="block mb-1 text-sm font-medium text-gray-400">Project Name <span id="title-count" class="text-gray-500 text-xs">(max 120 chars)</span></label>
-                    <input type="text" id="project-title" maxlength="120" class="w-full bg-gray-700 p-2 rounded" required>
-                </div>
-                <div>
-                    <label for="project-short-summary" class="block mb-1 text-sm font-medium text-gray-400">Short Summary (for list pages) <span id="summary-count" class="text-gray-500 text-xs">(max 300 chars)</span></label>
-                    <textarea id="project-short-summary" maxlength="300" class="w-full bg-gray-700 p-2 rounded h-20" required></textarea>
-                </div>
-                <div>
-                    <label for="project-description" class="block mb-1 text-sm font-medium text-gray-400">Full Project Description (for detail page) <span id="desc-count" class="text-gray-500 text-xs">(max 5000 chars)</span></label>
-                    <textarea id="project-description" maxlength="5000" class="w-full bg-gray-700 p-2 rounded h-40" required></textarea>
-                </div>
-                <div>
-                    <label for="project-main-image" class="block mb-1 text-gray-300">Main Project Image (required)</label>
-                    <input type="file" id="project-main-image" accept="image/*" class="w-full bg-gray-700 p-2 rounded" required>
-                </div>
-                <div>
-                    <label for="project-supportive-images" class="block mb-1 text-gray-300">Supportive Images (optional, select multiple)</label>
-                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="w-full bg-gray-700 p-2 rounded">
-                </div>
-                <div>
-                    <label for="project-github" class="block mb-1 text-sm font-medium text-gray-400">GitHub Repository Link (optional)</label>
-                    <input type="url" id="project-github" placeholder="https://github.com/username/repo" class="w-full bg-gray-700 p-2 rounded" maxlength="200">
-                </div>
-                <div>
-                    <label for="project-linkedin" class="block mb-1 text-sm font-medium text-gray-400">LinkedIn Link (optional)</label>
-                    <input type="url" id="project-linkedin" class="w-full bg-gray-700 p-2 rounded" placeholder="https://linkedin.com/..." maxlength="200">
-                </div>
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded">Publish Project</button>
-            </form>
+        <!-- Connection status -->
+        <div id="crm-connection" class="mt-6 p-4 rounded-lg border border-gray-700 bg-gray-900 text-sm">
+            Checking GitHub connection...
         </div>
 
-        <div class="bg-gray-900 p-6 rounded-lg shadow-lg mt-12">
-            <h2 class="text-2xl font-bold text-amber-400 mb-6">Add New Blog Post</h2>
-            <form id="blog-form" class="space-y-4">
-                <div>
-                    <label for="blog-title" class="block mb-1 text-sm font-medium text-gray-400">Blog Title <span id="blog-title-count" class="text-gray-500 text-xs">(max 120 chars)</span></label>
-                    <input type="text" id="blog-title" maxlength="120" class="w-full bg-gray-700 p-2 rounded" required>
-                </div>
-                <div>
-                    <label for="blog-date" class="block mb-1 text-sm font-medium text-gray-400">Date (e.g., October 28, 2025)</label>
-                    <input type="text" id="blog-date" class="w-full bg-gray-700 p-2 rounded" required>
-                </div>
-                <div>
-                    <label for="blog-short-summary" class="block mb-1 text-sm font-medium text-gray-400">Short Summary (for list pages) <span id="blog-summary-count" class="text-gray-500 text-xs">(max 300 chars)</span></label>
-                    <textarea id="blog-short-summary" maxlength="300" class="w-full bg-gray-700 p-2 rounded h-24" required></textarea>
-                </div>
-                <div>
-                    <label for="blog-content" class="block mb-1 text-sm font-medium text-gray-400">Full Blog Content (supports HTML tags) <span id="blog-content-count" class="text-gray-500 text-xs">(max 10000 chars)</span></label>
-                    <textarea id="blog-content" maxlength="10000" class="w-full bg-gray-700 p-2 rounded h-64" required></textarea>
-                </div>
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-4 rounded">Publish Blog Post</button>
-            </form>
+        <!-- Tabs -->
+        <div class="mt-6 flex gap-2 border-b border-gray-700" role="tablist" aria-label="Content type">
+            <button type="button" id="tab-project" class="crm-tab is-active px-5 py-3 rounded-t-lg bg-gray-900 text-gray-200 font-semibold border border-b-0 border-gray-700" role="tab" aria-selected="true" aria-controls="panel-project">
+                Add Project
+            </button>
+            <button type="button" id="tab-blog" class="crm-tab px-5 py-3 rounded-t-lg bg-gray-900 text-gray-200 font-semibold border border-b-0 border-gray-700" role="tab" aria-selected="false" aria-controls="panel-blog">
+                Add Blog Post
+            </button>
         </div>
 
-        <div id="status-message" class="mt-4 p-4 rounded" style="display: none;"></div>
+        <!-- ============================ PROJECT PANEL ============================ -->
+        <section id="panel-project" class="crm-panel is-active bg-gray-900 rounded-b-lg p-6 shadow-lg" role="tabpanel" aria-labelledby="tab-project">
+            <form id="project-form" class="space-y-6">
+
+                <div>
+                    <label for="project-title" class="field-label">Project Name <span class="char-count" id="title-count">(max 120)</span></label>
+                    <input type="text" id="project-title" maxlength="120" class="field-input" required>
+                    <p class="field-hint">Slug: <code id="project-slug-preview" class="text-amber-400">generated-from-title</code></p>
+                </div>
+
+                <div>
+                    <label for="project-slug" class="field-label">Slug (optional override)</label>
+                    <input type="text" id="project-slug" class="field-input" placeholder="leave blank to generate from the title">
+                </div>
+
+                <div>
+                    <label for="project-short-summary" class="field-label">Short Summary (listing cards) <span class="char-count" id="summary-count">(max 300)</span></label>
+                    <textarea id="project-short-summary" maxlength="300" class="field-input h-20" required></textarea>
+                </div>
+
+                <div>
+                    <label for="project-description" class="field-label">Full Description (detail page) <span class="char-count" id="desc-count">(max 5000)</span></label>
+                    <textarea id="project-description" maxlength="5000" class="field-input h-40" required></textarea>
+                    <p class="field-hint">Separate paragraphs with a blank line. Line breaks are preserved.</p>
+                </div>
+
+                <div>
+                    <label for="project-tech" class="field-label">Tech Stack</label>
+                    <input type="text" id="project-tech" class="field-input" placeholder="Embedded C, CAN, J1939, HYDAC TTC">
+                    <p class="field-hint">Comma separated. Rendered as chips on the case study page.</p>
+                </div>
+
+                <!-- Metrics -->
+                <div>
+                    <span class="field-label">Metrics</span>
+                    <p class="field-hint" style="margin-top:0">
+                        Any label/value pair works. The case study page renders whichever keys you add,
+                        so cost figures and academic details can both be shown correctly.
+                    </p>
+                    <div id="project-metrics-rows" class="space-y-2 mt-2"></div>
+                    <button type="button" id="add-metric" class="mt-2 bg-gray-700 hover:bg-gray-600 text-gray-100 font-semibold px-3 py-2 rounded text-sm">
+                        + Add metric
+                    </button>
+                </div>
+
+                <!-- Case study -->
+                <div class="border border-gray-700 rounded-lg p-4 space-y-4">
+                    <p class="field-label" style="margin-bottom:0">Case Study <span class="text-gray-600">(optional)</span></p>
+                    <div>
+                        <label for="cs-problem" class="field-label">Problem</label>
+                        <textarea id="cs-problem" class="field-input h-20"></textarea>
+                    </div>
+                    <div>
+                        <label for="cs-architecture" class="field-label">Architecture</label>
+                        <textarea id="cs-architecture" class="field-input h-20"></textarea>
+                    </div>
+                    <div>
+                        <label for="cs-outcomes" class="field-label">Key Outcomes <span class="text-gray-600">(one per line)</span></label>
+                        <textarea id="cs-outcomes" class="field-input h-24"></textarea>
+                    </div>
+                    <div>
+                        <label for="cs-roadmap" class="field-label">Future Roadmap <span class="text-gray-600">(one per line)</span></label>
+                        <textarea id="cs-roadmap" class="field-input h-20"></textarea>
+                    </div>
+                </div>
+
+                <!-- Images -->
+                <div>
+                    <label for="project-main-image" class="field-label">Main Image</label>
+                    <input type="file" id="project-main-image" accept="image/*" class="field-input">
+                    <p class="field-hint">Uploaded to <code>images/projects/&lt;slug&gt;/main.&lt;ext&gt;</code>. Without one the card uses the placeholder image.</p>
+                </div>
+                <div>
+                    <label for="project-supportive-images" class="field-label">Supportive Images <span class="text-gray-600">(select multiple)</span></label>
+                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="field-input">
+                </div>
+
+                <!-- Links -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="project-github" class="field-label">GitHub Link</label>
+                        <input type="url" id="project-github" placeholder="https://github.com/..." class="field-input">
+                    </div>
+                    <div>
+                        <label for="project-github-blurb" class="field-label">GitHub Blurb</label>
+                        <input type="text" id="project-github-blurb" class="field-input" placeholder="What is in the repository?">
+                    </div>
+                    <div>
+                        <label for="project-linkedin" class="field-label">LinkedIn Link</label>
+                        <input type="url" id="project-linkedin" placeholder="https://linkedin.com/..." class="field-input">
+                    </div>
+                    <div>
+                        <label for="project-demo" class="field-label">Live Demo Link</label>
+                        <input type="url" id="project-demo" placeholder="https://..." class="field-input">
+                    </div>
+                </div>
+
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
+                    Publish Project
+                </button>
+            </form>
+        </section>
+
+        <!-- ============================== BLOG PANEL ============================== -->
+        <section id="panel-blog" class="crm-panel bg-gray-900 rounded-b-lg p-6 shadow-lg" role="tabpanel" aria-labelledby="tab-blog">
+            <form id="blog-form" class="space-y-6">
+
+                <div>
+                    <label for="blog-title" class="field-label">Title <span class="char-count" id="blog-title-count">(max 120)</span></label>
+                    <input type="text" id="blog-title" maxlength="120" class="field-input" required>
+                    <p class="field-hint">Slug: <code id="blog-slug-preview" class="text-amber-400">generated-from-title</code></p>
+                </div>
+
+                <div>
+                    <label for="blog-slug" class="field-label">Slug (optional override)</label>
+                    <input type="text" id="blog-slug" class="field-input" placeholder="leave blank to generate from the title">
+                </div>
+
+                <div>
+                    <label for="blog-date" class="field-label">Date</label>
+                    <input type="date" id="blog-date" class="field-input" required>
+                    <p class="field-hint">Shown as a readable date on the card and the post page.</p>
+                </div>
+
+                <div>
+                    <label for="blog-short-summary" class="field-label">Short Summary (listing cards) <span class="char-count" id="blog-summary-count">(max 300)</span></label>
+                    <textarea id="blog-short-summary" maxlength="300" class="field-input h-24" required></textarea>
+                </div>
+
+                <div>
+                    <label for="blog-content" class="field-label">Full Content <span class="char-count" id="blog-content-count">(max 20000)</span></label>
+                    <textarea id="blog-content" maxlength="20000" class="field-input h-96" required></textarea>
+                    <p class="field-hint">
+                        HTML is allowed: <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>,
+                        <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>,
+                        <code>&lt;pre&gt;&lt;code&gt;</code></pre>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>.
+                        These are styled for you.
+                    </p>
+                </div>
+
+                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
+                    Publish Blog Post
+                </button>
+            </form>
+        </section>
+
+        <div id="status-message" class="mt-6 p-4 rounded" style="display: none;" role="status" aria-live="polite"></div>
+
+        <p class="mt-8 text-xs text-gray-500">
+            Publishing commits directly to <code>content.json</code> on the repository, which triggers a
+            GitHub Pages redeploy and a Brevo campaign email to subscribers.
+            Existing content can be edited or removed from
+            <a href="crm-projects.html" class="text-amber-400 underline">Manage Projects</a> and
+            <a href="crm-blogs.html" class="text-amber-400 underline">Manage Blogs</a>.
+        </p>
     </div>
-
-    <script>
-        // Character counters for input length limits
-        function setupCharCounter(inputId, countId) {
-            const input = document.getElementById(inputId);
-            const count = document.getElementById(countId);
-            if (!input || !count) return;
-            const max = parseInt(input.getAttribute('maxlength'), 10);
-            input.addEventListener('input', () => {
-                const len = input.value.length;
-                count.textContent = `(${len}/${max} chars)`;
-                if (len > max * 0.9) count.classList.add('text-amber-400');
-                else count.classList.remove('text-amber-400');
-            });
-        }
-        setupCharCounter('project-title', 'title-count');
-        setupCharCounter('project-short-summary', 'summary-count');
-        setupCharCounter('project-description', 'desc-count');
-        setupCharCounter('blog-title', 'blog-title-count');
-        setupCharCounter('blog-short-summary', 'blog-summary-count');
-        setupCharCounter('blog-content', 'blog-content-count');
-    </script>
 
     <script src="crm-github.js"></script>
     <script src="crm.js"></script>
@@ -102,16 +206,15 @@
             fetch('crm-header.html')
                 .then(res => res.text())
                 .then(html => {
-                    const host = document.getElementById('crm-header');
-                    host.innerHTML = html;
+                    document.getElementById('crm-header').innerHTML = html;
                     const title = document.getElementById('crm-page-title');
-                    if (title) title.textContent = 'Content Dashboard';
+                    if (title) title.textContent = 'Add Content';
                 })
                 .catch(() => {});
 
             fetch('crm-nav.html')
                 .then(res => res.text())
-                .then(data => { const host = document.getElementById('crm-navigation'); if (host) host.innerHTML = data; })
+                .then(data => { document.getElementById('crm-navigation').innerHTML = data; })
                 .catch(() => {});
         });
     </script>

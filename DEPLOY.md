@@ -79,9 +79,9 @@ The forms are configured with separate Formspree endpoints:
 2. Contact: `https://formspree.io/f/xjyvankq`
 3. Submit a test from the live site and verify each submission in the matching Formspree dashboard.
 
-### 2. CMS GitHub PAT
+### 2. CMS GitHub token
 
-The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **fine-grained Personal Access Token**:
+The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **fine-grained Personal Access Token**, supplied at runtime — there is nothing to commit:
 
 1. Go to https://github.com/settings/tokens?type=beta
 2. Click **Generate new token (fine-grained)**
@@ -92,13 +92,11 @@ The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **
 7. Permissions → **Contents: Read and write**
 8. Click **Generate token**
 9. Copy the token
-10. Open `crm-github.js`, line 20:
-    ```js
-    const GITHUB_TOKEN = 'ghp_YOUR_TOKEN_HERE';
-    ```
-11. Commit and push
+10. Open `.../crm.html` and paste it into the **Connect to GitHub** bar at the top of the page
 
-**Security note:** This token is client-side visible. For production, move the GitHub API calls to a Cloudflare Worker or Netlify Function (see `PROJECT_AUDIT.md` Phase 3).
+The token is held in `sessionStorage` for that tab only and is cleared when the tab closes.
+
+**Security note:** Do not paste the token into a committed file. An earlier version of this repo did exactly that, which exposed repo write access to every visitor of `/crm.html`. For a stronger model, move the GitHub API calls behind GitHub OAuth plus a Cloudflare Worker / Netlify Function (see the "CMS security" section of `README.md`).
 
 ### 3. Brevo notifications
 
