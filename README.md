@@ -74,20 +74,27 @@ Vercel project settings:
 
 No `vercel.json` is required. Vercel auto-deploys on every push to `main`, and serves `404.html` at the output root so the custom 404 page keeps working.
 
-### GitHub Pages (secondary)
+### GitHub Pages — disabled
 
-`.github/workflows/deploy.yml` also publishes the same branch to GitHub Pages. If Vercel is the only host you want, disable or delete that workflow — otherwise both sites are public.
+Vercel is the only host. `.github/workflows/deploy.yml` used to publish the same
+branch to GitHub Pages, but **that workflow has been removed** so a push to `main`
+deploys to Vercel alone rather than publishing the site at a second public URL.
 
-That workflow deletes the internal planning docs and the unused profile photo before uploading, mirroring `.vercelignore`.
+If you ever want Pages back, restore the workflow from git history and re-enable
+Pages in the repository settings. Note that the deploy strip step it carried
+(deleting the internal docs before upload) is now Vercel's responsibility alone —
+`.vercelignore` is the single source of truth for what is published.
 
 ### What is never published
-`.vercelignore` and the deploy strip step both keep these out of any public URL:
+`.vercelignore` keeps these out of any public URL:
 `README.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`,
 `WHAT-CHANGED.md`, and `Hardik Profile PIC.png`. Several of them contain local
 filesystem paths with a username and employer name — do not remove the exclusions.
 
 ### Path note
-All links in this site are **relative** (`projects.html`, `blog-template.html?slug=...`, `images/...`), so the site works at a domain root, a Vercel subdomain, or a sub-path, with no configuration changes.
+All links in this site are **relative** (`projects.html`, `project-<slug>.html`,
+`blog-<slug>.html`, `images/...`), so the site works at a domain root, a Vercel
+subdomain, or a sub-path, with no configuration changes.
 
 ## CMS (content management)
 
@@ -213,8 +220,8 @@ npm run build:css    # regenerates tailwind.css (minified)
 npm run watch:css    # optional: rebuild on save while editing markup
 ```
 
-`tailwind.css` is **committed**, so neither Vercel nor GitHub Pages needs an install or
-build step — both just serve the static file. Two consequences:
+`tailwind.css` is **committed**, so Vercel needs no install or build step — it just
+serves the static file. Two consequences:
 
 - **If you edit any HTML, re-run `npm run build:css` and commit the result.** A new
   utility class will not exist in `tailwind.css` until you do, and it will silently render
