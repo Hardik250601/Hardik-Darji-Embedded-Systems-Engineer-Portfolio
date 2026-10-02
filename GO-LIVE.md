@@ -1,6 +1,13 @@
 # GO-LIVE Quick Reference
 
-**Target URL:** `https://hardikdarji921.github.io/Hardik-webpage/`
+**Target URL:** `https://hardikdarjiportfolio.vercel.app/`
+
+**Hosting:** Vercel, serving the repository root as static files with no build
+step. Vercel auto-deploys on every push to `main`. Internal docs are excluded
+via `.vercelignore`.
+
+> `.github/workflows/deploy.yml` still publishes the same branch to GitHub
+> Pages. If Vercel is the only host you want, disable that workflow.
 
 ---
 
@@ -56,7 +63,7 @@ The token lives in `sessionStorage` for that browser tab only and disappears whe
 
 | Test | URL |
 |------|-----|
-| Homepage | `https://hardikdarji921.github.io/Hardik-webpage/` |
+| Homepage | `https://hardikdarjiportfolio.vercel.app/` |
 | Projects | `.../projects.html` |
 | Case study | `.../project-template.html?slug=ammann-data-logger-telematics` |
 | CMS | `.../crm.html` |
@@ -67,16 +74,23 @@ The token lives in `sessionStorage` for that browser tab only and disappears whe
 
 ## 6. Optional: Custom Domain
 
-**Not currently configured.** The site is served from `hardikdarji921.github.io/Hardik-webpage/` and has no `CNAME` file.
+**Not currently configured.** The site is served from
+`https://hardikdarjiportfolio.vercel.app/` on a Vercel subdomain.
 
-If you add one later:
+If you add a domain later:
 1. Register a domain you control
-2. Repo **Settings → Pages → Custom domain** → enter the domain
-3. Add a `CNAME` file to the repo root containing just the domain name
-4. DNS at the registrar: `CNAME @ hardikdarji921.github.io`
-5. Enable **Enforce HTTPS** in Pages settings
+2. Vercel project → **Settings → Domains** → add the domain
+3. DNS at the registrar, per the values Vercel shows you:
+   - Type: `CNAME`
+   - Name: `@` (apex) or `www`
+   - Value: `cname.vercel-dns.com`
+4. Wait for DNS verification, then Vercel provisions the TLS certificate
 
-Note that the canonical URL, Open Graph tags, `robots.txt` and `sitemap.xml` all hardcode the current GitHub Pages address — update them at the same time.
+Then update, in the same commit: the canonical URL, the Open Graph and Twitter
+image URLs, the JSON-LD `url` / `image`, `robots.txt`, `sitemap.xml`, the
+`URL;TYPE=Portfolio` line in `hardik-darji.vcf`, and the `SITE_URL` default in
+`.github/scripts/send-brevo-update.mjs`. Otherwise social previews and newsletter
+links will keep pointing at the Vercel subdomain.
 
 ---
 

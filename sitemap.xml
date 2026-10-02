@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/projects.html</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/projects.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blogs.html</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blogs.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/project-template.html?slug=ammann-data-logger-telematics</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/project-template.html?slug=ammann-data-logger-telematics</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/project-template.html?slug=remote-controlled-multipurpose-robot</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/project-template.html?slug=remote-controlled-multipurpose-robot</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/project-template.html?slug=smart-garbage-monitoring</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/project-template.html?slug=smart-garbage-monitoring</loc>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blog-template.html?slug=my-journey-in-embedded-systems</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blog-template.html?slug=my-journey-in-embedded-systems</loc>
     <lastmod>2025-05-03</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blog-template.html?slug=can-protocol-best-practices</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blog-template.html?slug=can-protocol-best-practices</loc>
     <lastmod>2025-04-25</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blog-template.html?slug=real-time-debugging-techniques</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blog-template.html?slug=real-time-debugging-techniques</loc>
     <lastmod>2025-04-15</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blog-template.html?slug=an-introduction-to-j1939-protocol</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blog-template.html?slug=an-introduction-to-j1939-protocol</loc>
     <lastmod>2025-04-05</lastmod>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://hardikdarji921.github.io/Hardik-webpage/blog-template.html?slug=optimizing-embedded-software-performance</loc>
+    <loc>https://hardikdarjiportfolio.vercel.app/blog-template.html?slug=optimizing-embedded-software-performance</loc>
     <lastmod>2025-03-28</lastmod>
     <priority>0.7</priority>
   </url>

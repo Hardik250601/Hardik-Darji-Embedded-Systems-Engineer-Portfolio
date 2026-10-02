@@ -6,7 +6,22 @@
 > visitor of `/crm.html`. Both are fixed — see `GO-LIVE.md` for the current,
 > accurate procedure.
 
-**Live URL:** https://hardikdarji921.github.io/Hardik-webpage/
+**Live URL:** https://hardikdarjiportfolio.vercel.app/
+
+**Hosting:** Vercel (static, no build step). `.vercelignore` keeps the internal
+planning docs out of the deployment, mirroring the strip step in
+`.github/workflows/deploy.yml`.
+
+Vercel project settings — **Framework Preset:** Other, **Build Command:** leave
+empty, **Output Directory:** `.` (the repository root). No `vercel.json` is
+required for that, and adding one is optional.
+
+`.github/workflows/deploy.yml` also still deploys to GitHub Pages. If Vercel is
+the only live host you want, disable that workflow or delete it; otherwise both
+hosts will be published from the same branch.
+
+Vercel serves `404.html` at the output root for unmatched routes, so the custom
+404 page keeps working.
 
 ---
 

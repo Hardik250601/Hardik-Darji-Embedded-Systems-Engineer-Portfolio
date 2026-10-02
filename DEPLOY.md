@@ -3,7 +3,7 @@
 This guide walks through deploying the portfolio to **GitHub Pages** at:
 
 ```
-https://hardikdarji921.github.io/Hardik-webpage/
+https://hardikdarjiportfolio.vercel.app/
 ```
 
 ---
@@ -53,7 +53,7 @@ git push -u origin main
 
 Wait 1–2 minutes. The site will be live at:
 ```
-https://hardikdarji921.github.io/Hardik-webpage/
+https://hardikdarjiportfolio.vercel.app/
 ```
 
 ---
@@ -112,17 +112,16 @@ The sender email `hmdarji921@gmail.com` must be verified in Brevo.
 ## Optional: Custom Domain
 
 1. Buy a domain (e.g., `hardikdarji.dev`)
-2. In repo Settings → Pages → Custom domain: enter your domain
-3. Add a `CNAME` file to the repo root with your domain:
-   ```
-   hardikdarji.dev
-   ```
-4. Configure DNS at your registrar:
+2. Vercel project → **Settings → Domains** → add the domain
+3. Configure DNS at your registrar, using the values Vercel shows:
    - Type: `CNAME`
-   - Name: `@` or `www`
-   - Value: `hardikdarji921.github.io`
-5. Wait for DNS propagation (up to 24h)
-6. Enable **Enforce HTTPS** in repo Settings → Pages
+   - Name: `@` (apex) or `www`
+   - Value: `cname.vercel-dns.com`
+4. Wait for DNS verification (up to 24h); Vercel then issues the TLS certificate
+5. Update the canonical URL, Open Graph / Twitter image URLs, JSON-LD
+   `url` / `image`, `robots.txt`, `sitemap.xml`, the portfolio URL in
+   `hardik-darji.vcf`, and the `SITE_URL` default in
+   `.github/scripts/send-brevo-update.mjs`
 
 ---
 
@@ -174,7 +173,7 @@ This auto-deploys on every push to `main`.
 
 - [ ] Repository created and code pushed
 - [ ] GitHub Pages enabled on `main` branch
-- [ ] Site loads at `https://hardikdarji921.github.io/Hardik-webpage/`
+- [ ] Site loads at `https://hardikdarjiportfolio.vercel.app/`
 - [ ] FormSubmit activation completed after the first form submission
 - [ ] GitHub PAT added to `crm-github.js`
 - [ ] `.nojekyll` file present in root (it is)

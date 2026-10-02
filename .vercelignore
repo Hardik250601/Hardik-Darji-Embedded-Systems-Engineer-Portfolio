@@ -1,0 +1,19 @@
+# Internal planning and handover notes. These must never be served publicly:
+# several of them contain local filesystem paths with a username and employer
+# name. Mirrors the strip step in .github/workflows/deploy.yml, which only
+# applies when deploying through GitHub Pages.
+README.md
+DEPLOY.md
+GO-LIVE.md
+FINAL-GO-LIVE.md
+PROJECT_AUDIT.md
+WHAT-CHANGED.md
+
+# Unused on the site (the site uses an initials avatar, not this photo).
+Hardik Profile PIC.png
+
+# Vercel does not need repository or CI metadata to serve the site.
+.git
+.github
+.gitignore
+.nojekyll

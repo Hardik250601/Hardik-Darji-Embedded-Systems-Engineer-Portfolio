@@ -7,7 +7,7 @@ const beforeSha = process.env.BEFORE_SHA;
 const senderEmail = process.env.BREVO_SENDER_EMAIL || 'hmdarji921@gmail.com';
 const senderName = process.env.BREVO_SENDER_NAME || 'Hardik Darji';
 // Must match the repo owner used in index.html (canonical/og:url) and crm-github.js.
-const SITE_URL = process.env.SITE_URL || 'https://hardikdarji921.github.io/Hardik-webpage';
+const SITE_URL = process.env.SITE_URL || 'https://hardikdarjiportfolio.vercel.app';
 
 if (!apiKey) throw new Error('BREVO_API_KEY is not configured');
 if (!Number.isInteger(listId)) throw new Error('BREVO_LIST_ID must be an integer');

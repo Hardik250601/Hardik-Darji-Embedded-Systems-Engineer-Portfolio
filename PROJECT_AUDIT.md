@@ -227,7 +227,7 @@ A personal portfolio for **Hardik Darji**, Senior Embedded Software Engineer at 
 20. **Set up GitHub Pages deploy**:
     - Push to `Hardikdarji921/Hardik-webpage`
     - Settings -> Pages -> Deploy from `main` branch
-    - URL becomes `https://hardikdarji921.github.io/Hardik-webpage/`
+    - URL becomes `https://hardikdarjiportfolio.vercel.app/`
     - All paths are already relative (check mark)
 21. **Custom domain** (optional): point a domain like `hardikdarji.dev` to GitHub Pages with a `CNAME` file.
 22. **Add Lighthouse CI** to the repo so PRs auto-check perf/a11y scores.
