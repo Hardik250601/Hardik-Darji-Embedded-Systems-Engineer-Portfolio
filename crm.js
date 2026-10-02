@@ -299,11 +299,16 @@
           'bg-green-500'
         );
         form.reset();
-        if (submitButton) submitButton.textContent = originalLabel;
       } catch (error) {
         window.crmGit.showMessage(status, `Error: ${error.message}`, 'bg-red-500');
       } finally {
-        if (submitButton) submitButton.disabled = false;
+        // Restore the label here, not on the success path only: a failed
+        // publish (network, GitHub 5xx, bad token) would otherwise leave the
+        // button stuck reading "Publishing..." forever.
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalLabel;
+        }
       }
     });
   }
@@ -364,11 +369,13 @@
         );
         form.reset();
         if (dateField) dateField.value = todayISO();
-        if (submitButton) submitButton.textContent = originalLabel;
       } catch (error) {
         window.crmGit.showMessage(status, `Error: ${error.message}`, 'bg-red-500');
       } finally {
-        if (submitButton) submitButton.disabled = false;
+        if (submitButton) {
+          submitButton.disabled = false;
+          submitButton.textContent = originalLabel;
+        }
       }
     });
   }

@@ -245,11 +245,14 @@
         window.crmGit.showMessage(status, 'Project updated successfully!', 'bg-green-500');
         existingProject = updated;
         load(form, notice);
-        if (submit) submit.textContent = label;
       } catch (error) {
         window.crmGit.showMessage(status, `Error saving changes: ${error.message}`, 'bg-red-500');
       } finally {
-        if (submit) submit.disabled = false;
+        // Restore the label on failure too, not just success.
+        if (submit) {
+          submit.disabled = false;
+          submit.textContent = label;
+        }
       }
     });
   }
