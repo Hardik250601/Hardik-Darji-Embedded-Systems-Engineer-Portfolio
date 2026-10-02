@@ -278,9 +278,22 @@ function main() {
     console.log(`  ${e.kind.padEnd(7)} ${e.file}`);
   }
 
+  // The homepage preview is a hand-authored SVG with its own layout (name,
+  // contact details, status pill), so it is not generated from content.json -
+  // but it still needs rasterising, and doing it here means one command keeps
+  // every social image in sync instead of leaving the homepage one to go stale.
+  const homeSvg = join(ROOT, 'images', 'og-image.svg');
+  if (existsSync(homeSvg)) {
+    writeFileSync(join(ROOT, 'images', 'og-image.png'), render(readFileSync(homeSvg, 'utf8'), fontFiles));
+    console.log('  homepage images/og-image.png');
+    written.push({ slug: '__homepage__', image: '/images/og-image.png', path: '/', file: null, kind: 'home' });
+  } else {
+    console.warn('  WARNING: images/og-image.svg missing - homepage social preview not rebuilt.');
+  }
+
   // Manifest consumed by the sitemap/verification step.
   writeFileSync(join(ROOT, '.og-cache', 'entries.json'), JSON.stringify(written, null, 2));
-  console.log(`\nGenerated ${written.length} images and ${written.length} static pages.`);
+  console.log(`\nGenerated ${written.length} images and ${written.length - (existsSync(homeSvg) ? 1 : 0)} static pages.`);
   console.log('Now run: npm run build:sitemap');
 }
 

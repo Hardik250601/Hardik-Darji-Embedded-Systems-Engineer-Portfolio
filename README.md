@@ -55,14 +55,18 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 └── README.md
 ```
 
-Internal notes (not part of the site, excluded from both deployments):
-`DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`, `WHAT-CHANGED.md`.
+Internal planning notes (`DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`,
+`PROJECT_AUDIT.md`, `WHAT-CHANGED.md`) have been **deleted from the repository** —
+they contained local filesystem paths and employer details and this is a public
+repo. They remain recoverable from git history if you need them.
 
 ## Hosting on Vercel
 
 **Live at:** https://hardikdarjiportfolio.vercel.app/
 
-This is a static site with **no build step**. Vercel serves the repository root as-is.
+Static output served from the repository root. Vercel needs **no build command**:
+all build artifacts (`tailwind.css`, the OG images, `sitemap.xml`) are committed by
+`npm run build` and are deployed as plain files.
 
 Vercel project settings:
 
@@ -86,10 +90,14 @@ Pages in the repository settings. Note that the deploy strip step it carried
 `.vercelignore` is the single source of truth for what is published.
 
 ### What is never published
-`.vercelignore` keeps these out of any public URL:
-`README.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`,
-`WHAT-CHANGED.md`, and `Hardik Profile PIC.png`. Several of them contain local
-filesystem paths with a username and employer name — do not remove the exclusions.
+`.vercelignore` keeps these out of any public URL: `README.md`, the former
+internal planning docs, `Hardik Profile PIC.png`, and all build tooling
+(`scripts/`, `src/`, `package.json`, `tailwind.config.js`, `.og-cache/`).
+
+The planning docs are **also no longer in the repository** — see the structure
+note above. The `.vercelignore` entries are kept as a safety net in case they are
+restored. Do not remove them: they exist because those files carried local
+filesystem paths and an employer name in a public repo.
 
 ### Path note
 All links in this site are **relative** (`projects.html`, `project-<slug>.html`,
@@ -270,7 +278,7 @@ build — the SVGs are outputs, not inputs.
 - Tailwind is **not** on a CDN anymore. It is compiled to `tailwind.css` and committed — see [CSS build step](#css-build-step). If you add markup using a class that is not already in `tailwind.css`, rebuild before deploying.
 - `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only opening paragraphs are duplicated; **keep it in sync when you edit a post.**
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.
-- `images/og-image.svg` is the editable source for the social preview; `images/og-image.png` is what the meta tags point at. See `FINAL-GO-LIVE.md` for how to re-render it — note that Inter must be available or the text silently disappears from the PNG.
+- `images/og-image.svg` is the editable source for the homepage social preview; `images/og-image.png` is what the meta tags point at. **All nine social images** (homepage + 8 entries) are re-rendered by `npm run build:og` — note that Inter must be available or the text silently disappears from the PNG.
 
 ## Features
 
