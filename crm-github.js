@@ -26,8 +26,8 @@
   'use strict';
 
   // --- CONFIGURATION (non-secret) ---
-  const GITHUB_USERNAME = 'Hardikdarji921';
-  const GITHUB_REPO = 'Hardik-webpage';
+  const GITHUB_USERNAME = 'Hardik250601';
+  const GITHUB_REPO = 'Hardik-Darji-Embedded-Systems-Engineer-Portfolio';
   const CONTENT_FILE_PATH = 'content.json';
   const TOKEN_STORAGE_KEY = 'crm_github_token';
 

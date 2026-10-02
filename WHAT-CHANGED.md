@@ -13,8 +13,8 @@ bottom). Nothing here has been pushed or merged yet.
 ### 1. Newsletter links were all dead — FIXED
 
 `.github/scripts/send-brevo-update.mjs` hardcoded the GitHub user
-`hardik250601`, but your account is `Hardikdarji921`. **Every "Read more" link
-in every subscriber email returned 404.**
+`hardik250601` (the correct account) but paired it with the wrong repository
+path, so **every "Read more" link in every subscriber email returned 404.**
 
 Now it uses a single `SITE_URL` constant (overridable by a workflow variable)
 that matches the canonical URL in `index.html`.

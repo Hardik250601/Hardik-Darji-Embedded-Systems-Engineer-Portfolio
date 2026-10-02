@@ -18,7 +18,7 @@ git init
 git add .
 git commit -m "Initial commit: portfolio ready for GitHub Pages"
 git branch -M main
-git remote add origin https://github.com/Hardikdarji921/Hardik-webpage.git
+git remote add origin https://github.com/Hardik250601/Hardik-Darji-Embedded-Systems-Engineer-Portfolio.git
 git push -u origin main
 ```
 
@@ -26,7 +26,7 @@ git push -u origin main
 
 ## 2. Enable GitHub Pages
 
-1. Open: https://github.com/Hardikdarji921/Hardik-webpage
+1. Open: https://github.com/Hardik250601/Hardik-Darji-Embedded-Systems-Engineer-Portfolio
 2. **Settings** → **Pages** (left sidebar)
 3. Source: **GitHub Actions**
 4. Push to `main` and open the **Actions** tab

@@ -10,7 +10,7 @@ https://hardikdarjiportfolio.vercel.app/
 
 ## Prerequisites
 
-- A GitHub account (you have: `Hardikdarji921`)
+- A GitHub account (you have: `Hardik250601`)
 - Git installed locally
 - This project folder: `C:\Users\AINHMD\OneDrive - Ammann Group\Desktop\all MY project data\Hardik Webpage`
 
@@ -37,7 +37,7 @@ git init
 git add .
 git commit -m "Initial commit: portfolio ready for GitHub Pages"
 git branch -M main
-git remote add origin https://github.com/Hardikdarji921/Hardik-webpage.git
+git remote add origin https://github.com/Hardik250601/Hardik-Darji-Embedded-Systems-Engineer-Portfolio.git
 git push -u origin main
 ```
 
@@ -45,7 +45,7 @@ git push -u origin main
 
 ## Step 3: Enable GitHub Pages
 
-1. Go to the repo: https://github.com/Hardikdarji921/Hardik-webpage
+1. Go to the repo: https://github.com/Hardik250601/Hardik-Darji-Embedded-Systems-Engineer-Portfolio
 2. Click **Settings** (top-right tab)
 3. In the left sidebar, click **Pages** (under "Code and automation")
 4. Under **Build and deployment**, set **Source** to **GitHub Actions**
@@ -87,7 +87,7 @@ The CMS (`/crm.html`) writes to `content.json` via the GitHub API. It needs a **
 2. Click **Generate new token (fine-grained)**
 3. Token name: `Hardik-webpage CMS`
 4. Expiration: 90 days (or 1 year)
-5. Resource owner: `Hardikdarji921`
+5. Resource owner: `Hardik250601`
 6. Repository access: **Only select repositories** → `Hardik-webpage`
 7. Permissions → **Contents: Read and write**
 8. Click **Generate token**
