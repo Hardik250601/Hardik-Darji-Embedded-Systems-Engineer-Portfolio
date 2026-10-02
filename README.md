@@ -33,20 +33,50 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 ├── crm-nav.html            # CMS shared nav fragment
 │
 ├── styles.css              # Small site-wide CSS
-├── images/                 # Static images (and where the CMS uploads project images)
+├── images/                 # Static images, plus where the CMS uploads project images
+│   └── og-image.png        # 1200x630 social preview (rendered from og-image.svg)
+├── robots.txt              # Allows crawling; disallows the CMS pages
+├── sitemap.xml             # All public URLs
+├── favicon.svg
+├── manifest.json           # PWA manifest
+├── hardik-darji.vcf        # vCard download
+├── .vercelignore           # Keeps internal docs out of the Vercel deployment
 └── README.md
 ```
 
-## Hosting on GitHub Pages
+Internal notes (not part of the site, excluded from both deployments):
+`DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`, `WHAT-CHANGED.md`.
 
-1. Create a new (or use existing) repository — for a personal page it should be named `<username>.github.io`. For a project page, the URL becomes `https://<username>.github.io/<repo>/`.
-2. Push the contents of this folder to the `main` (or `master`) branch.
-3. In the GitHub repo, go to **Settings → Pages** and set the source to **GitHub Actions**.
-4. The included `.github/workflows/deploy.yml` deploys the site whenever `main` is updated.
-5. Wait a minute. The site will be live.
+## Hosting on Vercel
+
+**Live at:** https://hardikdarjiportfolio.vercel.app/
+
+This is a static site with **no build step**. Vercel serves the repository root as-is.
+
+Vercel project settings:
+
+| Setting | Value |
+|---|---|
+| Framework Preset | **Other** |
+| Build Command | *leave empty* |
+| Output Directory | `.` (repository root) |
+
+No `vercel.json` is required. Vercel auto-deploys on every push to `main`, and serves `404.html` at the output root so the custom 404 page keeps working.
+
+### GitHub Pages (secondary)
+
+`.github/workflows/deploy.yml` also publishes the same branch to GitHub Pages. If Vercel is the only host you want, disable or delete that workflow — otherwise both sites are public.
+
+That workflow deletes the internal planning docs and the unused profile photo before uploading, mirroring `.vercelignore`.
+
+### What is never published
+`.vercelignore` and the deploy strip step both keep these out of any public URL:
+`README.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `PROJECT_AUDIT.md`,
+`WHAT-CHANGED.md`, and `Hardik Profile PIC.png`. Several of them contain local
+filesystem paths with a username and employer name — do not remove the exclusions.
 
 ### Path note
-All links in this site are **relative** (`projects.html`, `blog-template.html?slug=...`, `images/...`). This means it works both at the root of a domain (`username.github.io/`) and under a project sub-path (`username.github.io/Hardik-webpage/`).
+All links in this site are **relative** (`projects.html`, `blog-template.html?slug=...`, `images/...`), so the site works at a domain root, a Vercel subdomain, or a sub-path, with no configuration changes.
 
 ## CMS (content management)
 
@@ -54,15 +84,22 @@ The CMS lives at `crm.html`. It writes to `content.json` (and uploads images to 
 
 ### Setup
 
-1. **Generate a fine-grained GitHub PAT** (Settings → Developer settings → Personal access tokens → Fine-grained tokens).  
-   - Resource owner: your account
-   - Repository access: **Only select repositories** → choose the portfolio repo
-   - Permissions: **Contents → Read and write**
+1. **Generate a fine-grained GitHub PAT** (Settings → Developer settings → Personal access tokens → Fine-grained tokens).
+   - Resource owner: **`Hardik250601`** (your account)
+   - Repository access: **Only select repositories** → **`Hardik-Darji-Embedded-Systems-Engineer-Portfolio`**
+   - Permissions → Repository permissions → **Contents**: **Read and write**
    - Set the shortest expiry that works (max 1 year)
 2. **Open `/crm.html`.** A "Connect to GitHub" bar appears at the top of the page.
 3. **Paste the token into that bar** and press Connect.
 
+The repository the CMS targets is configured at the top of `crm-github.js`
+(`GITHUB_USERNAME` / `GITHUB_REPO`). It must match the repository you granted the
+token access to, or every read and write will fail.
+
 There is **no token stored in this repository** and nothing to commit. The token is kept in `sessionStorage` for the current browser tab only and is discarded when the tab closes. Press "Disconnect" to drop it immediately.
+
+**Reading needs no token.** The repository is public, so listing and editing
+existing content works before you connect. Only publishing requires one.
 
 > **Why not a token in the source?** Earlier versions of this repo instructed you to paste the PAT into `crm-github.js` and commit it. That publishes a live write credential for the repository to every visitor of `/crm.html`. Never commit a token here — `.github/copilot-instructions.md` forbids it too.
 
@@ -76,9 +113,18 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 
 **Longer term:** replace the pasted token with GitHub OAuth plus a small serverless proxy that holds the credential server-side, so the browser never handles a repo-wide secret. All CMS I/O is already isolated behind `window.crmGit` (`getFile` / `updateFile`), so swapping the transport is a contained change.
 
-### Adding content
-- Go to `https://<your-site>/crm.html`.
-- Fill in the project or blog form and submit. The form commits directly to `content.json` on the repo. The next page load (or a hard refresh) will pick up the change.
+### Adding and editing content
+
+`crm.html` has two tabs — **Add Project** and **Add Blog Post** — and accepts the full schema:
+
+- **Slug** auto-generates from the title. Set it *before* adding images; image paths are built from it.
+- **Metrics** accept any label/value pair. **Case study** outcomes and roadmap are one item per line.
+- Re-submitting an existing slug **replaces** that entry rather than duplicating it.
+- **Tech stack** is comma separated and renders as chips.
+
+`crm-projects.html` and `crm-blogs.html` list existing content with Edit / Delete. Both editors cover the full schema and **never change the slug**, so editing a published item cannot silently move its URL.
+
+Publishing commits directly to `content.json`, which triggers a Vercel (and Pages) redeploy — allow 1-2 minutes to go live.
 
 ## Schema of content.json
 
@@ -119,30 +165,33 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 
 ## Local development
 
-Open `index.html` directly in a browser — the site uses `data.js` as a fallback if `content.json` can't be fetched (which is the case for `file://`). For a more accurate preview, run a tiny static server:
+Open `index.html` directly in a browser — the site falls back to `data.js` if `content.json` can't be fetched (which is the case for `file://`). For a more accurate preview, run a static server:
 
 ```bash
 # Python
 python -m http.server 8000
 
 # Node
-npx serve .
+npx http-server . -a 0.0.0.0 -p 8000
 ```
 
 Then visit http://localhost:8000/.
 
+There is no build step, so there is nothing to install and nothing to compile.
+
 ## Notes
-- The contact and newsletter forms use separate Formspree endpoints and submit asynchronously from GitHub Pages.
-- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. The site URL used in those emails comes from the `SITE_URL` workflow variable (defaults to the canonical GitHub Pages URL).
+- The contact and newsletter forms use separate Formspree endpoints and submit asynchronously.
+- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. It needs the `BREVO_API_KEY` and `BREVO_LIST_ID` Actions secrets; without them that workflow fails harmlessly and does not block the deploy. **Once set, every CMS publish emails the whole subscriber list.**
+- The site URL used in those emails comes from the `SITE_URL` workflow variable, defaulting to the canonical URL.
 - Tailwind is loaded from a CDN for simplicity. For production, run Tailwind CLI to ship only the classes you use.
-- `.github/workflows/deploy.yml` deletes the internal planning docs (`PROJECT_AUDIT.md`, `DEPLOY.md`, `GO-LIVE.md`, `FINAL-GO-LIVE.md`, `README.md`) and the unused profile photo before uploading the artifact, so they are never served at public URLs.
-- `data.js` holds offline fallback blog posts for `file://` previews; it is only used when `content.json` cannot be fetched.
+- `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only opening paragraphs are duplicated; **keep it in sync when you edit a post.**
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.
+- `images/og-image.svg` is the editable source for the social preview; `images/og-image.png` is what the meta tags point at. See `FINAL-GO-LIVE.md` for how to re-render it — note that Inter must be available or the text silently disappears from the PNG.
 
 ## Features
 
 - **Real WebGL 3D hero** (Three.js): a 3D microchip sitting on a PCB with traces, solder pads, capacitors, SMD chips, resistors, and a crystal oscillator. Auto-orbits slowly, mouse parallax for interactive viewing. Falls back to a static SVG if WebGL is unavailable.
-- **Three project case studies** (1 professional + 2 academic): the Ammann Data Logger & Telematics Platform (flagship), Remote-Controlled Multipurpose Robot (nRF24L01), and Smart Garbage Monitoring System (Arduino). Each has full architecture diagram, metrics, and a click-to-zoom lightbox for supportive images.
+- **Three project case studies** (1 professional + 2 academic): the Ammann Data Logger & Telematics Platform (flagship), Remote-Controlled Multipurpose Robot (nRF24L01), and Smart Garbage Monitoring System (Arduino). Each has a full architecture diagram, a metrics strip driven by whatever keys the project defines, and a click-to-zoom lightbox for supportive images.
 - **Initials avatar** next to the name with a slow rotating dashed ring.
 - **Three theme modes** (Amber / Dark / Light) — toggleable, persisted in `localStorage`.
 - **Custom animated cursor follower** (desktop only, respects reduced-motion).
@@ -159,7 +208,8 @@ Then visit http://localhost:8000/.
 - **vCard download** (`hardik-darji.vcf`) — recruiters can one-click add you to their address book.
 - **GitHub link section** on every case study linking to your repository.
 - **Full SEO**: JSON-LD `Person` schema, Open Graph, Twitter card, canonical URL, favicon, PWA manifest, robots, keywords.
-- **Custom OG image** (1200×630 SVG) so the site previews nicely when shared on LinkedIn / Twitter.
+- **Custom OG image** (1200×630 PNG, rendered from an SVG source) so the site previews on LinkedIn / X / Facebook, which ignore SVG.
+- **Five technical blog posts** on Embedded C, CAN/J1939, real-time debugging and performance work, auto-populated from `content.json`.
 - **Accessibility**: `prefers-reduced-motion` respected, focus management, ARIA labels, semantic HTML, screen-reader-friendly alt text, keyboard navigation.
-- **CMS** at `/crm.html` writes directly to `content.json` via the GitHub API.
+- **CMS** at `/crm.html` writes directly to `content.json` via the GitHub API. Reading needs no credential; only publishing does.
 - **404 page** with the same theme.
