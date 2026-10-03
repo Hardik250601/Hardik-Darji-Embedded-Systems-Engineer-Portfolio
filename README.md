@@ -203,6 +203,60 @@ this array has entries, so leaving it empty means no empty heading appears. Add 
 through the CMS (**Add Testimonial** tab) or edit the array directly — **never invent
 them**; they must be something a real person actually said.
 
+## Newsletter subscribers (MongoDB Atlas)
+
+Newsletter sign-ups are stored in **MongoDB Atlas** (free M0 tier is enough —
+the collection will hold one small document per subscriber).
+
+```
+index.html #newsletter-form
+   │  POST /api/subscribe  (application/x-www-form-urlencoded)
+   ▼
+api/subscribe.js  ──►  lib/mongodb.js  ──►  Atlas  portfolio.subscribers
+   │                      unique index on `email`
+   └─ 404/405/5xx ──► falls back to the Formspree action on the form,
+                      so no subscriber is ever lost while Atlas is unset
+```
+
+**Setup (once):**
+
+1. Create a free Atlas cluster, a database user, and allow network access
+   from `0.0.0.0/0` (serverless functions have no fixed IP).
+2. Copy the connection string and add it as the environment variable
+   `MONGODB_URI` (Settings → Environment here; Vercel project settings after
+   deploy). Optional: `MONGODB_DB` (defaults to `portfolio`).
+3. Nothing else — the endpoint creates the unique `email` index on first use.
+
+**Document shape** — `{ email` (lowercased, unique), `name?`, `source:
+'newsletter'`, `createdAt` (first sign-up), `lastSeenAt` (each submit) `}`.
+Duplicates upsert instead of creating a second document, a hidden `company`
+honeypot silently drops bots, and the endpoint rate-limits per IP (5 per 10
+minutes, best effort per warm instance).
+
+**Status codes** the front end relies on: `200` stored/already-stored, `400`
+invalid email (shown to the visitor), `429` rate limited (shown), anything
+else (`404`/`405`/`5xx`) falls back to Formspree.
+
+Contract tests live in `scripts/verify-api.mjs` (35 checks, no database
+needed — the Mongo helper is stubbed): `npm run verify:api`.
+The real cluster is covered by `npm run verify:live` (12 checks: write,
+unique index, dedupe, cleanup), and `npm run sync:content` mirrors the site
+content into Atlas.
+
+> **Why projects and blog posts stay in `content.json`:** social crawlers and
+> search engines do not run JavaScript, so every entry must exist as baked
+> static HTML (`project-<slug>.html`, `blog-<slug>.html`) with its OG meta and
+> a generated preview image — all produced from `content.json` by
+> `npm run build`. Serving content from a database at runtime would break
+> link sharing and SEO unless the site grew server-side rendering.
+>
+> The same data is **mirrored read-only into Atlas** so it is browsable there:
+> `npm run sync:content` upserts every entry into `portfolio.projects`,
+> `portfolio.blogs` and `portfolio.testimonials` (keyed by a unique `slug`) and
+> verifies each one afterwards. `content.json` remains the source of truth —
+> re-run the sync after editing it (`-- --prune` removes Atlas documents whose
+> slug no longer exists). Nothing in the site reads these collections back.
+
 ## Local development
 
 Open `index.html` directly in a browser — the site falls back to `data.js` if `content.json` can't be fetched (which is the case for `file://`). For a more accurate preview, run a static server:
@@ -271,12 +325,36 @@ Each PNG has its editable SVG source saved next to it in `images/og/`. To restyl
 the card, change the `card()` function in `scripts/generate-og.mjs` and re-run the
 build — the SVGs are outputs, not inputs.
 
+## Verification
+
+Two committed check suites guard the site — run them after any content, markup
+or script change:
+
+```bash
+npm run verify            # both suites
+npm run verify:static     # dependency-free static audit (22 checks)
+npm run verify:dom        # renders every page in jsdom (101 checks)
+```
+
+- **verify:static** asserts that every local `href`/`src` resolves, every
+  `og:image` exists at 1200×630, the sitemap covers all 11 URLs with no
+  `?slug=` entries, every class used in HTML/JS exists in the compiled CSS
+  (or is a deliberate JS hook), the CMS targets this repository, and the
+  `data.js` offline mirror is a byte-exact prefix of each post in
+  `content.json`.
+- **verify:dom** loads each page in jsdom with its real scripts and asserts
+  the rendered result: cards hydrate from `content.json`, static entry pages
+  pick their slug up from `<body data-slug>`, empty sections (testimonials,
+  GitHub/demo buttons for null links) stay hidden, and no feature
+  initialiser throws — jsdom has no canvas/WebGL, so this also proves every
+  animation degrades gracefully when a 2D context cannot be created.
+
 ## Notes
-- The contact and newsletter forms use separate Formspree endpoints and submit asynchronously.
+- The contact and newsletter forms submit asynchronously. The **contact** form posts to its Formspree endpoint. The **newsletter** form posts to the site's own `/api/subscribe` endpoint (MongoDB Atlas — see [Newsletter subscribers](#newsletter-subscribers-mongodb-atlas)) and silently falls back to its Formspree endpoint whenever the function is absent, unconfigured, or failing.
 - New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. It needs the `BREVO_API_KEY` and `BREVO_LIST_ID` Actions secrets; without them that workflow fails harmlessly and does not block the deploy. **Once set, every CMS publish emails the whole subscriber list.**
 - The site URL used in those emails comes from the `SITE_URL` workflow variable, defaulting to the canonical URL.
 - Tailwind is **not** on a CDN anymore. It is compiled to `tailwind.css` and committed — see [CSS build step](#css-build-step). If you add markup using a class that is not already in `tailwind.css`, rebuild before deploying.
-- `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only opening paragraphs are duplicated; **keep it in sync when you edit a post.**
+- `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only the opening content (everything before the post's first `<h2>`) is duplicated; **keep it in sync when you edit a post** — `npm run verify:static` fails if it drifts.
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.
 - `images/og-image.svg` is the editable source for the homepage social preview; `images/og-image.png` is what the meta tags point at. **All nine social images** (homepage + 8 entries) are re-rendered by `npm run build:og` — note that Inter must be available or the text silently disappears from the PNG.
 

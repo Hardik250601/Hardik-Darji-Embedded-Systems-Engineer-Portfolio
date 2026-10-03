@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "jsdom": "^26.1.0",
     "tailwindcss": "^3.4.19"
   },
   "name": "hardik-darji-portfolio",
@@ -11,6 +12,15 @@
     "watch:css": "tailwindcss -i ./src/tailwind.css -o ./tailwind.css --watch",
     "build:og": "node scripts/generate-og.mjs",
     "build:sitemap": "node scripts/generate-sitemap.mjs",
-    "build": "npm run build:css && npm run build:og && npm run build:sitemap"
+    "build": "npm run build:css && npm run build:og && npm run build:sitemap",
+    "sync:content": "node scripts/sync-content.mjs",
+    "verify:static": "node scripts/verify-static.mjs",
+    "verify:api": "node scripts/verify-api.mjs",
+    "verify:live": "node scripts/verify-live.mjs",
+    "verify:dom": "node scripts/verify-dom.mjs",
+    "verify": "npm run verify:static && npm run verify:api && npm run verify:dom"
+  },
+  "dependencies": {
+    "mongodb": "^7.7.0"
   }
 }

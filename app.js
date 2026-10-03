@@ -197,6 +197,35 @@
   }
 
   // ---------- Formspree forms ----------
+  // Newsletter: post to the site's own /api/subscribe endpoint (MongoDB
+  // Atlas). Whenever that function is absent, unconfigured or failing we
+  // fall back to the Formspree action on the form, so a subscriber is never
+  // lost and the form keeps working on static-only hosting.
+  async function submitNewsletter(form) {
+    let response;
+    try {
+      response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)),
+      });
+    } catch (e) {
+      return { fallback: true }; // no function runtime (static preview, file://)
+    }
+    if (response.status === 404 || response.status === 405 || response.status >= 500) {
+      return { fallback: true };
+    }
+    if (response.status === 400 || response.status === 429) {
+      const data = await response.json().catch(() => ({}));
+      return {
+        error: data.error || 'Please enter a valid email address.',
+      };
+    }
+    if (!response.ok) return { fallback: true };
+    await response.json().catch(() => ({}));
+    return { ok: true };
+  }
+
   function initFormspreeForms() {
     document.querySelectorAll('[data-formspree-form]').forEach(form => {
       form.addEventListener('submit', async event => {
@@ -208,12 +237,33 @@
         if (button) { button.disabled = true; button.textContent = 'Sending...'; }
         if (status) { status.textContent = ''; status.className = 'hidden text-sm'; }
         try {
-          const response = await fetch(form.action, {
-            method: 'POST',
-            headers: { Accept: 'application/json' },
-            body: new FormData(form)
-          });
-          if (!response.ok) throw new Error('Form submission failed');
+          if (formType === 'newsletter') {
+            const result = await submitNewsletter(form);
+            if (result.error) {
+              // Validation/rate-limit message from the endpoint - show it and
+              // keep what the visitor typed.
+              if (status) {
+                status.textContent = result.error;
+                status.className = 'text-sm text-amber-300';
+              }
+              return;
+            }
+            if (!result.ok) {
+              const response = await fetch(form.action, {
+                method: 'POST',
+                headers: { Accept: 'application/json' },
+                body: new FormData(form)
+              });
+              if (!response.ok) throw new Error('Form submission failed');
+            }
+          } else {
+            const response = await fetch(form.action, {
+              method: 'POST',
+              headers: { Accept: 'application/json' },
+              body: new FormData(form)
+            });
+            if (!response.ok) throw new Error('Form submission failed');
+          }
           form.reset();
           if (status) {
             status.textContent = formType === 'newsletter'
@@ -461,6 +511,7 @@
       return;
     }
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // context creation can fail (privacy mode, exhausted contexts)
     const dpr = window.devicePixelRatio || 1;
     let w = 0, h = 0, particles = [], raf = null, mouseX = -9999, mouseY = -9999;
 
