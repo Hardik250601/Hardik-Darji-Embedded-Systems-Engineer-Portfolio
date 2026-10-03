@@ -440,6 +440,31 @@ function pngSize(buf) {
 }
 
 /* ====================================================================
+   13c. INTERNAL DOCS STAY UNPUBLISHED
+   Root-level Markdown here is internal engineering notes: pending work,
+   environment-variable names, and known gaps. README.md is ignored for a
+   different reason (it is not site content). Either way, neither may be
+   served publicly, so a new internal doc cannot be added without noticing.
+   ==================================================================== */
+{
+  const ignore = read('.vercelignore');
+  const ignoreLines = ignore.split('\n').map(l => l.trim());
+  const mdFiles = fs.readdirSync(ROOT).filter(f => f.endsWith('.md'));
+
+  const published = mdFiles.filter(f => !ignoreLines.includes(f));
+  check(
+    `deploy: every root .md is excluded from publish (${mdFiles.length} files)`,
+    published.length === 0,
+    `would be published: ${published.join(', ')}`
+  );
+
+  // The overview doc is the one carrying pending-work and env detail.
+  if (mdFiles.includes('PROJECT_OVERVIEW.md')) {
+    check('deploy: PROJECT_OVERVIEW.md is gitignored from publish', ignoreLines.includes('PROJECT_OVERVIEW.md'));
+  }
+}
+
+/* ====================================================================
    13b. BUILT-WITH SECTION
    The site advertises its own stack. It must never claim a frontend
    framework: there is none in package.json, so naming one would be false.
