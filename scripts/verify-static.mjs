@@ -402,6 +402,104 @@ function pngSize(buf) {
   );
 }
 
+/* ====================================================================
+   13. PRINT STYLESHEET + IMAGE ALT TEXT
+   Recruiters print this page constantly. The print rules are easy to lose
+   in a redesign, and a print stylesheet that lets .reveal sections stay at
+   opacity 0 produces a blank page. Both are asserted here.
+   ==================================================================== */
+{
+  const css = read('styles.css');
+  const idx = read('index.html');
+  const printBlocks = css.match(/@media\s+print\s*\{/g) || [];
+  check('print: a print stylesheet exists', printBlocks.length >= 1, `found ${printBlocks.length}`);
+
+  // The rules that actually matter when the page is printed.
+  const printRules = [
+    ['reveal content is forced visible', /\.reveal[\s\S]{0,200}?opacity:\s*1\s*!important/],
+    ['canvas layers are hidden', /#constellation-canvas[\s\S]{0,200}?display:\s*none\s*!important/],
+    ['backgrounds are flattened', /background(?:-image)?:\s*(?:transparent|#fff\w*)\s*!important/],
+    ['print colour palette is overridden', /--fg-1:\s*#111827/],
+    ['external links print their URL', /a\[href\^="http"\]::after[\s\S]{0,200}?attr\(href\)/],
+  ];
+  for (const [label, re] of printRules) {
+    check(`print: ${label}`, re.test(css));
+  }
+
+  // The identity block only exists to be shown on paper.
+  check('print: identity block present in index.html', idx.includes('class="print-header"'));
+  check(
+    'print: identity block is hidden on screen',
+    /\.print-header\s*\{\s*display:\s*none/.test(css)
+  );
+}
+
+/* ====================================================================
+   14. IMAGE ALT TEXT
+   Cards are rendered by app.js / renderer.js, so a static-HTML grep misses
+   them entirely. Every <img> emitted from JS or HTML must carry a non-empty
+   alt attribute.
+   ==================================================================== */
+{
+  const sources = fs
+    .readdirSync(ROOT)
+    .filter(f => /\.(html|js)$/.test(f))
+    .sort();
+
+  const offenders = [];
+  let total = 0;
+  for (const file of sources) {
+    const src = read(file);
+    for (const tag of src.match(/<img\b[^>]*>/g) || []) {
+      // An <img src=""> is a placeholder that JS fills in before it is ever
+      // displayed (the lightbox shell in renderer.js). There is no image to
+      // describe yet, so it is exempt.
+      if (/\bsrc=""/.test(tag)) continue;
+      total += 1;
+      const alt = tag.match(/\balt="([^"]*)"/);
+      // An empty alt is only correct for a purely decorative image; none of
+      // the images on this site are decorative, so treat it as a failure.
+      if (!alt || !alt[1].trim()) offenders.push(`${file}: ${tag.slice(0, 80)}`);
+    }
+  }
+  check(
+    `alt: all ${total} <img> tags have descriptive alt text`,
+    offenders.length === 0,
+    offenders.slice(0, 3).join(' | ')
+  );
+}
+
+/* ====================================================================
+   15. RSS FEED
+   ==================================================================== */
+if (fs.existsSync(path.join(ROOT, 'feed.xml'))) {
+  const feed = read('feed.xml');
+  const content = JSON.parse(read('content.json'));
+  const items = feed.match(/<item>/g) || [];
+  check('feed: one item per dated blog post', items.length === (content.blogs || []).length,
+    `feed ${items.length} vs content ${(content.blogs || []).length}`);
+
+  // XML 1.0 only predefines amp/lt/gt/quot/apos. HTML entities such as
+  // &mdash; make strict parsers reject the document.
+  const badEntities = (feed.match(/&(?!(?:amp|lt|gt|quot|apos|#\d+);)[a-zA-Z]+;/g) || []);
+  check('feed: no non-XML entities', badEntities.length === 0, badEntities.slice(0, 3).join(' '));
+
+  check('feed: declares RSS 2.0', /<rss[^>]*version="2\.0"/.test(feed));
+  check('feed: every item has a pubDate', (feed.match(/<pubDate>/g) || []).length === items.length);
+
+  // Item links must resolve to real files, or subscribers hit 404s.
+  const broken = [];
+  for (const m of feed.matchAll(/<link>(https?:\/\/[^<]*?)\/blog-([^<]+)<\/link>/g)) {
+    if (!fs.existsSync(path.join(ROOT, `blog-${m[2]}`))) broken.push(m[2]);
+  }
+  check('feed: every item link resolves to a file', broken.length === 0, broken.join(', '));
+
+  check('feed: linked from index.html', read('index.html').includes('application/rss+xml'));
+  check('feed: linked from blogs.html', read('blogs.html').includes('application/rss+xml'));
+} else {
+  check('feed: feed.xml exists', false, 'run npm run build:rss');
+}
+
 console.log(`\nverify-static: ${pass} passed, ${fail} failed`);
 if (failures.length) {
   console.log('FAILURES:');

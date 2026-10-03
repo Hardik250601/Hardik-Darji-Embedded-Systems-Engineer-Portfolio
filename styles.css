@@ -605,3 +605,179 @@ html[data-theme="light"] #mobile-menu a { color: var(--fg-1) !important; }
    NOW BLOCK
    ==================================================================== */
 #now .text-amber-400.font-mono { font-variant-numeric: tabular-nums; }
+
+/* ====================================================================
+   PRINT STYLESHEET
+   Recruiters print this page or save it to PDF constantly. The screen
+   design is dark, gradient-heavy and animation-driven, which prints as
+   an ink-heavy, mostly-blank mess: canvas layers are invisible but still
+   reserve space, .reveal sections stay at opacity 0 until scrolled, and
+   every section carries a large dark background.
+
+   This block flattens all of that onto white paper.
+   ==================================================================== */
+@media print {
+  /* --- Page setup: A4, normal margins --- */
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm;
+  }
+
+  /* --- Palette: force the CSS custom properties to print-safe values --- */
+  :root, html[data-theme="amber"], html[data-theme="dark"], html[data-theme="light"] {
+    --bg-0: #ffffff;
+    --bg-1: #ffffff;
+    --bg-2: #ffffff;
+    --bg-3: #ffffff;
+    --bg-4: #e5e7eb;
+    --fg-1: #111827;
+    --fg-2: #1f2937;
+    --fg-3: #374151;
+    --fg-4: #4b5563;
+    --border: #d1d5db;
+    --accent: #b45309;
+    --accent-2: #92400e;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
+    --footer-bg: #ffffff;
+    --body-bg: #ffffff;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+
+  /* --- Chrome that carries no meaning on paper --- */
+  #constellation-canvas,
+  #hero-particles,
+  #back-to-top,
+  .skip-to-main,
+  .marquee,
+  .lightbox-overlay,
+  .status-dot,
+  .scroll-indicator {
+    display: none !important;
+  }
+
+  /* Sticky header would repeat on every page and waste the top margin. */
+  header.sticky,
+  header {
+    position: static !important;
+    background: #ffffff !important;
+    border-bottom: 1px solid #d1d5db !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Mobile-only menu controls. */
+  #mobile-menu,
+  #menu-btn,
+  #close-mobile-menu-btn,
+  .mobile-only {
+    display: none !important;
+  }
+
+  /* --- Reveal animations must not hide content from print --- */
+  .reveal,
+  .fade-up,
+  .fade-up-d1,
+  .fade-up-d2,
+  .fade-up-d3,
+  .tilt-3d {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* --- Backgrounds: kill gradients/translucency that waste toner --- */
+  section, .reveal, .card, [class*="bg-gray-"], [class*="bg-amber-"], [class*="bg-emerald-"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+
+  /* --- Typography and spacing --- */
+  h1, h2, h3, h4 {
+    color: #111827 !important;
+    break-after: avoid-page;
+    page-break-after: avoid;
+  }
+  .section-eyebrow {
+    color: #b45309 !important;
+    border-color: #d1d5db !important;
+    background: transparent !important;
+  }
+  p, li, td, th {
+    color: #1f2937 !important;
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Break long blocks across pages rather than clipping them. */
+  section, article, .timeline-item, figure, .supportive-fig {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  /* Keep a heading with at least the start of its content. */
+  .timeline-item, .project-card, article {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
+  }
+
+  /* --- Links: print the destination so a paper CV is actionable --- */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8.5pt;
+    color: #4b5563;
+    word-break: break-all;
+  }
+  /* Internal anchors and mailto/tel read as noise once printed. */
+  a[href^="#"]::after,
+  a[href^="mailto"]::after,
+  a[href^="tel"]::after {
+    content: "";
+  }
+
+  /* --- Images: never overflow the printable width --- */
+  img, svg, video {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  img {
+    border: 1px solid #d1d5db;
+  }
+
+  /* --- Print-only header block with name + contact --- */
+  .print-header {
+    display: block !important;
+    border-bottom: 2px solid #111827;
+    padding-bottom: 6pt;
+    margin-bottom: 12pt;
+  }
+  .print-header .print-name {
+    font-size: 20pt;
+    font-weight: 800;
+    color: #111827;
+  }
+  .print-header .print-role {
+    font-size: 10pt;
+    color: #4b5563;
+    margin-bottom: 3pt;
+  }
+  .print-header .print-contact {
+    font-size: 9pt;
+    color: #374151;
+  }
+
+  /* The footer is redundant next to the print header. */
+  footer {
+    display: none !important;
+  }
+}
+
+/* Hidden on screen, revealed by the print media query above. */
+.print-header { display: none; }

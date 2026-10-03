@@ -38,6 +38,7 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 ├── tailwind.css            # GENERATED, minified, and committed (see build below)
 ├── scripts/                # Build tooling (not published)
 │   ├── generate-og.mjs     # Per-project/per-post social image + static page generator
+│   ├── generate-rss.mjs    # Rewrites feed.xml (RSS 2.0) from content.json
 │   └── generate-sitemap.mjs# Rewrites sitemap.xml from content.json
 ├── package.json            # Build tooling only — the site itself has no runtime deps
 ├── images/                 # Static images, plus where the CMS uploads project images
@@ -301,10 +302,31 @@ Every project and blog post gets its own 1200×630 preview image at
 homepage card. `npm run build:og` generates them.
 
 ```bash
-npm run build            # css + og images + sitemap
+npm run build            # css + og images + sitemap + rss
 npm run build:og         # just the images and static pages
 npm run build:sitemap    # just sitemap.xml
+npm run build:rss        # just feed.xml
 ```
+
+### Printing
+
+`styles.css` ends with an `@media print` block, and `index.html` carries a
+`.print-header` identity block that is hidden on screen and shown only on paper.
+The block flattens the dark theme onto white, hides the canvas layers, the
+marquee and the footer, forces `.reveal` sections to `opacity: 1` (otherwise
+unscrolled sections print blank), and appends external URLs after links so a
+printed or saved-to-PDF CV is still actionable.
+
+`verify:static` asserts the rules that actually matter, so a redesign cannot
+silently drop them.
+
+### RSS feed
+
+`feed.xml` is a generated RSS 2.0 feed of the blog posts, linked from
+`index.html` and `blogs.html` via `<link rel="alternate">`. Items point at the
+static `blog-<slug>.html` pages for the same reason the sitemap does: those are
+the only URLs whose titles and descriptions are readable without JavaScript.
+Regenerate it with `npm run build:rss` after publishing a post.
 
 **Social crawlers do not run JavaScript.** Facebook, X and LinkedIn fetch raw
 HTML, so meta tags set at runtime are invisible to them. Because this site renders
