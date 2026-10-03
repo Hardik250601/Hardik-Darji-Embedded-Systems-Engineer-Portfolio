@@ -190,29 +190,29 @@
     <main id="main" class="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
         <!-- HERO -->
-        <section id="home" class="relative min-h-[90vh] flex flex-col lg:flex-row items-center justify-center gap-12 py-12">
+        <section id="home" class="relative min-h-[90vh] flex flex-col items-center justify-center gap-12 py-12">
             <canvas id="hero-particles" aria-hidden="true"></canvas>
-            <div class="flex-1 max-w-2xl text-center lg:text-left z-10">
+            <div class="w-full max-w-3xl text-center z-10">
                 <p class="section-eyebrow mono fade-up">// Embedded Systems Engineer</p>
                 <div class="status-pill fade-up-d1 inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/40 rounded-full text-emerald-400 text-sm font-semibold mb-5">
                     <span class="status-dot"></span>
                     Open to embedded systems roles
                 </div>
-                <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 fade-up-d1 leading-tight text-center lg:text-left">
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extrabold mb-4 fade-up-d1 leading-tight text-center">
                     <span class="text-white">Hardik</span> <span class="bg-gradient-to-r from-amber-300 via-amber-400 to-amber-600 bg-clip-text text-transparent">Darji</span>
                 </h1>
                 <h2 class="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-200 mb-5 fade-up-d2">Building firmware for machines that build the world.</h2>
-                <p class="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0 fade-up-d3">
+                <p class="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 max-w-2xl mx-auto fade-up-d3">
                     Senior Embedded Software Engineer at <span class="text-amber-400 font-semibold">Ammann India</span> &mdash; 4+ years of Embedded C, CAN/J1939, HYDAC TTC, and CANTATA unit testing for off-highway construction machinery.
                 </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-up-d3">
+                <div class="flex flex-col sm:flex-row gap-4 justify-center fade-up-d3">
                     <a href="#experience" class="btn-primary inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">View Experience</a>
                     <a href="HardikDarji CV.pdf" target="_blank" rel="noopener noreferrer" class="btn-outline inline-flex items-center justify-center gap-2 font-bold py-3 px-7 rounded-full transition transform hover:scale-105">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         Download CV
                     </a>
                 </div>
-                <div class="flex gap-4 justify-center lg:justify-start mt-8 fade-up-d3">
+                <div class="flex gap-4 justify-center mt-8 fade-up-d3">
                     <a href="https://www.linkedin.com/in/hardikdarji007" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-amber-400 transition" aria-label="LinkedIn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                     </a>
@@ -225,124 +225,6 @@
                     <a href="tel:+919737287994" class="text-gray-400 hover:text-amber-400 transition" aria-label="Phone">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </a>
-                </div>
-            </div>
-
-            <!-- Flat circuit-board hero art: gold traces, solder pads, electrolytic
-                 capacitors, SMD chips, red resistors, crystal oscillator and a labelled
-                 MCU die. Static inline SVG - no WebGL, no CDN, renders without JS. -->
-            <div class="flex-1 flex justify-center items-center z-10" style="min-height: 540px;">
-                <div class="hero-art-wrap">
-                    <div class="hero-art-card">
-                        <figure class="hero-art">
-                            <svg width="780" height="520" viewBox="0 0 780 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flat dark-green circuit board illustration with gold traces, solder pads, electrolytic capacitors, SMD chips, red resistors and a crystal oscillator">
-  <title>Hardik Darji / Embedded Systems - Circuit Board</title>
-  <rect x="0" y="0" width="780" height="520" fill="#0a2a1f" rx="20"/>
-  <rect x="0" y="0" width="780" height="520" fill="none" stroke="#1f2937" stroke-width="2" rx="20"/>
-  <g id="traces" fill="none" stroke="#fbbf24" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="-318,-249 -194,-249 -194,-166 -55,-166 -55,-83 83,-83 83,-194 249,-194 249,-111 360,-111 360,-249 498,-249" stroke-width="2.5" opacity="1"/>
-    <polyline points="-318,-166 -318,-83 -249,-83 -249,-249 -83,-249 -83,-166 55,-166 55,-277 222,-277 222,-83 332,-83 332,-249 498,-249" stroke-width="2" opacity="1"/>
-    <polyline points="498,-249 498,-166 388,-166 388,-83 471,-83 471,-249" stroke-width="2" opacity="0.85"/>
-    <polyline points="-318,249 -249,249 -249,111 -83,111 -83,249 83,249 83,166 222,166 222,249 360,249 360,166 443,166 443,83 526,83 526,249" stroke-width="2" opacity="1"/>
-    <polyline points="526,83 526,249" stroke-width="1.5" opacity="0.8"/>
-    <polyline points="-318,0 -180,0 -180,-83 -42,-83 -42,-166 97,-166 97,-83 208,-83 208,0 291,0 291,-83 429,-83 429,0 554,0" stroke-width="1.5" opacity="0.7"/>
-    <polygon points="-130,180 -180,220 -80,160" fill="#fbbf24" opacity="0.75" stroke="none"/>
-    <polygon points="360,-200 400,-160 320,-120" fill="#fbbf24" opacity="0.75" stroke="none"/>
-  </g>
-  <g id="pads" fill="#fbbf24">
-    <rect x="-253" y="-253" width="8" height="8" rx="1.5"/>
-    <rect x="-170" y="-253" width="8" height="8" rx="1.5"/>
-    <rect x="-59" y="-253" width="8" height="8" rx="1.5"/>
-    <rect x="196" y="-253" width="8" height="8" rx="1.5"/>
-    <rect x="322" y="-253" width="8" height="8" rx="1.5"/>
-    <rect x="219" y="-132" width="8" height="8" rx="1.5"/>
-    <rect x="97" y="-132" width="8" height="8" rx="1.5"/>
-    <rect x="-59" y="-132" width="8" height="8" rx="1.5"/>
-    <rect x="-97" y="-219" width="8" height="8" rx="1.5"/>
-    <rect x="388" y="-219" width="8" height="8" rx="1.5"/>
-    <rect x="471" y="-219" width="8" height="8" rx="1.5"/>
-    <rect x="474" y="-83" width="8" height="8" rx="1.5"/>
-    <rect x="471" y="-47" width="8" height="8" rx="1.5"/>
-    <rect x="-125" y="-16" width="8" height="8" rx="1.5"/>
-    <rect x="208" y="-16" width="8" height="8" rx="1.5"/>
-    <rect x="222" y="-132" width="8" height="8" rx="1.5"/>
-    <rect x="360" y="-16" width="8" height="8" rx="1.5"/>
-  </g>
-  <g id="caps" fill="#1f2937" stroke="#fbbf24" stroke-width="1.2">
-    <rect x="-249" y="-284" width="60" height="80" rx="4" transform="rotate(-24 -249 -284)"/>
-    <rect x="249" y="-284" width="60" height="80" rx="4" transform="rotate(24 249 -284)"/>
-    <rect x="-255" y="225" width="55" height="75" rx="4" transform="rotate(20 -255 225)"/>
-    <rect x="255" y="225" width="55" height="75" rx="4" transform="rotate(-20 255 225)"/>
-  </g>
-  <g id="smd" fill="#6b7280" stroke="#9ca3af" stroke-width="1">
-    <rect x="-332" y="-332" width="80" height="40" rx="5"/>
-    <rect x="332" y="-332" width="80" height="40" rx="5"/>
-    <rect x="-332" y="332" width="80" height="40" rx="5"/>
-    <rect x="332" y="332" width="80" height="40" rx="5"/>
-  </g>
-  <g id="resistors" fill="none" stroke="#b91c1c" stroke-width="2.5" stroke-linecap="round">
-    <line x1="-266" y1="-214" x2="-234" y2="-214"/>
-    <line x1="266" y1="-214" x2="234" y2="-214"/>
-    <line x1="-266" y1="214" x2="-234" y2="214"/>
-    <line x1="266" y1="214" x2="234" y2="214"/>
-  </g>
-  <g id="xtal" fill="#c0c0c0" stroke="#9ca3af" stroke-width="1.5">
-    <rect x="-32" y="-92" width="64" height="24" rx="3"/>
-    <rect x="-44" y="-106" width="88" height="8" rx="2"/>
-    <rect x="-64" y="-32" width="24" height="14" rx="2"/>
-    <rect x="-96" y="48" width="64" height="10" rx="2"/>
-  </g>
-  <g id="chip" transform="translate(0 -365)">
-    <defs>
-      <linearGradient id="chipGrad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#0f172a"/>
-        <stop offset="1" stop-color="#1e293b"/>
-      </linearGradient>
-      <linearGradient id="chipPad" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0" stop-color="#fbbf24" stop-opacity="0.9"/>
-        <stop offset="1" stop-color="#f59e0b" stop-opacity="0.7"/>
-      </linearGradient>
-    </defs>
-    <rect x="-262" y="-303" width="524" height="203" rx="10" fill="url(#chipGrad)" stroke="#fbbf24" stroke-width="2"/>
-    <rect x="-252" y="-291" width="504" height="186" rx="7" fill="#0b1220" stroke="#374151"/>
-    <rect x="-226" y="-230" width="452" height="125" rx="5" fill="url(#chipPad)" opacity="0.9"/>
-    <rect x="-252" y="-245" width="504" height="6" rx="3" fill="#262626"/>
-    <rect x="-252" y="-231" width="504" height="6" rx="3" fill="#262626"/>
-    <rect x="-226" y="-211" width="72" height="72" rx="4" fill="#0b1220"/>
-    <rect x="-226" y="-211" width="72" height="72" rx="4" fill="#fbbf24" opacity="0.15"/>
-    <rect x="-154" y="-211" width="72" height="72" rx="4" fill="#fbbf24" opacity="0.85"/>
-    <rect x="-82" y="-211" width="72" height="72" rx="4" fill="#fbbf24" opacity="0.85"/>
-    <rect x="72" y="-211" width="72" height="72" rx="4" fill="#fbbf24" opacity="0.85"/>
-    <rect x="-203" y="-164" width="46" height="46" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <rect x="111" y="-201" width="34" height="34" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <rect x="-208" y="51" width="34" height="34" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <rect x="111" y="35" width="46" height="46" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <rect x="-203" y="98" width="46" height="46" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <rect x="-34" y="68" width="34" height="34" rx="3" fill="#9ca3af" opacity="0.7"/>
-    <g transform="translate(0 90)">
-      <circle cx="0" cy="0" r="12" fill="#fbbf24" stroke="#111827" stroke-width="2"/>
-      <circle cx="0" cy="0" r="18" fill="none" stroke="#374151" stroke-width="2"/>
-    </g>
-    <text x="-223" y="-209" font-size="10" fill="#9ca3af" text-anchor="middle">U</text>
-  </g>
-  <g id="labels" font-family="Inter, system-ui, sans-serif" font-size="12" fill="#9ca3af" text-anchor="middle" letter-spacing="0.04em">
-    <text x="0" y="-431">EMBEDDED</text>
-    <text x="0" y="-406" font-weight="700" fill="#fbbf24" font-size="14">SYSTEMS</text>
-    <text x="0" y="-381">CAN / J1939</text>
-    <text x="-300" y="-353" font-size="10">Caps</text>
-    <text x="80" y="-353" font-size="10">Resistors</text>
-    <text x="300" y="-353" font-size="10">Crystal</text>
-    <text x="-300" y="-323" font-size="10">SMD chips</text>
-    <text x="-88" y="-323" font-size="10">Traces</text>
-    <text x="160" y="-323" font-size="10">Solder pads</text>
-  </g>
-</svg>
-                        </figure>
-                        <figcaption class="hero-art-caption">
-                            <span class="mono mono-dots" aria-hidden="true"></span>
-                            <span>CAN / J1939 &mdash; HYDAC TTC controller platform</span>
-                        </figcaption>
-                    </div>
                 </div>
             </div>
         </section>
