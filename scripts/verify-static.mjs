@@ -10,6 +10,7 @@
 //   9. per-entry og/twitter/canonical meta is baked into static pages
 //  10. CMS targets the correct GitHub repository
 //  11. data.js offline mirror stays in sync with content.json
+//  12. every page's tags are balanced (no unclosed/unmatched elements)
 //
 //   npm run verify:static      # from the repo root
 //   node scripts/verify-static.mjs /path/to/site
@@ -326,6 +327,79 @@ function pngSize(buf) {
     }
   }
   check('data.js: offline mirror in sync with content.json', bad.length === 0, bad.join(' | '));
+}
+
+// ------------------------------------------------- 12. structural well-formedness
+// A stray regex over the HTML once emptied the text of every
+// <p class="section-eyebrow"> (their copy legitimately starts with "//") and
+// left those <p> tags unclosed. Every other check still passed, so balance is
+// asserted here: the scanner tracks the open-tag stack and reports the first
+// mismatched pair or leftover open tag per page.
+{
+  // Elements that never have a closing tag, plus SVG paint primitives that are
+  // self-closing in practice. Treating these as paired would create false
+  // mismatches on every page.
+  const VOID_LIKE = new Set([
+    'meta', 'link', 'img', 'br', 'hr', 'input', 'area', 'base', 'col',
+    'embed', 'source', 'track', 'wbr',
+    // SVG paint primitives (self-closing in the markup)
+    'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'stop',
+    'ellipse', 'image', 'use',
+  ]);
+
+  function scanBalance(html) {
+    const stack = [];
+    const problems = [];
+    // Tags only: strip comments and script/style bodies so their contents are
+    // never mistaken for markup, then neutralise escaped angle brackets so an
+    // entity like "&lt;pre&gt;" can never be read as a tag. Blanking the
+    // entity's brackets (rather than testing at match time) keeps genuine
+    // closing tags that merely follow an entity intact.
+    const stripped = html
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+      .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+      .replace(/&lt;/g, '  ')
+      .replace(/&gt;/g, '  ');
+    const tagRe = /<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b[^>]*?(\/?)>/g;
+    let m;
+    while ((m = tagRe.exec(stripped)) !== null) {
+      const [full, closing, name, selfClose] = m;
+      const tag = name.toLowerCase();
+      if (VOID_LIKE.has(tag) || selfClose === '/') continue;
+      if (closing === '/') {
+        if (!stack.length) { problems.push(`stray </${tag}> near "${full}"`); continue; }
+        if (stack[stack.length - 1] !== tag) {
+          problems.push(`</${tag}> closes <${stack[stack.length - 1]}>`);
+          // Recover so one bad tag does not cascade into dozens of errors.
+          const idx = stack.lastIndexOf(tag);
+          if (idx === -1) continue;
+          stack.length = idx;
+        } else {
+          stack.pop();
+        }
+      } else {
+        stack.push(tag);
+      }
+    }
+    if (stack.length) problems.push(`unclosed <${stack[stack.length - 1]}>`);
+    return problems;
+  }
+
+  for (const file of fs.readdirSync(ROOT).filter(f => f.endsWith('.html')).sort()) {
+    const html = read(file);
+    const problems = scanBalance(html);
+    check(`${file}: tags balanced`, problems.length === 0, problems.slice(0, 3).join(' | '));
+  }
+
+  // Guard the regression directly: the section eyebrow copy starts with "//",
+  // so a future "strip JS comments" pass over the HTML must not eat it.
+  const idx = read('index.html');
+  check(
+    'index.html: section eyebrow copy survives comment-stripping',
+    (idx.match(/class="section-eyebrow[^"]*">\s*\/\/\s*\S/g) || []).length >= 8,
+    `found ${(idx.match(/class="section-eyebrow[^"]*">\s*\/\/\s*\S/g) || []).length}`
+  );
 }
 
 console.log(`\nverify-static: ${pass} passed, ${fail} failed`);
