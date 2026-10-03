@@ -432,6 +432,30 @@ function pngSize(buf) {
     'print: identity block is hidden on screen',
     /\.print-header\s*\{\s*display:\s*none/.test(css)
   );
+
+  // Decorative layers that print badly if left in: fixed full-viewport boxes
+  // are re-painted on every page, and hover-only controls reserve blank space.
+  check('print: decorative orbs hidden', /\.orb\s*\{\s*display:\s*none\s*!important/.test(css));
+  check('print: share links hidden', /\.section-anchor \.share-link\s*\{\s*display:\s*none\s*!important/.test(css));
+}
+
+/* ====================================================================
+   13b. BUILT-WITH SECTION
+   The site advertises its own stack. It must never claim a frontend
+   framework: there is none in package.json, so naming one would be false.
+   ==================================================================== */
+{
+  const idxHtml = read('index.html');
+  check('built-with: section present', idxHtml.includes('id="built-with"'));
+  check('built-with: all four stack cards rendered',
+    (idxHtml.match(/Frontend<\/p>|Styling<\/p>|Backend<\/p>|Hosting<\/p>/g) || []).length >= 4);
+
+  // Only the literal "No React, Vue or Angular" disclaimer may mention a
+  // framework; any other mention would be a claim the site cannot back.
+  const claimed = [...idxHtml.matchAll(/>([^<]*\b(?:React|Vue|Angular|Next\.js)\b[^<]*)</g)]
+    .map(m => m[1].trim())
+    .filter(text => !/^No React/i.test(text));
+  check('built-with: claims no frontend framework', claimed.length === 0, claimed.join(' | '));
 }
 
 /* ====================================================================

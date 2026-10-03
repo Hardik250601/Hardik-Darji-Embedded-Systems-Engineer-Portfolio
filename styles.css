@@ -662,6 +662,24 @@ html[data-theme="light"] #mobile-menu a { color: var(--fg-1) !important; }
     display: none !important;
   }
 
+  /* The decorative amber orbs live in a `position: fixed` full-viewport
+     wrapper. Fixed-position boxes are re-painted on every printed page, so
+     two blurred circles would smear across the entire document. The wrapper
+     has no id or class of its own, so target it structurally: it is the only
+     element that is a fixed full-viewport container holding .orb children. */
+  .fixed.inset-0:has(> .orb) {
+    display: none !important;
+  }
+  .orb {
+    display: none !important;
+  }
+
+  /* Share links sit at opacity 0 until hovered. Left alone they would reserve
+     a blank gap beside every section heading. */
+  .section-anchor .share-link {
+    display: none !important;
+  }
+
   /* Sticky header would repeat on every page and waste the top margin. */
   header.sticky,
   header {

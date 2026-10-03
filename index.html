@@ -824,6 +824,47 @@
             </div>
         </section>
 
+        <!-- BUILT WITH (this site's own stack) -->
+        <section id="built-with" class="py-12 sm:py-16 reveal">
+            <div class="text-center mb-8">
+                <p class="section-eyebrow mono">// How this site is built</p>
+                <h2 class="text-2xl sm:text-3xl font-bold mb-3">Built with</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+                    This portfolio has no framework and no build step on the server &mdash; it is
+                    hand-written HTML, CSS and JavaScript, served as static files. The same
+                    discipline that keeps firmware debuggable keeps a site maintainable.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-gray-800/70 backdrop-blur rounded-2xl border border-gray-700 p-5">
+                    <p class="mono text-xs uppercase tracking-widest text-amber-400 mb-2">Frontend</p>
+                    <p class="font-semibold mb-1">HTML5 &middot; CSS3 &middot; Vanilla JS</p>
+                    <p class="text-sm text-gray-400">No React, Vue or Angular. Zero runtime dependencies in the browser.</p>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur rounded-2xl border border-gray-700 p-5">
+                    <p class="mono text-xs uppercase tracking-widest text-amber-400 mb-2">Styling</p>
+                    <p class="font-semibold mb-1">Tailwind CSS</p>
+                    <p class="text-sm text-gray-400">Compiled to a minified stylesheet that is committed, so hosting needs no build step.</p>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur rounded-2xl border border-gray-700 p-5">
+                    <p class="mono text-xs uppercase tracking-widest text-amber-400 mb-2">Backend</p>
+                    <p class="font-semibold mb-1">Node.js</p>
+                    <p class="text-sm text-gray-400">One serverless function for the newsletter, writing to MongoDB Atlas.</p>
+                </div>
+                <div class="bg-gray-800/70 backdrop-blur rounded-2xl border border-gray-700 p-5">
+                    <p class="mono text-xs uppercase tracking-widest text-amber-400 mb-2">Hosting</p>
+                    <p class="font-semibold mb-1">Vercel</p>
+                    <p class="text-sm text-gray-400">Auto-deploys on every push. Also ships an RSS feed and an OG image per post.</p>
+                </div>
+            </div>
+
+            <p class="text-center text-sm text-gray-400 mt-6 max-w-2xl mx-auto">
+                Every page is checked by a static, API and DOM test suite before it ships &mdash;
+                <span class="mono text-amber-400">npm run verify</span>
+            </p>
+        </section>
+
         <!-- NOW / STATUS -->
         <section id="now" class="py-8 sm:py-12 reveal">
             <div class="bg-gray-800/70 backdrop-blur p-6 sm:p-8 rounded-3xl border border-gray-700">
