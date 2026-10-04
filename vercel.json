@@ -1,5 +1,5 @@
 {
-  "buildCommand": "echo Build step skipped",
+  "buildCommand": "npm run build",
   "outputDirectory": ".",
   "cleanUrls": true
 }

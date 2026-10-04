@@ -139,7 +139,7 @@ async function loadPage(file, opts = {}) {
     [...doc.querySelectorAll('a[href*="project-template.html"]')].length === 0);
 
   // Newsletter: primary path is the same-origin /api/subscribe endpoint
-  // (MongoDB Atlas); the Formspree action stays on the form as the fallback
+  // (Buttondown); the Formspree action stays on the form as the fallback
   // for hosts without a function runtime, and a hidden honeypot input guards
   // the endpoint against bots.
   const nlForm = doc.getElementById('newsletter-form');

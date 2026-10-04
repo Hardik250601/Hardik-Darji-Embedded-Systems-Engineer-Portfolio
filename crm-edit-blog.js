@@ -68,6 +68,40 @@
     }
     load(form, notice);
 
+    const imageInput = document.getElementById('blog-images');
+    const uploadButton = document.getElementById('blog-upload-images');
+    if (imageInput && uploadButton) {
+      uploadButton.addEventListener('click', async () => {
+        const files = Array.from(imageInput.files || []);
+        if (!files.length) {
+          window.crmGit.showMessage(status, 'Choose one or more images first.', 'bg-red-500');
+          return;
+        }
+        uploadButton.disabled = true;
+        const label = uploadButton.textContent;
+        uploadButton.textContent = 'Uploading...';
+        try {
+          const textarea = document.getElementById('blog-content');
+          const start = textarea.selectionStart, end = textarea.selectionEnd;
+          let html = '';
+          for (const file of files) {
+            const uploaded = await window.crmGit.uploadMedia(file, currentSlug);
+            const alt = window.crmGit.esc(file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '));
+            html += `<figure>\n<img src="${window.crmGit.esc(uploaded.url)}" alt="${alt}" loading="lazy" class="w-full rounded-xl border border-gray-700">\n<figcaption class="text-sm text-gray-400 mt-2">${alt}</figcaption>\n</figure>\n`;
+          }
+          textarea.value = textarea.value.slice(0, start) + html + textarea.value.slice(end);
+          textarea.focus();
+          window.crmGit.showMessage(status, 'Images uploaded to Vercel Blob and inserted. Review alt text before saving.', 'bg-green-500');
+          imageInput.value = '';
+        } catch (error) {
+          window.crmGit.showMessage(status, `Image upload failed: ${error.message}`, 'bg-red-500');
+        } finally {
+          uploadButton.disabled = false;
+          uploadButton.textContent = label;
+        }
+      });
+    }
+
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!currentSlug) return;

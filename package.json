@@ -14,13 +14,13 @@
     "build:sitemap": "node scripts/generate-sitemap.mjs",
     "build:rss": "node scripts/generate-rss.mjs",
     "build": "npm run build:css && npm run build:og && npm run build:sitemap && npm run build:rss",
-    "sync:content": "node scripts/sync-content.mjs",
     "verify:static": "node scripts/verify-static.mjs",
     "verify:api": "node scripts/verify-api.mjs",
     "verify:dom": "node scripts/verify-dom.mjs",
     "verify": "npm run verify:static && npm run verify:api && npm run verify:dom"
   },
   "dependencies": {
-    "mongodb": "^7.7.0"
+    "@neondatabase/serverless": "^1.2.0",
+    "@vercel/blob": "^2.8.0"
   }
 }

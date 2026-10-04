@@ -183,7 +183,7 @@
         ? 'mt-6 p-4 rounded-lg border border-green-700 bg-green-900/30 text-sm text-green-300'
         : 'mt-6 p-4 rounded-lg border border-amber-700 bg-amber-900/20 text-sm text-amber-300';
       host.textContent = connected
-        ? `Connected as ${window.crmGit.GITHUB_USERNAME}/${window.crmGit.GITHUB_REPO}. You can publish.`
+        ? `Connected as ${window.crmGit.GITHUB_USERNAME}/${window.crmGit.GITHUB_REPO}. Content saves to Neon and publishes a GitHub snapshot.`
         : 'Not connected. Paste a fine-grained token into the Connect to GitHub bar above to enable publishing.';
     }
 
@@ -194,13 +194,8 @@
   // ---------- Image upload ----------
 
   async function uploadFile(file, slug, fileNameBase) {
-    const fileExtension = file.name.split('.').pop();
-    const filePath = `images/projects/${slug}/${fileNameBase}.${fileExtension}`;
-    const fileContent = await window.crmGit.toBase64(file);
-    const existingFile = await window.crmGit.getFile(filePath);
-    const sha = existingFile ? existingFile.sha : null;
-    await window.crmGit.updateFile(filePath, fileContent, sha, `CMS: Upload image for ${slug}`);
-    return filePath;
+    const result = await window.crmGit.uploadMedia(file, slug);
+    return result.url;
   }
 
   // ---------- Project form ----------
@@ -324,6 +319,45 @@
 
     const dateField = document.getElementById('blog-date');
     if (dateField && !dateField.value) dateField.value = todayISO();
+
+    const imageInput = document.getElementById('blog-images');
+    const uploadButton = document.getElementById('blog-upload-images');
+    if (imageInput && uploadButton) {
+      uploadButton.addEventListener('click', async () => {
+        const files = Array.from(imageInput.files || []);
+        if (!files.length) {
+          window.crmGit.showMessage(status, 'Choose one or more images first.', 'bg-red-500');
+          return;
+        }
+        const slug = value('blog-slug') || slugify(value('blog-title'));
+        if (!slug) {
+          window.crmGit.showMessage(status, 'Enter a blog title before uploading images.', 'bg-red-500');
+          return;
+        }
+        uploadButton.disabled = true;
+        const label = uploadButton.textContent;
+        uploadButton.textContent = 'Uploading...';
+        try {
+          const textarea = document.getElementById('blog-content');
+          const start = textarea.selectionStart, end = textarea.selectionEnd;
+          let html = '';
+          for (const file of files) {
+            const uploaded = await window.crmGit.uploadMedia(file, slug);
+            const alt = window.crmGit.esc(file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '));
+            html += `<figure>\n<img src="${window.crmGit.esc(uploaded.url)}" alt="${alt}" loading="lazy" class="w-full rounded-xl border border-gray-700">\n<figcaption class="text-sm text-gray-400 mt-2">${alt}</figcaption>\n</figure>\n`;
+          }
+          textarea.value = textarea.value.slice(0, start) + html + textarea.value.slice(end);
+          textarea.focus();
+          window.crmGit.showMessage(status, 'Images uploaded to Vercel Blob and inserted. Review alt text before publishing.', 'bg-green-500');
+          imageInput.value = '';
+        } catch (error) {
+          window.crmGit.showMessage(status, `Image upload failed: ${error.message}`, 'bg-red-500');
+        } finally {
+          uploadButton.disabled = false;
+          uploadButton.textContent = label;
+        }
+      });
+    }
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();

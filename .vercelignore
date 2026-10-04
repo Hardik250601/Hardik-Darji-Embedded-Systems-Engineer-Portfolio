@@ -18,21 +18,10 @@ Hardik Profile PIC.png
 .gitignore
 .nojekyll
 
-# Tailwind and Node build inputs. tailwind.css is generated and COMMITTED, and
-# the API uses Node's built-in Fetch API, so hosting needs no package install
-# or build step - Vercel serves the static output and the api/ function.
-package.json
-package-lock.json
+# Tailwind and Node build inputs are required by the Vercel build command.
 node_modules
-src
-tailwind.config.js
 
-# OG/social-image generator and its font cache. The generated images and the
-# static per-entry pages ARE published (images/og/ and project-*.html /
-# blog-*.html at the repo root) - only the tooling that creates them is not.
-scripts
+# Generated social images and static pages are rebuilt from content.json.
 .og-cache
 
-# Serverless functions are published (api/). The MongoDB helper is used only
-# by local tooling and is not needed by the deployed newsletter function.
-lib
+# Serverless functions and their shared helpers are deployed together.

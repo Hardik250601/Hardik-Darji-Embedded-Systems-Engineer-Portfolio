@@ -81,6 +81,34 @@ try {
   }
   check('rate limit allows five requests then returns 429',
     statuses.slice(0, 5).every(status => status === 200) && statuses[5] === 429, statuses.join(','));
+
+  const { normalizeContent } = require(path.join(ROOT, 'lib', 'neon-content.js'));
+  const normalized = normalizeContent({
+    projects: [{ slug: 'test-project', title: 'Test Project' }],
+    blogs: [{ slug: 'test-blog', title: 'Test Blog' }],
+    testimonials: [{ name: 'Jane Doe', quote: 'A useful test.' }],
+  });
+  check('Neon content validation accepts projects and blogs',
+    normalized.projects[0].slug === 'test-project' && normalized.blogs[0].slug === 'test-blog');
+  check('Neon content validation assigns testimonial slug',
+    normalized.testimonials[0].slug === 'jane-doe' && normalized.testimonials[0].data.slug === 'jane-doe');
+  let invalidSlugRejected = false;
+  try {
+    normalizeContent({ projects: [{ slug: '../bad', title: 'Bad' }], blogs: [], testimonials: [] });
+  } catch { invalidSlugRejected = true; }
+  check('Neon content validation rejects unsafe slugs', invalidSlugRejected);
+
+  const contentApi = require(path.join(ROOT, 'api', 'content.js'));
+  const mediaApi = require(path.join(ROOT, 'api', 'media.js'));
+  async function runApi(handler, method, body, headers = {}) {
+    const response = makeRes();
+    await handler({ method, body, headers, url: '/api/test' }, response);
+    return { status: response.statusCode, data: response.body ? JSON.parse(response.body) : null };
+  }
+  const contentDenied = await runApi(contentApi, 'PUT', { content: { projects: [], blogs: [], testimonials: [] } });
+  const mediaDenied = await runApi(mediaApi, 'POST', null, { 'content-type': 'image/png' });
+  check('Neon content writes require CMS authentication', contentDenied.status === 401);
+  check('Blob uploads require CMS authentication', mediaDenied.status === 401);
 } finally {
   globalThis.fetch = originalFetch;
   if (originalKey === undefined) delete process.env.BUTTONDOWN_API_KEY;

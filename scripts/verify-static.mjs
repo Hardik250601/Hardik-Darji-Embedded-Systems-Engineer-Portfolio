@@ -54,7 +54,7 @@ const jsFiles = fs.readdirSync(ROOT).filter(f => f.endsWith('.js'));
   const missing = [];
   for (const p of content.projects) {
     for (const img of [p.main_image, ...(p.supportive_images || [])]) {
-      if (img && !exists(img)) missing.push(`${p.slug}: ${img}`);
+      if (img && !/^(?:https?:)?\/\//i.test(img) && !exists(img)) missing.push(`${p.slug}: ${img}`);
     }
   }
   for (const blog of content.blogs || []) {

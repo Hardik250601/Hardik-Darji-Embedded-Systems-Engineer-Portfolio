@@ -150,15 +150,60 @@
 
   async function loadContent() {
     const fileData = await getFile(CONTENT_FILE_PATH);
+    try {
+      const response = await fetch('/api/content', { cache: 'no-store' });
+      if (response.ok) {
+        return { content: await response.json(), sha: fileData ? fileData.sha : null, missing: false, source: 'neon' };
+      }
+    } catch (e) { /* allow read-only fallback to the repository snapshot */ }
     if (!fileData) {
-      return { content: { projects: [], blogs: [] }, sha: null, missing: true };
+      return { content: { projects: [], blogs: [], testimonials: [] }, sha: null, missing: true, source: 'github' };
     }
     const content = JSON.parse(fromBase64(fileData.content));
-    return { content, sha: fileData.sha, missing: false };
+    return { content, sha: fileData.sha, missing: false, source: 'github' };
   }
 
   async function saveContent(content, sha, message) {
-    return updateFile(CONTENT_FILE_PATH, content, sha, message);
+    const response = await fetch('/api/content', {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${getToken()}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ content }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || `Neon content save failed (${response.status}).`);
+    try {
+      return await updateFile(CONTENT_FILE_PATH, content, sha, message);
+    } catch (error) {
+      throw new Error(`Saved to Neon, but the GitHub snapshot could not be updated: ${error.message}`);
+    }
+  }
+
+  async function uploadMedia(file, slug) {
+    if (!file || file.size > 4 * 1024 * 1024) throw new Error('Choose an image no larger than 4 MB.');
+    const response = await fetch(`/api/media?slug=${encodeURIComponent(slug)}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': file.type },
+      body: file,
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.error || `Image upload failed (${response.status}).`);
+    return result;
+  }
+
+  async function deleteMedia(url) {
+    if (!url || !String(url).includes('.public.blob.vercel-storage.com/portfolio/')) return;
+    const response = await fetch('/api/media', {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${getToken()}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }),
+    });
+    if (!response.ok) {
+      const result = await response.json().catch(() => ({}));
+      throw new Error(result.error || 'Image deletion failed.');
+    }
   }
 
   const toBase64File = file => new Promise((resolve, reject) => {
@@ -276,6 +321,8 @@
     updateFile,
     loadContent,
     saveContent,
+    uploadMedia,
+    deleteMedia,
     toBase64,
     toBase64File,
     showMessage,

@@ -5,6 +5,13 @@
   // ---------- Content loader ----------
   async function loadContent() {
     try {
+      const live = await fetch('/api/content', { cache: 'no-store' });
+      if (live.ok) {
+        const data = await live.json();
+        if (data && (data.projects || data.blogs)) return data;
+      }
+    } catch (e) { /* use the committed snapshot when the API is unavailable */ }
+    try {
       const res = await fetch('content.json', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();

@@ -14,7 +14,7 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 │
 ├── app.js                  # Shared client logic: mobile menu, canvas, scroll-spy, content loader
 ├── data.js                 # Offline fallback for content.json
-├── content.json            # Source of truth for projects & blogs
+├── content.json            # Seed/snapshot used to generate static pages at build time
 ├── renderer.js             # Hydrates project-template.html
 ├── blog-renderer.js        # Hydrates blog-template.html
 │
@@ -40,8 +40,11 @@ Personal portfolio for **Hardik Darji**, Senior Engineer specializing in embedde
 │   ├── generate-og.mjs     # Per-project/per-post social image + static page generator
 │   ├── generate-rss.mjs    # Rewrites feed.xml (RSS 2.0) from content.json
 │   └── generate-sitemap.mjs# Rewrites sitemap.xml from content.json
-├── package.json            # Build tooling only — the site itself has no runtime deps
-├── images/                 # Static images, plus where the CMS uploads project images
+├── package.json            # Build tooling and Neon/Blob serverless dependencies
+├── api/content.js          # Neon-backed content API
+├── api/media.js            # Vercel Blob image upload/delete API
+├── lib/neon-content.js     # Neon database access and initial seed logic
+├── images/                 # Static images; CMS uploads new media to Vercel Blob
 │   ├── og-image.png        # 1200x630 social preview (rendered from og-image.svg)
 │   └── og/<slug>.png       # GENERATED: one social preview per project / blog post
 ├── project-<slug>.html     # GENERATED: canonical project page with static OG tags
@@ -65,16 +68,16 @@ repo. They remain recoverable from git history if you need them.
 
 **Live at:** https://hardikmdarji.vercel.app/
 
-Static output served from the repository root. Vercel needs **no build command**:
-all build artifacts (`tailwind.css`, the OG images, `sitemap.xml`) are committed by
-`npm run build` and are deployed as plain files.
+Vercel runs `npm run build` before serving the repository root. This rebuilds CSS,
+static project/blog pages, OG images, sitemap, and RSS feed from `content.json`.
+Vercel also runs the `/api/content` and `/api/media` serverless functions.
 
 Vercel project settings:
 
 | Setting | Value |
 |---|---|
 | Framework Preset | **Other** |
-| Build Command | *leave empty* |
+| Build Command | `npm run build` |
 | Output Directory | `.` (repository root) |
 
 No `vercel.json` is required. Vercel auto-deploys on every push to `main`, and serves `404.html` at the output root so the custom 404 page keeps working.
@@ -93,7 +96,8 @@ Pages in the repository settings. Note that the deploy strip step it carried
 ### What is never published
 `.vercelignore` keeps these out of any public URL: `README.md`, the former
 internal planning docs, `Hardik Profile PIC.png`, and all build tooling
-(`scripts/`, `src/`, `package.json`, `tailwind.config.js`, `.og-cache/`).
+(`.github/`, internal docs, `node_modules/`, and `.og-cache/`). Build inputs,
+serverless functions, and shared helpers must remain available to Vercel's build.
 
 The planning docs are **also no longer in the repository** — see the structure
 note above. The `.vercelignore` entries are kept as a safety net in case they are
@@ -107,14 +111,17 @@ subdomain, or a sub-path, with no configuration changes.
 
 ## CMS (content management)
 
-The CMS lives at `crm.html`. It writes to `content.json` (and uploads images to `images/projects/...`) via the **GitHub Contents API**.
+The CMS lives at `crm.html`. It saves projects, blogs, and testimonials to **Neon**,
+uploads images to **Vercel Blob**, then commits a content snapshot to `content.json`
+through the GitHub Contents API. The snapshot lets Vercel rebuild static SEO pages,
+social previews, the sitemap, and RSS feed after each CMS save.
 
 ### Setup
 
 1. **Generate a fine-grained GitHub PAT** (Settings → Developer settings → Personal access tokens → Fine-grained tokens).
    - Resource owner: **`Hardik250601`** (your account)
    - Repository access: **Only select repositories** → **`Hardik-Darji-Embedded-Systems-Engineer-Portfolio`**
-   - Permissions → Repository permissions → **Contents**: **Read and write**
+- Permissions → Repository permissions → **Contents**: **Read and write**
    - Set the shortest expiry that works (max 1 year)
 2. **Open `/crm.html`.** A "Connect to GitHub" bar appears at the top of the page.
 3. **Paste the token into that bar** and press Connect.
@@ -144,7 +151,7 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 
 `crm.html` has three tabs — **Add Project**, **Add Blog Post** and **Add Testimonial**:
 
-- **Slug** auto-generates from the title. Set it *before* adding images; image paths are built from it.
+- **Slug** auto-generates from the title. Set it *before* adding images; Blob files are grouped by this slug.
 - **Metrics** accept any label/value pair. **Case study** outcomes and roadmap are one item per line.
 - Re-submitting an existing slug **replaces** that entry rather than duplicating it.
 - **Tech stack** is comma separated and renders as chips.
@@ -152,7 +159,8 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 
 `crm-projects.html` and `crm-blogs.html` list existing content with Edit / Delete. Both editors cover the full schema and **never change the slug**, so editing a published item cannot silently move its URL.
 
-Publishing commits directly to `content.json`, which triggers a Vercel (and Pages) redeploy — allow 1-2 minutes to go live.
+Publishing updates Neon and the GitHub snapshot. The GitHub commit triggers a Vercel
+build; allow a minute or two for the static pages and content API to reflect the update.
 
 ## Schema of content.json
 
@@ -164,8 +172,8 @@ Publishing commits directly to `content.json`, which triggers a Vercel (and Page
       "title": "My Project",
       "short_summary": "One-line summary used on the listing card.",
       "full_description": "Long description shown on the detail page.",
-      "main_image": "images/projects/my-project/main.png",
-      "supportive_images": ["images/projects/my-project/support-1.png"],
+      "main_image": "https://<blob-url>",
+      "supportive_images": ["https://<blob-url>"],
       "github_link": "https://github.com/...",
       "github_blurb": "Source code and schematics for this project live on my GitHub.",
       "linkedin_link": "https://linkedin.com/...",
@@ -210,8 +218,7 @@ The signup endpoint is prepared for **[Buttondown](https://buttondown.com/pricin
 but the account review and API key are not complete, so Buttondown is not active
 yet. Until `BUTTONDOWN_API_KEY` is configured in Vercel, the browser falls back
 to the newsletter form's Formspree action. Buttondown accepts personal email
-accounts; a business email and custom sending domain are optional. MongoDB Atlas
-is used only for the optional content mirror described below.
+accounts; a business email and custom sending domain are optional.
 
 ```
 index.html #newsletter-form
@@ -233,28 +240,36 @@ The endpoint normalizes email addresses, silently drops the hidden `company`
 honeypot, and rate-limits per IP (5 per 10 minutes, best effort per warm
 instance). New subscribers receive Buttondown's double opt-in confirmation.
 
-**Existing subscribers:** export the current subscriber list from MongoDB, if
-one exists, and import it into Buttondown with the subscribers' consent and
-unsubscribe state preserved. The old Atlas `subscribers` collection is left
-untouched by this change.
+**Existing subscribers:** import only subscribers who have consented, preserving
+their unsubscribe state.
 
 The endpoint returns `400` for invalid addresses, `429` for rate limits, and
 `503` when Buttondown is not configured or unavailable. In those service-error
 cases the browser falls back to the form's Formspree action.
 
-> **Why projects and blog posts stay in `content.json`:** social crawlers and
-> search engines do not run JavaScript, so every entry must exist as baked
-> static HTML (`project-<slug>.html`, `blog-<slug>.html`) with its OG meta and
-> a generated preview image — all produced from `content.json` by
-> `npm run build`. Serving content from a database at runtime would break
-> link sharing and SEO unless the site grew server-side rendering.
->
-> The same data is **mirrored read-only into Atlas** so it is browsable there:
-> `npm run sync:content` upserts every entry into `portfolio.projects`,
-> `portfolio.blogs` and `portfolio.testimonials` (keyed by a unique `slug`) and
-> verifies each one afterwards. `content.json` remains the source of truth —
-> re-run the sync after editing it (`-- --prune` removes Atlas documents whose
-> slug no longer exists). Nothing in the site reads these collections back.
+> **Where content and images live:** Neon is the live store for projects, blog
+> posts, and testimonials. `/api/content` reads it for the site and CMS. On the
+> first database read, the API seeds Neon once from `content.json`; the CMS then
+> updates Neon and commits a JSON snapshot to GitHub. Vercel rebuilds the static
+> entry pages and social images from that snapshot so direct links and crawlers
+> see complete HTML. Vercel Blob stores uploaded image files, and Neon/content
+> snapshots store their public URLs. Keep `content.json` as the deployment seed
+> and static-page input; it is not the live runtime content source.
+
+### Neon and Vercel Blob setup
+
+Connect the project's Neon database and a **public** Vercel Blob store to the
+Vercel project for Production and Preview. Neon provides the database URL
+environment variable; the content API recognizes the integration's
+`Hardik_portfolio_POSTGRES_URL` / `Hardik_portfolio_DATABASE_URL` names and the
+standard `DATABASE_URL` / `POSTGRES_URL` names. Blob must provide
+`BLOB_READ_WRITE_TOKEN`. Do not paste these values into source files. After
+connecting or changing environment variables, redeploy the project.
+
+The CMS image picker accepts JPG, PNG, WebP, GIF, and AVIF images up to 4 MB.
+Uploaded files are public so they can display on portfolio pages. The server
+limits upload and delete operations to an authenticated GitHub account matching
+the portfolio owner.
 
 ## Local development
 

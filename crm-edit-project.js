@@ -79,13 +79,8 @@
   // ---------- Images ----------
 
   async function uploadFile(file, slug, base) {
-    const ext = file.name.split('.').pop();
-    const path = `images/projects/${slug}/${base}.${ext}`;
-    const body = await window.crmGit.toBase64(file);
-    const existing = await window.crmGit.getFile(path);
-    const sha = existing ? existing.sha : null;
-    await window.crmGit.updateFile(path, body, sha, `CMS: Upload image for ${slug}`);
-    return path;
+    const result = await window.crmGit.uploadMedia(file, slug);
+    return result.url;
   }
 
   // ---------- Load ----------

@@ -53,8 +53,16 @@
                 <p class="field-hint">
                     HTML is allowed: <code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>,
                     <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>,
-                    <code>&lt;pre&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</code>, <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>.
+                    <code>&lt;pre&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;</code>, <code>&lt;figure&gt;</code>, <code>&lt;img&gt;</code>,
+                    <code>&lt;a&gt;</code>, <code>&lt;strong&gt;</code>.
                 </p>
+            </div>
+
+            <div class="space-y-2">
+                <label for="blog-images" class="field-label">Article Images</label>
+                <input type="file" id="blog-images" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple class="field-input">
+                <button type="button" id="blog-upload-images" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded">Upload and insert image(s)</button>
+                <p class="field-hint">Images are stored in Vercel Blob. Up to 4 MB per image. Review or edit the generated alt text before saving.</p>
             </div>
 
             <div class="flex flex-wrap gap-3">
