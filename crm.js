@@ -1,8 +1,7 @@
 // crm.js - unified "add content" handlers for crm.html.
 //
-// Both forms commit to content.json through the GitHub Contents API via
-// window.crmGit. The token is supplied at runtime by the connect bar that
-// crm-github.js mounts; nothing here needs to change when it rotates.
+// CMS forms save through the authenticated server API. GitHub credentials stay
+// in Vercel environment variables and never enter this browser script.
 
 (function () {
   'use strict';
@@ -178,17 +177,17 @@
     if (!host) return;
 
     function render() {
-      const connected = window.crmGit.hasToken();
+      const connected = window.crmGit.isAuthenticated();
       host.className = connected
         ? 'mt-6 p-4 rounded-lg border border-green-700 bg-green-900/30 text-sm text-green-300'
         : 'mt-6 p-4 rounded-lg border border-amber-700 bg-amber-900/20 text-sm text-amber-300';
       host.textContent = connected
-        ? `Connected as ${window.crmGit.GITHUB_USERNAME}/${window.crmGit.GITHUB_REPO}. Content saves to Neon and publishes a GitHub snapshot.`
-        : 'Not connected. Paste a fine-grained token into the Connect to GitHub bar above to enable publishing.';
+        ? 'Signed in. Saves update Neon and the GitHub deployment snapshot through the server.'
+        : 'Sign in using the administrator password above to enable publishing.';
     }
 
     render();
-    window.addEventListener('crm:token-changed', render);
+    window.addEventListener('crm:session-ready', render);
   }
 
   // ---------- Image upload ----------
@@ -208,8 +207,8 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      if (!window.crmGit.hasToken()) {
-        window.crmGit.showMessage(status, 'Not connected to GitHub. Add your token in the bar at the top of the page.', 'bg-red-500');
+      if (!window.crmGit.isAuthenticated()) {
+        window.crmGit.showMessage(status, 'Sign in using the administrator password above to publish.', 'bg-red-500');
         return;
       }
 
@@ -364,8 +363,8 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      if (!window.crmGit.hasToken()) {
-        window.crmGit.showMessage(status, 'Not connected to GitHub. Add your token in the bar at the top of the page.', 'bg-red-500');
+      if (!window.crmGit.isAuthenticated()) {
+        window.crmGit.showMessage(status, 'Sign in using the administrator password above to publish.', 'bg-red-500');
         return;
       }
 
@@ -430,8 +429,8 @@
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      if (!window.crmGit.hasToken()) {
-        window.crmGit.showMessage(status, 'Not connected to GitHub. Add your token in the bar at the top of the page.', 'bg-red-500');
+      if (!window.crmGit.isAuthenticated()) {
+        window.crmGit.showMessage(status, 'Sign in using the administrator password above to publish.', 'bg-red-500');
         return;
       }
 

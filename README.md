@@ -113,24 +113,24 @@ subdomain, or a sub-path, with no configuration changes.
 
 The CMS lives at `crm.html`. It saves projects, blogs, and testimonials to **Neon**,
 uploads images to **Vercel Blob**, then commits a content snapshot to `content.json`
-through the GitHub Contents API. The snapshot lets Vercel rebuild static SEO pages,
-social previews, the sitemap, and RSS feed after each CMS save.
+through the GitHub Contents API. GitHub credentials stay in Vercel server environment
+variables; the browser receives only an expiring HttpOnly CMS session cookie.
 
 ### Setup
 
 1. **Generate a fine-grained GitHub PAT** (Settings → Developer settings → Personal access tokens → Fine-grained tokens).
    - Resource owner: **`Hardik250601`** (your account)
    - Repository access: **Only select repositories** → **`Hardik-Darji-Embedded-Systems-Engineer-Portfolio`**
-- Permissions → Repository permissions → **Contents**: **Read and write**
+   - Permissions → Repository permissions → **Contents**: **Read and write**
    - Set the shortest expiry that works (max 1 year)
-2. **Open `/crm.html`.** A "Connect to GitHub" bar appears at the top of the page.
-3. **Paste the token into that bar** and press Connect.
-
-The repository the CMS targets is configured at the top of `crm-github.js`
-(`GITHUB_USERNAME` / `GITHUB_REPO`). It must match the repository you granted the
-token access to, or every read and write will fail.
-
-There is **no token stored in this repository** and nothing to commit. The token is kept in `sessionStorage` for the current browser tab only and is discarded when the tab closes. Press "Disconnect" to drop it immediately.
+2. In Vercel → Project → Settings → Environment Variables, set `GITHUB_TOKEN` to
+   that PAT. Also set `CMS_ADMIN_PASSWORD` to a unique password only you know and
+   `CMS_SESSION_SECRET` to a random value generated with `openssl rand -hex 32`.
+   Apply them to Production and Preview, then redeploy. Never put these values in
+   the repository or share them in chat.
+3. Open `/crm.html` and sign in with the CMS administrator password. The GitHub PAT
+   is sent only by the server to GitHub; it is never delivered to or stored by the
+   browser. The signed session cookie is HttpOnly and expires after 8 hours.
 
 ### Run the same CMS locally
 
@@ -143,26 +143,27 @@ py -3 run_cms.py
 
 It opens `http://127.0.0.1:8765/crm.html` with the same CMS board. No Python
 packages need installing. The local server binds to this computer only and
-forwards `/api/content` and `/api/media` to the portfolio's Vercel APIs, so
-publishes still save to Neon/Blob and create a GitHub snapshot that triggers the
-site rebuild. Connect your GitHub token in the board; it stays in that browser
-tab's session storage. Leave the console window open while using the board and
-press **Ctrl+C** there when finished.
+forwards `/api/auth`, `/api/content`, and `/api/media` to the portfolio's Vercel
+APIs, so publishes still save to Neon/Blob and create a GitHub snapshot that triggers
+the site rebuild. Sign in with the CMS administrator password. Leave the console
+window open while using the board and press **Ctrl+C** there when finished.
 
-**Reading needs no token.** The repository is public, so listing and editing
-existing content works before you connect. Only publishing requires one.
+**Reading needs no sign-in.** The public API can display existing content. Sign-in
+is required to publish changes or upload/delete media.
 
-> **Why not a token in the source?** Earlier versions of this repo instructed you to paste the PAT into `crm-github.js` and commit it. That publishes a live write credential for the repository to every visitor of `/crm.html`. Never commit a token here — `.github/copilot-instructions.md` forbids it too.
+> **Why is the GitHub token server-side?** A repository-write credential in a browser
+> can be extracted by anyone who opens the CMS. Keep the PAT only in Vercel's
+> encrypted environment variables. The CMS password protects write routes, while
+> the server validates a signed, expiring HttpOnly session cookie.
 
 ### CMS security
 
-Even with a session-scoped token, the CMS pages are served publicly, so:
+The CMS pages are served publicly, but every write and media route requires a
+server-authenticated session. Keep the server credentials private:
 
-- Always use a **fine-grained PAT scoped to this single repo** (never the broad `repo` scope).
-- Give it the **shortest expiry that works** and rotate it.
-- Prefer working against a local server (`python -m http.server`) rather than the public URL.
-
-**Longer term:** replace the pasted token with GitHub OAuth plus a small serverless proxy that holds the credential server-side, so the browser never handles a repo-wide secret. All CMS I/O is already isolated behind `window.crmGit` (`getFile` / `updateFile`), so swapping the transport is a contained change.
+- Use a **fine-grained PAT scoped to this repository** (never the broad `repo` scope), and give it the shortest expiry that works.
+- Store `GITHUB_TOKEN`, `CMS_ADMIN_PASSWORD`, and `CMS_SESSION_SECRET` only in Vercel environment settings.
+- Choose a unique CMS password and rotate the PAT before it expires.
 
 ### Adding and editing content
 
@@ -175,7 +176,7 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 - **Project tags** and **blog tags** are comma separated; they appear on listing cards and power the tag filters on the Projects and Blog pages. Existing entries without tags use sensible display tags derived from their tech stack or topic.
 - **Preview Draft** shows the current form content without saving or publishing it. Project previews include the selected main image and gallery images; blog previews render safe article markup.
 - Project supporting images appear together in a responsive image gallery on the project detail page.
-- **Add Testimonial** takes a quote, name, role and optional company. Only paste quotes a real person actually gave you. The tab warns that the CMS needs repository **write** permission for this, whereas the project and blog tabs can be used read-only.
+- **Add Testimonial** takes a quote, name, role and optional company. Only paste quotes a real person actually gave you. Saving any content requires the CMS administrator session; visitors can browse without signing in.
 
 `crm-projects.html` and `crm-blogs.html` list existing content with Edit / Delete. Both editors cover the full schema and **never change the slug**, so editing a published item cannot silently move its URL.
 
@@ -437,5 +438,5 @@ npm run verify:dom        # renders every page in jsdom (101 checks)
 - **Custom OG image** (1200×630 PNG, rendered from an SVG source) so the site previews on LinkedIn / X / Facebook, which ignore SVG.
 - **Five technical blog posts** on Embedded C, CAN/J1939, real-time debugging and performance work, auto-populated from `content.json`.
 - **Accessibility**: `prefers-reduced-motion` respected, focus management, ARIA labels, semantic HTML, screen-reader-friendly alt text, keyboard navigation.
-- **CMS** at `/crm.html` writes directly to `content.json` via the GitHub API. Reading needs no credential; only publishing does.
+- **CMS** at `/crm.html` saves content to Neon and updates the GitHub deployment snapshot through authenticated server routes.
 - **404 page** with the same theme.

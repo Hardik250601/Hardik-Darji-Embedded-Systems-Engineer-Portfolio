@@ -47,10 +47,11 @@ class CmsHandler(BaseHTTPRequestHandler):
         self._proxy_api(MAX_CONTENT_BYTES)
 
     def do_POST(self):
-        if urlsplit(self.path).path != "/api/media":
+        path = urlsplit(self.path).path
+        if path not in ("/api/media", "/api/auth"):
             self.send_error(404, "Unknown local API route")
             return
-        self._proxy_api(MAX_IMAGE_BYTES)
+        self._proxy_api(4096 if path == "/api/auth" else MAX_IMAGE_BYTES)
 
     def do_DELETE(self):
         if urlsplit(self.path).path != "/api/media":
@@ -77,7 +78,7 @@ class CmsHandler(BaseHTTPRequestHandler):
 
         target = API_ORIGIN + self.path
         headers = {"Accept": "application/json"}
-        for name in ("Authorization", "Content-Type"):
+        for name in ("Authorization", "Content-Type", "Cookie", "Origin"):
             value = self.headers.get(name)
             if value:
                 headers[name] = value
@@ -87,10 +88,12 @@ class CmsHandler(BaseHTTPRequestHandler):
                 response_body = response.read()
                 status = response.status
                 content_type = response.headers.get("Content-Type", "application/json; charset=utf-8")
+                set_cookies = response.headers.get_all("Set-Cookie", [])
         except urllib.error.HTTPError as error:
             response_body = error.read()
             status = error.code
             content_type = error.headers.get("Content-Type", "application/json; charset=utf-8")
+            set_cookies = error.headers.get_all("Set-Cookie", [])
         except (urllib.error.URLError, TimeoutError, OSError):
             self._json_error(502, "Could not reach the portfolio API. Check your internet connection and try again.")
             return
@@ -99,6 +102,8 @@ class CmsHandler(BaseHTTPRequestHandler):
         self.send_header("Content-Type", content_type)
         self.send_header("Cache-Control", "no-store")
         self.send_header("Content-Length", str(len(response_body)))
+        for cookie in set_cookies:
+            self.send_header("Set-Cookie", cookie)
         self.end_headers()
         self.wfile.write(response_body)
 
@@ -156,7 +161,7 @@ class CmsHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def log_message(self, format_string, *args):
-        # Request headers (including the GitHub token) are deliberately not logged.
+        # Authentication and cookie headers are deliberately not logged.
         print(f"[{self.log_date_time_string()}] {self.address_string()} {format_string % args}")
 
 
@@ -172,8 +177,8 @@ def main():
     url = f"http://127.0.0.1:{args.port}/crm.html"
     print("Portfolio CMS is running locally.")
     print(f"Open: {url}")
-    print("API: Neon and Blob requests are securely proxied to the portfolio's Vercel functions.")
-    print("Press Ctrl+C to stop. The browser-tab GitHub token is not written to disk.")
+    print("API: Neon, Blob, and CMS authentication requests are proxied to Vercel.")
+    print("Press Ctrl+C to stop. CMS sessions are held in an HttpOnly browser cookie.")
     if not args.no_browser:
         threading.Timer(0.4, lambda: webbrowser.open(url)).start()
     try:

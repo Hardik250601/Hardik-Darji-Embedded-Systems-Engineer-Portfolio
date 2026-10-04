@@ -11,8 +11,8 @@ HTML before JavaScript runs.
 - CSS: Tailwind CSS plus `styles.css`; Vercel runs `npm run build`.
 - Content: Neon Postgres is the live store for projects, blog posts, and testimonials.
 - Media: Vercel Blob stores uploaded public images; content records hold their URLs.
-- CMS: `/crm.html` uses a short-lived, tab-local GitHub token. API writes are
-  authenticated by checking the token's GitHub account against the portfolio owner.
+- CMS: `/crm.html` uses an expiring HttpOnly session cookie. A CMS password
+  authenticates the owner; GitHub credentials stay in Vercel environment variables.
 - Static generation: committed `content.json` is the initial Neon seed and snapshot
   from which Vercel generates static entry pages, OG images, sitemap, and RSS feed.
 - Newsletter: `api/subscribe.js` integrates with Buttondown when its API key is set;
@@ -25,11 +25,12 @@ successful Neon API read creates the required tables and seeds them once from th
 file. A seed marker prevents removed records from reappearing on later reads.
 
 The public site fetches `/api/content` first and falls back to bundled content if
-the database is unavailable. The CMS saves content to Neon, then commits the same
-content to `content.json` through GitHub. That commit triggers Vercel's build,
-which produces canonical static pages and metadata from the snapshot. If updating
-GitHub fails after Neon has saved, the CMS reports that partial result; retry the
-publish to refresh the deployment snapshot.
+the database is unavailable. After server-side session authentication, the CMS
+saves content to Neon and commits the same content to `content.json` using the
+server-only GitHub token. That commit triggers Vercel's build, which produces
+canonical static pages and metadata from the snapshot. If updating GitHub fails
+after Neon has saved, the CMS reports that partial result; retry the publish to
+refresh the deployment snapshot.
 
 Images uploaded through the CMS are sent to `/api/media`, stored in the project's
 public Blob store, and referenced by URL in content. Uploads support JPG, PNG,
@@ -42,24 +43,28 @@ Connect both Neon and Vercel Blob to Production and Preview. Neon integration
 variables may be prefixed by the integration name; `lib/neon-content.js`
 recognizes `Hardik_portfolio_POSTGRES_URL`, `Hardik_portfolio_DATABASE_URL`,
 `DATABASE_URL`, `NEON_DATABASE_URL`, and `POSTGRES_URL`. Blob must provide
-`BLOB_READ_WRITE_TOKEN`. Secrets belong in Vercel environment settings, never in
-the repository. Redeploy after changing environment variables.
+`BLOB_READ_WRITE_TOKEN`. The CMS also requires `GITHUB_TOKEN` (fine-grained,
+Contents read/write for this repository), `CMS_ADMIN_PASSWORD` (your private
+sign-in password), and `CMS_SESSION_SECRET` (random signing key). Set secrets in
+Vercel environment settings, never in the repository, and redeploy after changing
+them.
 
 ## CMS use
 
-1. Create a fine-grained GitHub token scoped to this repository with Contents
-   read/write permission.
-2. Open `/crm.html` or start `py -3 run_cms.py` locally and connect the token.
-   The Python launcher serves the same CMS board and proxies its Neon/Blob API
-   calls to Vercel; it binds only to `127.0.0.1`. The token stays in this browser tab's
-   session storage and is not saved in the repository or Neon.
+1. Configure `GITHUB_TOKEN`, `CMS_ADMIN_PASSWORD`, and `CMS_SESSION_SECRET` in
+   Vercel for Production and Preview.
+2. Open `/crm.html` or start `py -3 run_cms.py` locally and sign in with the CMS
+   administrator password. The Python launcher serves the same CMS board and
+   proxies its auth, Neon, and Blob API calls to Vercel; it binds only to
+   `127.0.0.1`. The browser receives an expiring HttpOnly session cookie; the
+   server-side GitHub token is never exposed to it.
 3. Add or edit projects, blog posts, and testimonials. Use the image picker to
    upload public images to Blob. Review image alt text in blog HTML. Use the
    Preview Draft buttons before publishing; add comma-separated tags to let
    visitors filter project and blog listings. Project supporting images render
    together as a gallery on each project detail page.
-4. Save. Neon updates immediately; the GitHub snapshot commit triggers a Vercel
-   rebuild for static pages, social previews, RSS, and sitemap.
+4. Save. Neon updates immediately; the server commits the GitHub snapshot and
+   triggers a Vercel rebuild for static pages, social previews, RSS, and sitemap.
 
 ## Useful commands
 

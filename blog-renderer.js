@@ -1,6 +1,6 @@
 // blog-renderer.js - hydrates blog-template.html from content.json
 // Note: blog content from content.json is treated as HTML (CMS allows it).
-// Only admins with the GitHub token can publish, so we keep the innerHTML behavior,
+// Only signed-in CMS admins can publish, so we keep the innerHTML behavior,
 // but we still render title/date via textContent to be safe.
 document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);

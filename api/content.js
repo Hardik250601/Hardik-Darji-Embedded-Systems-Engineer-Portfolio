@@ -3,6 +3,7 @@
 
 const { readContent, replaceContent } = require('../lib/neon-content');
 const { isCmsAdmin } = require('../lib/cms-auth');
+const { commitContent } = require('../lib/github-snapshot');
 
 const MAX_BODY_BYTES = 2 * 1024 * 1024;
 
@@ -40,11 +41,20 @@ module.exports = async (req, res) => {
     res.setHeader('Allow', 'GET, PUT');
     return respond(res, 405, { error: 'Method not allowed.' });
   }
-  if (!await isCmsAdmin(req)) return respond(res, 401, { error: 'CMS authentication failed. Reconnect with your GitHub token.' });
+  if (!await isCmsAdmin(req)) return respond(res, 401, { error: 'Your CMS session expired. Sign in again.' });
   try {
     const body = await bodyOf(req);
     const content = await replaceContent(body.content);
-    return respond(res, 200, { ok: true, content });
+    try {
+      const snapshot = await commitContent(content, body.message);
+      return respond(res, 200, { ok: true, content, snapshot });
+    } catch (error) {
+      console.error('[content] Neon saved but GitHub snapshot failed:', error.code || error.message);
+      return respond(res, 503, {
+        error: 'Content was saved to Neon, but GitHub could not update the deployment snapshot. Check the server GitHub integration and retry the save.',
+        partial: true,
+      });
+    }
   } catch (error) {
     const badRequest = /must be an object|must be an array|Invalid .* slug|Invalid .* entry|body too large|JSON/.test(error.message || '');
     console.error('[content] Neon write failed:', error.code || error.message);

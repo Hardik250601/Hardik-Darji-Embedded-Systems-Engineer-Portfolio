@@ -171,8 +171,8 @@
       event.preventDefault();
       if (!currentSlug) return;
 
-      if (!window.crmGit.hasToken()) {
-        window.crmGit.showMessage(status, 'Not connected to GitHub. Add your token in the bar at the top of the page.', 'bg-red-500');
+      if (!window.crmGit.isAuthenticated()) {
+        window.crmGit.showMessage(status, 'Sign in using the administrator password above to save changes.', 'bg-red-500');
         return;
       }
 

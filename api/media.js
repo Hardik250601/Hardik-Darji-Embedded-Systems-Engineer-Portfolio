@@ -52,7 +52,7 @@ async function readJson(req) {
 }
 
 module.exports = async (req, res) => {
-  if (!await isCmsAdmin(req)) return respond(res, 401, { error: 'CMS authentication failed.' });
+  if (!await isCmsAdmin(req)) return respond(res, 401, { error: 'Your CMS session expired. Sign in again.' });
   const token = process.env.BLOB_READ_WRITE_TOKEN;
   if (!token) return respond(res, 503, { error: 'Vercel Blob is not configured. Add a Blob store to this Vercel project.' });
 
