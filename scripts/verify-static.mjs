@@ -39,7 +39,7 @@ const jsFiles = fs.readdirSync(ROOT).filter(f => f.endsWith('.js'));
     const html = read(file);
     const attrs = [...html.matchAll(/\b(?:href|src)="([^"]+)"/g)].map(m => m[1]);
     for (const raw of attrs) {
-      if (/^(https?:|mailto:|tel:|data:|#|javascript:|\/\/)/i.test(raw)) continue;
+      if (/^(https?:|mailto:|tel:|data:|#|javascript:|\/\/|\/_vercel\/)/i.test(raw)) continue;
       const clean = raw.split('#')[0].split('?')[0];
       if (!clean) continue;
       const target = path.join(ROOT, path.dirname(file), clean);

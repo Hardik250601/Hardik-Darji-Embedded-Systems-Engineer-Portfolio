@@ -21,6 +21,7 @@
     "verify": "npm run verify:static && npm run verify:api && npm run verify:dom"
   },
   "dependencies": {
+    "@vercel/speed-insights": "^2.0.0",
     "mongodb": "^7.7.0"
   }
 }
