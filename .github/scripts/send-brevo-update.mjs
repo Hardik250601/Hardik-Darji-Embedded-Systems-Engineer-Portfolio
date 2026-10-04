@@ -9,8 +9,14 @@ const senderName = process.env.BREVO_SENDER_NAME || 'Hardik Darji';
 // Must match the repo owner used in index.html (canonical/og:url) and crm-github.js.
 const SITE_URL = process.env.SITE_URL || 'https://hardikdarjiportfolio.vercel.app';
 
-if (!apiKey) throw new Error('BREVO_API_KEY is not configured');
-if (!Number.isInteger(listId)) throw new Error('BREVO_LIST_ID must be an integer');
+if (!apiKey) {
+  console.warn('BREVO_API_KEY is not configured in repository secrets. Skipping Brevo notification.');
+  process.exit(0);
+}
+if (!Number.isInteger(listId)) {
+  console.warn('BREVO_LIST_ID must be an integer. Skipping Brevo notification.');
+  process.exit(0);
+}
 
 function readContentAtRevision(revision) {
   if (!revision || /^0+$/.test(revision)) return { projects: [], blogs: [] };
@@ -55,29 +61,34 @@ const htmlContent = `
 <p style="color:#6b7280;font-size:12px">You are receiving this because you subscribed to the Hardik Darji portfolio newsletter.</p>
 </body></html>`;
 
-const response = await fetch('https://api.brevo.com/v3/emailCampaigns', {
-  method: 'POST',
-  headers: { 'api-key': apiKey, 'Content-Type': 'application/json', Accept: 'application/json' },
-  body: JSON.stringify({
-    name: `Portfolio update ${new Date().toISOString()}`,
-    subject,
-    sender: { name: senderName, email: senderEmail },
-    type: 'classic',
-    htmlContent,
-    recipients: { listIds: [listId] },
-    header: subject,
-    footer: 'You received this email because you subscribed to the portfolio newsletter.'
-  })
-});
-if (!response.ok) throw new Error(`Brevo campaign creation failed (${response.status}): ${await response.text()}`);
-const campaign = await response.json();
+try {
+  const response = await fetch('https://api.brevo.com/v3/emailCampaigns', {
+    method: 'POST',
+    headers: { 'api-key': apiKey, 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({
+      name: `Portfolio update ${new Date().toISOString()}`,
+      subject,
+      sender: { name: senderName, email: senderEmail },
+      type: 'classic',
+      htmlContent,
+      recipients: { listIds: [listId] },
+      header: subject,
+      footer: 'You received this email because you subscribed to the portfolio newsletter.'
+    })
+  });
+  if (!response.ok) throw new Error(`Brevo campaign creation failed (${response.status}): ${await response.text()}`);
+  const campaign = await response.json();
 
-const sendResponse = await fetch(`https://api.brevo.com/v3/emailCampaigns/${campaign.id}/sendNow`, {
-  method: 'POST',
-  headers: { 'api-key': apiKey, Accept: 'application/json' }
-});
-if (!sendResponse.ok) throw new Error(`Brevo campaign send failed (${sendResponse.status}): ${await sendResponse.text()}`);
-console.log(`Brevo campaign ${campaign.id} sent for ${additions.length} new item(s).`);
+  const sendResponse = await fetch(`https://api.brevo.com/v3/emailCampaigns/${campaign.id}/sendNow`, {
+    method: 'POST',
+    headers: { 'api-key': apiKey, Accept: 'application/json' }
+  });
+  if (!sendResponse.ok) throw new Error(`Brevo campaign send failed (${sendResponse.status}): ${await sendResponse.text()}`);
+  console.log(`Brevo campaign ${campaign.id} sent for ${additions.length} new item(s).`);
+} catch (err) {
+  console.warn(`Brevo notification error: ${err.message}. Skipping campaign dispatch.`);
+  process.exit(0);
+}
 
 function escapeHtml(value) {
   return String(value || '')
