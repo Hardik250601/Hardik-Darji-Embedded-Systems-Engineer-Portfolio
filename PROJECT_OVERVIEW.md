@@ -49,7 +49,9 @@ the repository. Redeploy after changing environment variables.
 
 1. Create a fine-grained GitHub token scoped to this repository with Contents
    read/write permission.
-2. Open `/crm.html` and connect the token. It stays in this browser tab's
+2. Open `/crm.html` or start `py -3 run_cms.py` locally and connect the token.
+   The Python launcher serves the same CMS board and proxies its Neon/Blob API
+   calls to Vercel; it binds only to `127.0.0.1`. The token stays in this browser tab's
    session storage and is not saved in the repository or Neon.
 3. Add or edit projects, blog posts, and testimonials. Use the image picker to
    upload public images to Blob. Review image alt text in blog HTML.

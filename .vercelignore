@@ -24,4 +24,8 @@ node_modules
 # Generated social images and static pages are rebuilt from content.json.
 .og-cache
 
+# Local-only CMS launcher; the live site uses Vercel's /api functions.
+run_cms.py
+run_cms.bat
+
 # Serverless functions and their shared helpers are deployed together.

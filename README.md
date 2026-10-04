@@ -132,6 +132,23 @@ token access to, or every read and write will fail.
 
 There is **no token stored in this repository** and nothing to commit. The token is kept in `sessionStorage` for the current browser tab only and is discarded when the tab closes. Press "Disconnect" to drop it immediately.
 
+### Run the same CMS locally
+
+On Windows, double-click `run_cms.bat`, or open PowerShell in the project folder
+and run:
+
+```powershell
+py -3 run_cms.py
+```
+
+It opens `http://127.0.0.1:8765/crm.html` with the same CMS board. No Python
+packages need installing. The local server binds to this computer only and
+forwards `/api/content` and `/api/media` to the portfolio's Vercel APIs, so
+publishes still save to Neon/Blob and create a GitHub snapshot that triggers the
+site rebuild. Connect your GitHub token in the board; it stays in that browser
+tab's session storage. Leave the console window open while using the board and
+press **Ctrl+C** there when finished.
+
 **Reading needs no token.** The repository is public, so listing and editing
 existing content works before you connect. Only publishing requires one.
 
