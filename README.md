@@ -130,7 +130,7 @@ variables; the browser receives only an expiring HttpOnly CMS session cookie.
    the repository or share them in chat.
 3. Open `/crm.html` and sign in with the CMS administrator password. The GitHub PAT
    is sent only by the server to GitHub; it is never delivered to or stored by the
-   browser. The signed session cookie is HttpOnly and expires after 8 hours.
+   browser. The signed session cookie is HttpOnly and expires after 1 hour.
 
 ### Run the same CMS locally
 

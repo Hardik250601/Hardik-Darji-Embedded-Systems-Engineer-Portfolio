@@ -124,7 +124,7 @@
         <button id="crm-logout" type="button" class="bg-gray-700 hover:bg-gray-600 text-gray-200 font-bold py-2 px-4 rounded text-sm">Sign out</button>
         <span id="crm-auth-status" class="text-xs text-gray-400" role="status">Checking sign-in…</span>
       </div>
-      <p class="max-w-4xl mx-auto mt-2 text-xs text-gray-500">The signed session cookie is HttpOnly and expires after 8 hours.</p>`;
+      <p class="max-w-4xl mx-auto mt-2 text-xs text-gray-500">The signed session cookie is HttpOnly and expires after 1 hour.</p>`;
     document.body.insertBefore(bar, document.body.firstChild);
     const input = bar.querySelector('#crm-password-input');
     const status = bar.querySelector('#crm-auth-status');
@@ -133,7 +133,7 @@
 
     function refreshStatus() {
       if (!sessionReady) { status.textContent = 'Checking sign-in…'; return; }
-      status.textContent = authenticated ? 'Signed in. Session lasts up to 8 hours.' : 'Not signed in.';
+      status.textContent = authenticated ? 'Signed in. Session lasts up to 1 hour.' : 'Not signed in.';
       status.className = `text-xs ${authenticated ? 'text-green-400' : 'text-amber-400'}`;
       loginButton.disabled = authenticated;
       input.disabled = authenticated;
