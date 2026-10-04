@@ -184,7 +184,7 @@ for (const p of content.projects) {
   check(`${file}: description rendered`, (doc.getElementById('project-description')?.children.length || 0) > 0);
   const meta = m => doc.querySelector(`meta[property="${m}"]`)?.getAttribute('content');
   check(`${file}: og:title baked`, meta('og:title') === p.title, meta('og:title'));
-  check(`${file}: og:image baked`, /^https:\/\/hardikdarjiportfolio\.vercel\.app\/images\/og\/.+\.png$/.test(meta('og:image') || ''), meta('og:image'));
+  check(`${file}: og:image baked`, /^https:\/\/hardikmdarji\.vercel\.app\/images\/og\/.+\.png$/.test(meta('og:image') || ''), meta('og:image'));
   check(`${file}: twitter:card baked`, doc.querySelector('meta[name="twitter:card"]')?.content === 'summary_large_image');
   check(`${file}: canonical baked`, (doc.querySelector('link[rel="canonical"]')?.href || '').endsWith(`/${file}`),
     doc.querySelector('link[rel="canonical"]')?.href);
@@ -208,7 +208,7 @@ for (const b of content.blogs) {
   check(`${file}: date rendered`, (doc.getElementById('blog-date')?.textContent || '').trim().length > 0);
   const meta = m => doc.querySelector(`meta[property="${m}"]`)?.getAttribute('content');
   check(`${file}: og:title baked`, meta('og:title') === b.title, meta('og:title'));
-  check(`${file}: og:image baked`, /^https:\/\/hardikdarjiportfolio\.vercel\.app\/images\/og\/.+\.png$/.test(meta('og:image') || ''), meta('og:image'));
+  check(`${file}: og:image baked`, /^https:\/\/hardikmdarji\.vercel\.app\/images\/og\/.+\.png$/.test(meta('og:image') || ''), meta('og:image'));
   check(`${file}: canonical baked`, (doc.querySelector('link[rel="canonical"]')?.href || '').endsWith(`/${file}`),
     doc.querySelector('link[rel="canonical"]')?.href);
   check(`${file}: no JS errors`, jsErrors.length === 0, jsErrors.join(' | '));

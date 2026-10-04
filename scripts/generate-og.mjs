@@ -22,7 +22,7 @@ import { fileURLToPath } from 'node:url';
 import { Resvg } from '@resvg/resvg-js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = process.env.SITE_URL || 'https://hardikdarjiportfolio.vercel.app';
+const SITE_URL = process.env.SITE_URL || 'https://hardikmdarji.vercel.app';
 const FONT_DIR = join(ROOT, '.og-cache', 'fonts');
 const OG_DIR = join(ROOT, 'images', 'og');
 

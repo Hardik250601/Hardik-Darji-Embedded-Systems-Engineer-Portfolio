@@ -266,7 +266,7 @@ function pngSize(buf) {
     for (const need of ['og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:image']) {
       if (!html.includes(`property="${need}"`) && !html.includes(`name="${need}"`)) bad.push(`${f}: ${need}`);
     }
-    if (!html.includes(`<link rel="canonical" href="https://hardikdarjiportfolio.vercel.app/${f}"`)) bad.push(`${f}: canonical`);
+    if (!html.includes(`<link rel="canonical" href="https://hardikmdarji.vercel.app/${f}"`)) bad.push(`${f}: canonical`);
     if (!html.includes(`data-slug="${p.slug}"`)) bad.push(`${f}: data-slug`);
   }
   for (const b of content.blogs) {
@@ -275,12 +275,12 @@ function pngSize(buf) {
     for (const need of ['og:title', 'og:description', 'og:url', 'og:image', 'twitter:card', 'twitter:image']) {
       if (!html.includes(`property="${need}"`) && !html.includes(`name="${need}"`)) bad.push(`${f}: ${need}`);
     }
-    if (!html.includes(`<link rel="canonical" href="https://hardikdarjiportfolio.vercel.app/${f}"`)) bad.push(`${f}: canonical`);
+    if (!html.includes(`<link rel="canonical" href="https://hardikmdarji.vercel.app/${f}"`)) bad.push(`${f}: canonical`);
     if (!html.includes(`data-slug="${b.slug}"`)) bad.push(`${f}: data-slug`);
   }
   const index = read('index.html');
   check('index: has og:image', /property="og:image" content="[^"]*og-image\.png"/.test(index));
-  check('index: has canonical', index.includes('<link rel="canonical" href="https://hardikdarjiportfolio.vercel.app/"'));
+  check('index: has canonical', index.includes('<link rel="canonical" href="https://hardikmdarji.vercel.app/"'));
   check('entries: full meta present', bad.length === 0, bad.join(' | '));
 }
 

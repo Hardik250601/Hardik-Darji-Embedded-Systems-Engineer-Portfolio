@@ -63,7 +63,7 @@ repo. They remain recoverable from git history if you need them.
 
 ## Hosting on Vercel
 
-**Live at:** https://hardikdarjiportfolio.vercel.app/
+**Live at:** https://hardikmdarji.vercel.app/
 
 Static output served from the repository root. Vercel needs **no build command**:
 all build artifacts (`tailwind.css`, the OG images, `sitemap.xml`) are committed by
@@ -204,14 +204,14 @@ this array has entries, so leaving it empty means no empty heading appears. Add 
 through the CMS (**Add Testimonial** tab) or edit the array directly — **never invent
 them**; they must be something a real person actually said.
 
-## Newsletter subscribers (Buttondown)
+## Newsletter (Buttondown setup pending)
 
-Newsletter sign-ups and portfolio update emails use **[Buttondown](https://buttondown.com/pricing)**.
-Its free plan covers the first 100 subscribers and includes API access. You can
-sign up with a personal email address; Buttondown sends from its own
-`@buttondown.email` address by default, so a business address or custom domain
-is optional. The existing MongoDB Atlas connection remains only for the optional
-content mirror described below.
+The signup endpoint is prepared for **[Buttondown](https://buttondown.com/pricing)**,
+but the account review and API key are not complete, so Buttondown is not active
+yet. Until `BUTTONDOWN_API_KEY` is configured in Vercel, the browser falls back
+to the newsletter form's Formspree action. Buttondown accepts personal email
+accounts; a business email and custom sending domain are optional. MongoDB Atlas
+is used only for the optional content mirror described below.
 
 ```
 index.html #newsletter-form
@@ -225,8 +225,8 @@ api/subscribe.js  ──►  Buttondown subscriber API
 
 1. Create a Buttondown account with your personal email and confirm the
    verification email. A custom sending domain is optional.
-2. Create an API key in Buttondown, then add it to the Vercel project as
-   `BUTTONDOWN_API_KEY` and to GitHub Actions secrets with the same name.
+2. After the account is approved, create an API key and add it to the Vercel
+   project as `BUTTONDOWN_API_KEY`.
 3. Redeploy Vercel after adding the environment variable.
 
 The endpoint normalizes email addresses, silently drops the hidden `company`
@@ -370,9 +370,8 @@ npm run verify:dom        # renders every page in jsdom (101 checks)
   animation degrades gracefully when a 2D context cannot be created.
 
 ## Notes
-- The contact and newsletter forms submit asynchronously. The **contact** form posts to its Formspree endpoint. The **newsletter** form posts to `/api/subscribe`, which adds subscribers to Buttondown and falls back to Formspree if the serverless function is unavailable.
-- New projects or blog posts added to `content.json` trigger `.github/workflows/buttondown-notify.yml`. Set the `BUTTONDOWN_API_KEY` secret; the workflow skips notification when the key is unset. Once configured, new entries are emailed to the Buttondown audience.
-- The site URL used in those emails comes from the `SITE_URL` environment variable, defaulting to the canonical URL.
+- The contact and newsletter forms submit asynchronously. The **contact** form posts to its Formspree endpoint. The **newsletter** form posts to `/api/subscribe`; Buttondown signup requires `BUTTONDOWN_API_KEY`, and the browser falls back to Formspree if the service is not configured or available.
+- `.github/workflows/build-and-verify.yml` runs the site build and static, API, and DOM checks on pushes and pull requests to `main`. Newsletter update emails are not configured.
 - Tailwind is **not** on a CDN anymore. It is compiled to `tailwind.css` and committed — see [CSS build step](#css-build-step). If you add markup using a class that is not already in `tailwind.css`, rebuild before deploying.
 - `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only the opening content (everything before the post's first `<h2>`) is duplicated; **keep it in sync when you edit a post** — `npm run verify:static` fails if it drifts.
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.

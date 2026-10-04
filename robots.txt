@@ -8,4 +8,4 @@ Disallow: /crm-blogs.html
 Disallow: /crm-edit-project.html
 Disallow: /crm-edit-blog.html
 
-Sitemap: https://hardikdarjiportfolio.vercel.app/sitemap.xml
+Sitemap: https://hardikmdarji.vercel.app/sitemap.xml

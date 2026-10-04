@@ -37,7 +37,7 @@ Verified against `package.json`; do not report a framework that isn't there.
 | Frontend | HTML5, CSS3, vanilla JavaScript | **No React/Vue/Angular/Next.** Zero runtime browser deps. |
 | Styling | Tailwind CSS 3.4 + hand-written `styles.css` | Tailwind compiles to a committed `tailwind.css`; `styles.css` holds what utilities can't express. |
 | Backend | Node.js (one Vercel-style function) | `api/subscribe.js` only. |
-| Newsletter | Buttondown API | Subscriber list and automated new-content emails; free plan covers the first 100 subscribers. Personal email signup works; custom sending domain is optional. |
+| Newsletter | Buttondown API (setup pending) | Signup endpoint is prepared, but account approval and the Vercel API key are still pending. No automated new-content emails are configured. |
 | Database | MongoDB Atlas | Optional one-way content mirror only. |
 | Hosting | **Vercel** (not Freebuff hosting) | No build command; static files served from repo root. |
 | Build tooling | `@resvg/resvg-js`, `tailwindcss` | devDependencies only. |
@@ -229,16 +229,18 @@ a production Vercel variable.
 
 ### Current newsletter behaviour
 
-Newsletter signup is sent to Buttondown using `BUTTONDOWN_API_KEY`. If the key is
-absent or the service is unavailable, `api/subscribe.js` returns **503** and
-`app.js` falls back to the Formspree endpoint. MongoDB is only used by the
-optional content mirror (`npm run sync:content`).
+Newsletter signup is sent to Buttondown when `BUTTONDOWN_API_KEY` is configured.
+The account review and key setup are pending. Without the key or when the service
+is unavailable, `api/subscribe.js` returns **503** and `app.js` falls back to the
+Formspree endpoint. MongoDB is only used by the optional content mirror
+(`npm run sync:content`).
 
 ### Buttondown configuration
 
-Required in Vercel for newsletter signups and as a GitHub Actions secret for
-new-project and new-post notifications. Buttondown's first 100 subscribers are
-free; a business email or custom sending domain is not required.
+Required in Vercel to activate Buttondown signups after account approval.
+Buttondown's first 100 subscribers are free; a business email or custom sending
+domain is not required. Automated new-project and new-post emails are not
+currently configured.
 
 ### `MONGODB_URI`
 
@@ -251,7 +253,7 @@ signup no longer depends on MongoDB; this variable is not needed in Vercel.
 - [x] `.vercelignore` excludes internal docs, `scripts/`, `src/`, build tooling
 - [x] `package.json` + lockfile retained for local tooling; `api/subscribe.js` uses the built-in Fetch API
 - [x] `robots.txt` blocks `/crm*.html`
-- [ ] `BUTTONDOWN_API_KEY` added to **Vercel** and GitHub Actions
+- [ ] `BUTTONDOWN_API_KEY` added to **Vercel** after Buttondown account approval
 - [ ] Vercel redeployed after setting the newsletter key
 - [ ] Existing subscriber list exported from the old Atlas `subscribers` collection and imported into Buttondown, if needed
 
@@ -270,7 +272,7 @@ signup no longer depends on MongoDB; this variable is not needed in Vercel.
 5. **Search engine / filter features on grid pages** are client-side only over 3 and 5
    items respectively — not worth complexity yet.
 6. **Custom domain not configured.** All canonical/OG/sitemap/feed URLs are hardcoded
-   to `https://hardikdarjiportfolio.vercel.app`. Adding a domain means updating all of
+   to `https://hardikmdarji.vercel.app`. Adding a domain means updating all of
    them, ideally from a single constant.
 
 ---
@@ -280,7 +282,7 @@ signup no longer depends on MongoDB; this variable is not needed in Vercel.
 - **Never** hand-edit `tailwind.css` — run `npm run build:css`.
 - **Never** hand-edit files in `images/og/` or the generated `project-*.html` /
   `blog-*.html` — they are build output.
-- **Never** hardcode `https://hardikdarjiportfolio.vercel.app` in a new file; reuse an
+- **Never** hardcode `https://hardikmdarji.vercel.app` in a new file; reuse an
   existing constant/pattern.
 - Any new `<img>` must have **descriptive** alt text (enforced by `verify:static`). An
   empty `alt` is only acceptable on a genuinely decorative image, and there are none.

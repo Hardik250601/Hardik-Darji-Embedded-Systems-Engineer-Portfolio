@@ -2,49 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Hardik Darji — Embedded Systems Blog</title>
-    <link>https://hardikdarjiportfolio.vercel.app/blogs.html</link>
+    <link>https://hardikmdarji.vercel.app/blogs.html</link>
     <description>Notes on embedded C, CAN and J1939, real-time debugging, and firmware performance from a senior embedded engineer.</description>
     <language>en-us</language>
     <managingEditor>Hardik Darji (hmdarji921@gmail.com)</managingEditor>
     <webMaster>Hardik Darji (hmdarji921@gmail.com)</webMaster>
     <lastBuildDate>Sat, 03 May 2025 00:00:00 GMT</lastBuildDate>
-    <atom:link href="https://hardikdarjiportfolio.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="https://hardikmdarji.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>My Journey in Embedded Systems</title>
-      <link>https://hardikdarjiportfolio.vercel.app/blog-my-journey-in-embedded-systems.html</link>
-      <guid isPermaLink="true">https://hardikdarjiportfolio.vercel.app/blog-my-journey-in-embedded-systems.html</guid>
+      <link>https://hardikmdarji.vercel.app/blog-my-journey-in-embedded-systems.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-my-journey-in-embedded-systems.html</guid>
       <pubDate>Sat, 03 May 2025 00:00:00 GMT</pubDate>
       <description>How I moved from Arduino boards to safety-relevant firmware on off-highway machinery, and what surprised me on the way.</description>
       <author>Hardik Darji (hmdarji921@gmail.com)</author>
     </item>
     <item>
       <title>CAN Protocol Best Practices</title>
-      <link>https://hardikdarjiportfolio.vercel.app/blog-can-protocol-best-practices.html</link>
-      <guid isPermaLink="true">https://hardikdarjiportfolio.vercel.app/blog-can-protocol-best-practices.html</guid>
+      <link>https://hardikmdarji.vercel.app/blog-can-protocol-best-practices.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-can-protocol-best-practices.html</guid>
       <pubDate>Fri, 25 Apr 2025 00:00:00 GMT</pubDate>
       <description>Practical habits for implementing and debugging CAN in embedded C, learned from reading traces on real machines with PCAN-Explorer.</description>
       <author>Hardik Darji (hmdarji921@gmail.com)</author>
     </item>
     <item>
       <title>Real-time Debugging Techniques</title>
-      <link>https://hardikdarjiportfolio.vercel.app/blog-real-time-debugging-techniques.html</link>
-      <guid isPermaLink="true">https://hardikdarjiportfolio.vercel.app/blog-real-time-debugging-techniques.html</guid>
+      <link>https://hardikmdarji.vercel.app/blog-real-time-debugging-techniques.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-real-time-debugging-techniques.html</guid>
       <pubDate>Tue, 15 Apr 2025 00:00:00 GMT</pubDate>
       <description>How I debug firmware when there is no printf, the timing budget is tight, and the failure only happens on the machine.</description>
       <author>Hardik Darji (hmdarji921@gmail.com)</author>
     </item>
     <item>
       <title>An Introduction to J1939 Protocol</title>
-      <link>https://hardikdarjiportfolio.vercel.app/blog-an-introduction-to-j1939-protocol.html</link>
-      <guid isPermaLink="true">https://hardikdarjiportfolio.vercel.app/blog-an-introduction-to-j1939-protocol.html</guid>
+      <link>https://hardikmdarji.vercel.app/blog-an-introduction-to-j1939-protocol.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-an-introduction-to-j1939-protocol.html</guid>
       <pubDate>Sat, 05 Apr 2025 00:00:00 GMT</pubDate>
       <description>A practical overview of the J1939 transport and addressing model, and why it sits on top of CAN rather than replacing it.</description>
       <author>Hardik Darji (hmdarji921@gmail.com)</author>
     </item>
     <item>
       <title>Optimizing Embedded Software Performance</title>
-      <link>https://hardikdarjiportfolio.vercel.app/blog-optimizing-embedded-software-performance.html</link>
-      <guid isPermaLink="true">https://hardikdarjiportfolio.vercel.app/blog-optimizing-embedded-software-performance.html</guid>
+      <link>https://hardikmdarji.vercel.app/blog-optimizing-embedded-software-performance.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-optimizing-embedded-software-performance.html</guid>
       <pubDate>Fri, 28 Mar 2025 00:00:00 GMT</pubDate>
       <description>Measuring before optimising, and the small set of changes that usually deliver most of the gain on resource-constrained targets.</description>
       <author>Hardik Darji (hmdarji921@gmail.com)</author>

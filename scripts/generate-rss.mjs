@@ -14,7 +14,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
-const SITE_URL = process.env.SITE_URL || 'https://hardikdarjiportfolio.vercel.app';
+const SITE_URL = process.env.SITE_URL || 'https://hardikmdarji.vercel.app';
 
 const AUTHOR = 'Hardik Darji';
 const AUTHOR_URL = `${SITE_URL}/`;

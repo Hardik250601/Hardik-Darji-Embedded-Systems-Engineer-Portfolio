@@ -1,7 +1,6 @@
 # Internal planning and handover notes. These must never be served publicly:
 # several of them contain local filesystem paths with a username and employer
-# name. Mirrors the strip step in .github/workflows/deploy.yml, which only
-# applies when deploying through GitHub Pages.
+# name.
 README.md
 DEPLOY.md
 GO-LIVE.md
