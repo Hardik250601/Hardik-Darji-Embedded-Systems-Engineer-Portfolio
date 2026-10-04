@@ -1,4 +1,5 @@
 {
   "buildCommand": "echo Build step skipped",
+  "outputDirectory": ".",
   "cleanUrls": true
 }
