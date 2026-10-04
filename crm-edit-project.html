@@ -36,7 +36,7 @@
                 <p class="field-hint" style="margin-top:0">
                     The slug is the page URL and is <strong>never changed</strong> by an edit,
                     so links you have already shared keep working. It can only be changed by
-                    editing <code>content.json</code> directly.
+                    editing in Neon. The updated GitHub snapshot is committed after saving.
                 </p>
             </div>
 
@@ -91,16 +91,16 @@
             <div class="border border-gray-700 rounded-lg p-4 space-y-4">
                 <p class="field-label" style="margin-bottom:0">Images</p>
                 <p class="field-hint" style="margin-top:0">
-                    Existing images are kept unless you replace them.
+                    Existing images are kept unless you replace them. New images upload to Vercel Blob (JPG, PNG, WebP, GIF, or AVIF; up to 4 MB each).
                 </p>
                 <p class="text-sm text-gray-400">Current main image: <code id="current-main-image" class="text-amber-400">none</code></p>
                 <div>
                     <label for="project-main-image" class="field-label">Replace main image (optional)</label>
-                    <input type="file" id="project-main-image" accept="image/*" class="field-input">
+                    <input type="file" id="project-main-image" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" class="field-input">
                 </div>
                 <div>
                     <label for="project-supportive-images" class="field-label">Add more supportive images (optional)</label>
-                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="field-input">
+                    <input type="file" id="project-supportive-images" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple class="field-input">
                 </div>
                 <p class="text-sm text-gray-400">Current supportive images:</p>
                 <ul id="current-supportive-images" class="text-sm text-gray-400 list-disc ml-5"></ul>

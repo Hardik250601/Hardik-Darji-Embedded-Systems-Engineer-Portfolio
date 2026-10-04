@@ -114,12 +114,13 @@
                 <!-- Images -->
                 <div>
                     <label for="project-main-image" class="field-label">Main Image</label>
-                    <input type="file" id="project-main-image" accept="image/*" class="field-input">
-                    <p class="field-hint">Uploaded to <code>images/projects/&lt;slug&gt;/main.&lt;ext&gt;</code>. Without one the card uses the placeholder image.</p>
+                    <input type="file" id="project-main-image" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" class="field-input">
+                    <p class="field-hint">Uploaded to Vercel Blob when you publish (JPG, PNG, WebP, GIF, or AVIF; up to 4 MB). Without one the card uses its placeholder.</p>
                 </div>
                 <div>
                     <label for="project-supportive-images" class="field-label">Supportive Images <span class="text-gray-600">(select multiple)</span></label>
-                    <input type="file" id="project-supportive-images" accept="image/*" multiple class="field-input">
+                    <input type="file" id="project-supportive-images" accept="image/jpeg,image/png,image/webp,image/gif,image/avif" multiple class="field-input">
+                    <p class="field-hint">Optional extra project photos or diagrams. They upload to Blob when you publish.</p>
                 </div>
 
                 <!-- Links -->
@@ -238,9 +239,8 @@
         <div id="status-message" class="mt-6 p-4 rounded" style="display: none;" role="status" aria-live="polite"></div>
 
         <p class="mt-8 text-xs text-gray-500">
-            Publishing commits directly to <code>content.json</code> on the repository, which triggers a
-            Vercel redeploy. Newsletter emails for new projects and posts are not configured yet.
-            Existing content can be edited or removed from
+            Publishing saves content to Neon and commits a <code>content.json</code> snapshot to GitHub,
+            which triggers a Vercel rebuild. Images are stored in Vercel Blob. Existing content can be edited or removed from
             <a href="crm-projects.html" class="text-amber-400 underline">Manage Projects</a> and
             <a href="crm-blogs.html" class="text-amber-400 underline">Manage Blogs</a>.
         </p>
