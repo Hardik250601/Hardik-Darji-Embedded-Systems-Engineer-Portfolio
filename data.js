@@ -11,6 +11,13 @@
 
 window.allBlogPosts = [
   {
+    slug: "code-coverage-embedded-software-testing",
+    title: "Is 100% Code Coverage Enough for Embedded Software?",
+    short_description: "Why high code coverage is only a measurement—and how boundary cases, invalid inputs, error handling, and system behavior make embedded tests stronger.",
+    date: "2026-10-03",
+    content: "<p>Is 100% code coverage enough to say that embedded software is well tested? Not necessarily. Coverage tells us which code ran; it does not tell us whether the important behaviors and failure conditions were tested.</p>\n<p><em>This is a preview from the offline fallback. Open the site over http:// to read the full post.</em></p>"
+  },
+  {
     slug: "my-journey-in-embedded-systems",
     title: "My Journey in Embedded Systems",
     short_description: "How I moved from Arduino boards to safety-relevant firmware on off-highway machinery, and what surprised me on the way.",

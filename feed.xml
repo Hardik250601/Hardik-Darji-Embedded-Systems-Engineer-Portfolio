@@ -7,8 +7,16 @@
     <language>en-us</language>
     <managingEditor>Hardik Darji (hmdarji921@gmail.com)</managingEditor>
     <webMaster>Hardik Darji (hmdarji921@gmail.com)</webMaster>
-    <lastBuildDate>Sat, 03 May 2025 00:00:00 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2026 00:00:00 GMT</lastBuildDate>
     <atom:link href="https://hardikmdarji.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Is 100% Code Coverage Enough for Embedded Software?</title>
+      <link>https://hardikmdarji.vercel.app/blog-code-coverage-embedded-software-testing.html</link>
+      <guid isPermaLink="true">https://hardikmdarji.vercel.app/blog-code-coverage-embedded-software-testing.html</guid>
+      <pubDate>Sat, 03 Oct 2026 00:00:00 GMT</pubDate>
+      <description>Why high code coverage is only a measurement—and how boundary cases, invalid inputs, error handling, and system behavior make embedded tests stronger.</description>
+      <author>Hardik Darji (hmdarji921@gmail.com)</author>
+    </item>
     <item>
       <title>My Journey in Embedded Systems</title>
       <link>https://hardikmdarji.vercel.app/blog-my-journey-in-embedded-systems.html</link>

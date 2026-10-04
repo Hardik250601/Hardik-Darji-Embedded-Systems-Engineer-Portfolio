@@ -117,8 +117,9 @@ function pngSize(buf) {
     if (w !== 1200 || h !== 630) bad.push(`${file}: ${rel} is ${w}x${h}`);
   }
   check('og: every og:image exists at 1200x630', bad.length === 0, bad.join(' | '));
-  check('og: 9 og:image references total (8 entries + homepage)',
-    allOg.length === 9, `got ${allOg.length}`);
+  const expectedOg = (content.projects || []).length + (content.blogs || []).length + 1;
+  check('og: one og:image reference per entry plus homepage',
+    allOg.length === expectedOg, `got ${allOg.length}, expected ${expectedOg}`);
 }
 
 // -------------------------------------------------------- 6. sitemap audit
@@ -139,7 +140,7 @@ function pngSize(buf) {
   const absent = expected.filter(e => !have.has(e));
   check('sitemap: all core pages present', absent.length === 0, absent.join(' | '));
   check('sitemap: no ?slug= URLs', !xml.includes('?slug='));
-  check('sitemap: exactly 11 URLs', urls.length === 11, `got ${urls.length}`);
+  check('sitemap: one URL per core page and content entry', urls.length === expected.length, `got ${urls.length}, expected ${expected.length}`);
   const robots = read('robots.txt');
   check('robots: references sitemap', robots.includes('sitemap.xml'));
 }

@@ -114,6 +114,13 @@
   ],
   "blogs": [
     {
+      "slug": "code-coverage-embedded-software-testing",
+      "title": "Is 100% Code Coverage Enough for Embedded Software?",
+      "date": "2026-10-03",
+      "short_description": "Why high code coverage is only a measurement—and how boundary cases, invalid inputs, error handling, and system behavior make embedded tests stronger.",
+      "content": "<p>Is 100% code coverage enough to say that embedded software is well tested? Not necessarily. Coverage tells us which code ran; it does not tell us whether the important behaviors and failure conditions were tested.</p>\n<h2>Coverage is a measurement, not the goal</h2>\n<p>A function can reach high statement coverage and still miss boundary conditions, invalid inputs, unexpected states, or important error paths. A coverage number is useful evidence, but it is not proof that a test suite is thoughtful or complete.</p>\n<p>A stronger approach starts with a practical question: <strong>What can go wrong?</strong> Then design test cases around plausible behavior, inputs, and failures.</p>\n<h2>Design tests around risk and behavior</h2>\n<p>For an embedded function or module, consider testing:</p>\n<ul>\n<li>Normal operating conditions</li>\n<li>Boundary values and limits</li>\n<li>Invalid or out-of-range inputs</li>\n<li>Error handling and recovery</li>\n<li>Unexpected system states</li>\n<li>Interface behavior and interactions</li>\n<li>Safety-related conditions</li>\n</ul>\n<p>One useful workflow is to move from requirements to test-case design, unit testing, coverage analysis, failure investigation, code and test rework, and finally integration and system validation. Coverage helps reveal gaps during this process; it does not replace the process.</p>\n<h2>Embedded software needs system-level thinking</h2>\n<p>Embedded software does not operate in isolation. A small software decision can affect communication, sensors, actuators, machine behavior, or other connected parts of a system. That makes it important to test the conditions that matter in the real operating environment, not just to maximize a metric.</p>\n<p>I see code coverage as a measurement—not the definition of good testing. The important question is: <strong>Have we tested the behaviors and conditions that actually matter?</strong></p>\n<p>Read the <a href=\"https://www.linkedin.com/posts/hardikdarji007_embeddedsystems-embeddedsoftware-embeddedc-share-7512079764350795777-qDZ9/\" target=\"_blank\" rel=\"noopener noreferrer\">original LinkedIn post</a>.</p>"
+    },
+    {
       "slug": "my-journey-in-embedded-systems",
       "title": "My Journey in Embedded Systems",
       "date": "2025-05-03",

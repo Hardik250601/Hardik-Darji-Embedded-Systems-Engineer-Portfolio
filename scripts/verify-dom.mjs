@@ -166,7 +166,7 @@ async function loadPage(file, opts = {}) {
 {
   const { doc, jsErrors } = await loadPage('blogs.html');
   const links = [...doc.querySelectorAll('a[href^="blog-"]')];
-  check('blogs: 5 blog links', links.length === 5, `got ${links.length}`);
+  check('blogs: blog links match content', links.length === content.blogs.length, `got ${links.length}, expected ${content.blogs.length}`);
   check('blogs: links target static pages',
     links.every(a => /^blog-[a-z0-9-]+\.html$/.test(a.getAttribute('href'))));
   check('blogs: no JS errors', jsErrors.length === 0, jsErrors.join(' | '));

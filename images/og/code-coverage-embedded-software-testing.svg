@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b1220"/><stop offset="60%" stop-color="#111827"/><stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#fbbf24" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <g fill="none" stroke="#fbbf24" stroke-opacity="0.15" stroke-width="1.5">
+    <path d="M0 60 L260 60 L260 140 L420 140"/>
+    <path d="M1200 570 L940 570 L940 490 L780 490"/>
+    <path d="M1200 120 L1120 120 L1120 200 L1040 200"/>
+  </g>
+  <g fill="#fbbf24" opacity="0.4">
+    <circle cx="260" cy="60" r="3"/><circle cx="940" cy="570" r="3"/><circle cx="1120" cy="120" r="3"/>
+  </g>
+
+  <g font-family="Inter, Arial, sans-serif">
+    <text x="80" y="110" font-size="20" font-weight="600" fill="#9ca3af" letter-spacing="6">// BLOG</text>
+
+    <text x="80" y="190" font-size="62" font-weight="800" fill="#ffffff">Is 100% Code Coverage Enough</text>
+    <text x="80" y="264" font-size="62" font-weight="800" fill="#ffffff">for Embedded Software?</text>
+
+    <rect x="80" y="292" width="120" height="5" rx="2.5" fill="url(#gold)"/>
+
+    <text x="80" y="388" font-size="26" font-weight="500" fill="#d1d5db">Why high code coverage is only a measurement—and how boundary cases,</text>
+    <text x="80" y="426" font-size="26" font-weight="500" fill="#d1d5db">invalid inputs, error handling, and system behavior make embedded tests...</text>
+
+    <text x="80" y="576" font-size="19" font-weight="600" fill="#9ca3af">Hardik Darji  ·  Embedded Systems Engineer</text>
+    <text x="1120" y="576" font-size="19" font-weight="500" fill="#6b7280" text-anchor="end">2026-10-03</text>
+  </g>
+</svg>
