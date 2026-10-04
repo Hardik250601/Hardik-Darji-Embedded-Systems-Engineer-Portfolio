@@ -54,7 +54,10 @@ the repository. Redeploy after changing environment variables.
    calls to Vercel; it binds only to `127.0.0.1`. The token stays in this browser tab's
    session storage and is not saved in the repository or Neon.
 3. Add or edit projects, blog posts, and testimonials. Use the image picker to
-   upload public images to Blob. Review image alt text in blog HTML.
+   upload public images to Blob. Review image alt text in blog HTML. Use the
+   Preview Draft buttons before publishing; add comma-separated tags to let
+   visitors filter project and blog listings. Project supporting images render
+   together as a gallery on each project detail page.
 4. Save. Neon updates immediately; the GitHub snapshot commit triggers a Vercel
    rebuild for static pages, social previews, RSS, and sitemap.
 

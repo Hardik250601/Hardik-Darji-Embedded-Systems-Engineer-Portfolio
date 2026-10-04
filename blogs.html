@@ -51,6 +51,7 @@
             <p class="section-eyebrow">// Writing</p>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white mb-4">All Blog Posts</h1>
             <p class="text-lg text-gray-400 mb-12">Notes from the field &mdash; embedded C, CAN/J1939, debugging, and the occasional hard-learned lesson.</p>
+            <div id="blog-filters" class="flex flex-wrap gap-2 mb-8" aria-label="Filter blog posts by tag"></div>
             <div id="blogs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <p class="text-gray-400 col-span-full text-center">Loading posts...</p>
             </div>
@@ -93,7 +94,16 @@
             </div>`;
           return;
         }
-        grid.innerHTML = blogs.map(window.app.blogCard).join('');
+        const filters = document.getElementById('blog-filters');
+        const tags = [...new Set(blogs.flatMap(blog => window.app.getTags(blog, 'blog')))].sort();
+        let selected = '';
+        const render = () => {
+          filters.innerHTML = ['All', ...tags].map(tag => `<button type="button" data-tag="${window.app.escapeHtml(tag === 'All' ? '' : tag)}" aria-pressed="${selected === (tag === 'All' ? '' : tag)}" class="rounded-full border px-4 py-2 text-sm transition ${selected === (tag === 'All' ? '' : tag) ? 'border-sky-400 bg-sky-400 text-gray-950' : 'border-gray-700 bg-gray-800 text-gray-300 hover:border-sky-400'}">${window.app.escapeHtml(tag)}</button>`).join('');
+          const shown = blogs.filter(blog => !selected || window.app.getTags(blog, 'blog').includes(selected));
+          grid.innerHTML = shown.length ? shown.map(window.app.blogCard).join('') : '<p class="col-span-full text-center text-gray-400">No posts match this tag.</p>';
+        };
+        filters.addEventListener('click', event => { const button = event.target.closest('button[data-tag]'); if (button) { selected = button.dataset.tag; render(); } });
+        render();
       });
       document.getElementById('current-year').textContent = new Date().getFullYear();
     </script>

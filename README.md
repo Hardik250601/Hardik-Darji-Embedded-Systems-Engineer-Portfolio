@@ -172,6 +172,9 @@ Even with a session-scoped token, the CMS pages are served publicly, so:
 - **Metrics** accept any label/value pair. **Case study** outcomes and roadmap are one item per line.
 - Re-submitting an existing slug **replaces** that entry rather than duplicating it.
 - **Tech stack** is comma separated and renders as chips.
+- **Project tags** and **blog tags** are comma separated; they appear on listing cards and power the tag filters on the Projects and Blog pages. Existing entries without tags use sensible display tags derived from their tech stack or topic.
+- **Preview Draft** shows the current form content without saving or publishing it. Project previews include the selected main image and gallery images; blog previews render safe article markup.
+- Project supporting images appear together in a responsive image gallery on the project detail page.
 - **Add Testimonial** takes a quote, name, role and optional company. Only paste quotes a real person actually gave you. The tab warns that the CMS needs repository **write** permission for this, whereas the project and blog tabs can be used read-only.
 
 `crm-projects.html` and `crm-blogs.html` list existing content with Edit / Delete. Both editors cover the full schema and **never change the slug**, so editing a published item cannot silently move its URL.

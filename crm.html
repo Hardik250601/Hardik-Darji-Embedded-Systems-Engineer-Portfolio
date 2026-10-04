@@ -77,6 +77,8 @@
                     <p class="field-hint">Comma separated. Rendered as chips on the case study page.</p>
                 </div>
 
+                <div><label for="project-tags" class="field-label">Project Tags</label><input type="text" id="project-tags" class="field-input" placeholder="Embedded, Telematics, CAN/J1939"><p class="field-hint">Comma separated. Visitors can filter projects using these tags.</p></div>
+
                 <!-- Metrics -->
                 <div>
                     <span class="field-label">Metrics</span>
@@ -143,6 +145,7 @@
                     </div>
                 </div>
 
+                <button type="button" id="preview-project" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-5 rounded">Preview Draft</button>
                 <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
                     Publish Project
                 </button>
@@ -175,6 +178,8 @@
                     <textarea id="blog-short-summary" maxlength="300" class="field-input h-24" required></textarea>
                 </div>
 
+                <div><label for="blog-tags" class="field-label">Blog Tags</label><input type="text" id="blog-tags" class="field-input" placeholder="Embedded Systems, Testing, CAN/J1939"><p class="field-hint">Comma separated. Visitors can filter posts using these tags.</p></div>
+
                 <div>
                     <label for="blog-content" class="field-label">Full Content <span class="char-count" id="blog-content-count">(max 20000)</span></label>
                     <textarea id="blog-content" maxlength="20000" class="field-input h-96" required></textarea>
@@ -194,6 +199,7 @@
                     <p class="field-hint">Images are stored in Vercel Blob. Up to 4 MB per image. The generated alt text can be edited in the article HTML.</p>
                 </div>
 
+                <button type="button" id="preview-blog" class="bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2 px-5 rounded">Preview Draft</button>
                 <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-2 px-5 rounded">
                     Publish Blog Post
                 </button>
@@ -247,6 +253,7 @@
     </div>
 
     <script src="crm-github.js"></script>
+    <script src="crm-preview.js"></script>
     <script src="crm.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {

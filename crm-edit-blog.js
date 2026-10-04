@@ -48,6 +48,7 @@
       setValue('blog-title', blog.title);
       setValue('blog-date', toISODate(blog.date));
       setValue('blog-short-summary', blog.short_description);
+      setValue('blog-tags', (blog.tags || []).join(', '));
       setValue('blog-content', blog.content);
     } catch (error) {
       window.crmGit.showMessage(document.getElementById('status-message'), `Error loading blog: ${error.message}`, 'bg-red-500');
@@ -128,6 +129,7 @@
           title: value('blog-title'),
           date: value('blog-date'),
           short_description: value('blog-short-summary'),
+          tags: value('blog-tags').split(',').map(tag => tag.trim()).filter(Boolean),
           content: document.getElementById('blog-content').value
         };
 

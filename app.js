@@ -33,26 +33,42 @@
     if (Number.isNaN(d.getTime())) return escapeHtml(v);
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   }
+  function getTags(item, kind) {
+    if (Array.isArray(item.tags) && item.tags.length) return item.tags.map(String).filter(Boolean);
+    const text = `${item.title || ''} ${item.short_description || item.short_summary || ''}`.toLowerCase();
+    if (kind === 'project') {
+      const topics = [['Embedded Systems', /embedded|firmware|esp32|arduino|microcontroller/], ['CAN & J1939', /can|j1939|telematics/], ['IoT & Telematics', /iot|telematics|mqtt|monitoring/], ['Robotics', /robot|robotic|motor control/], ['Wireless', /wireless|nrf24|rf communication/], ['Sensors', /sensor|monitoring/]];
+      return topics.filter(([, pattern]) => pattern.test(text)).map(([label]) => label).slice(0, 3);
+    }
+    const topics = [['Embedded Systems', /embedded|firmware|microcontroller|esp32|arduino/], ['CAN & J1939', /can|j1939|vehicle|telematics/], ['Testing', /test|coverage|quality|debug/], ['Career', /career|journey|engineer|learning/], ['IoT', /iot|mqtt|sensor|wireless/]];
+    return topics.filter(([, pattern]) => pattern.test(text)).map(([label]) => label);
+  }
   function projectCard(p) {
     const slug = escapeHtml(p.slug), title = escapeHtml(p.title);
     const summary = escapeHtml(p.short_summary || '');
     const image = p.main_image ? escapeHtml(p.main_image) : 'images/placeholder-project.svg';
+    const tags = getTags(p, 'project');
+    const chips = tags.length ? `<div class="flex flex-wrap gap-2 mt-4">${tags.map(t => `<span class="rounded-full border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs text-amber-200">${escapeHtml(t)}</span>`).join('')}</div>` : '';
     return `<a href="project-${slug}.html" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
       <div class="overflow-hidden rounded-lg mb-4 h-40 w-full bg-gray-600">
         <img src="${image}" alt="${title}" loading="lazy" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110">
       </div>
       <h4 class="text-xl font-bold text-amber-400 mb-2">${title}</h4>
       <p class="text-gray-300 text-sm">${summary}</p>
+      ${chips}
     </a>`;
   }
   function blogCard(b) {
     const slug = escapeHtml(b.slug), title = escapeHtml(b.title);
     const desc = escapeHtml(b.short_description || b.short_summary || '');
     const date = formatDate(b.date);
+    const tags = getTags(b, 'blog');
+    const chips = tags.length ? `<div class="flex flex-wrap gap-2 mt-4">${tags.map(t => `<span class="rounded-full border border-sky-500/30 bg-sky-500/10 px-2.5 py-1 text-xs text-sky-200">${escapeHtml(t)}</span>`).join('')}</div>` : '';
     return `<a href="blog-${slug}.html" class="group block bg-gray-800 p-6 rounded-2xl shadow-md border border-gray-700 glow-amber-hover hover:border-amber-400">
       <p class="text-sm text-gray-400 mb-2">${date}</p>
       <h4 class="text-xl font-bold text-amber-400 mb-2">${title}</h4>
       <p class="text-gray-300 text-sm">${desc}</p>
+      ${chips}
     </a>`;
   }
   function blogListItem(b) {
@@ -623,7 +639,7 @@
     }
   }
 
-  window.app = { loadContent, escapeHtml, formatDate, projectCard, blogCard, blogListItem, setTheme };
+  window.app = { loadContent, escapeHtml, formatDate, getTags, projectCard, blogCard, blogListItem, setTheme };
 
   document.addEventListener('DOMContentLoaded', () => {
     // Each feature initialises independently. A failure in one (for example a

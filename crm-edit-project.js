@@ -96,6 +96,7 @@
         return;
       }
       existingProject = project;
+      window.crmEditingProject = project;
 
       notice.innerHTML = `Editing <strong>${esc(project.title)}</strong>`;
       form.classList.remove('hidden');
@@ -105,6 +106,7 @@
       setValue('project-short-summary', project.short_summary);
       setValue('project-description', project.full_description);
       setValue('project-tech', (project.tech_stack || []).join(', '));
+      setValue('project-tags', (project.tags || []).join(', '));
       setValue('project-github', project.github_link);
       setValue('project-github-blurb', project.github_blurb);
       setValue('project-linkedin', project.linkedin_link);
@@ -209,6 +211,7 @@
         updated.title = value('project-title');
         updated.short_summary = value('project-short-summary');
         updated.full_description = value('project-description');
+        updated.tags = splitList(value('project-tags'));
         updated.slug = currentSlug;
 
         if (techStack.length) updated.tech_stack = techStack; else delete updated.tech_stack;

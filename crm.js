@@ -255,6 +255,8 @@
 
         const techStack = splitList(value('project-tech'));
         if (techStack.length) project.tech_stack = techStack;
+        const projectTags = splitList(value('project-tags'));
+        if (projectTags.length) project.tags = projectTags;
         if (Object.keys(metrics).length) project.metrics = metrics;
 
         if (problem || architecture || outcomes.length || roadmap.length) {
@@ -386,6 +388,8 @@
           short_description: value('blog-short-summary'),
           content: document.getElementById('blog-content').value
         };
+        const blogTags = splitList(value('blog-tags'));
+        if (blogTags.length) post.tags = blogTags;
 
         const { content, sha } = await window.crmGit.loadContent();
         if (!Array.isArray(content.blogs)) content.blogs = [];
