@@ -204,45 +204,43 @@ this array has entries, so leaving it empty means no empty heading appears. Add 
 through the CMS (**Add Testimonial** tab) or edit the array directly — **never invent
 them**; they must be something a real person actually said.
 
-## Newsletter subscribers (MongoDB Atlas)
+## Newsletter subscribers (Buttondown)
 
-Newsletter sign-ups are stored in **MongoDB Atlas** (free M0 tier is enough —
-the collection will hold one small document per subscriber).
+Newsletter sign-ups and portfolio update emails use **[Buttondown](https://buttondown.com/pricing)**.
+Its free plan covers the first 100 subscribers and includes API access. You can
+sign up with a personal email address; Buttondown sends from its own
+`@buttondown.email` address by default, so a business address or custom domain
+is optional. The existing MongoDB Atlas connection remains only for the optional
+content mirror described below.
 
 ```
 index.html #newsletter-form
    │  POST /api/subscribe  (application/x-www-form-urlencoded)
    ▼
-api/subscribe.js  ──►  lib/mongodb.js  ──►  Atlas  portfolio.subscribers
-   │                      unique index on `email`
-   └─ 404/405/5xx ──► falls back to the Formspree action on the form,
-                      so no subscriber is ever lost while Atlas is unset
+api/subscribe.js  ──►  Buttondown subscriber API
+   └─ 404/405/5xx ──► falls back to the Formspree action on the form
 ```
 
-**Setup (once):**
+**Setup:**
 
-1. Create a free Atlas cluster, a database user, and allow network access
-   from `0.0.0.0/0` (serverless functions have no fixed IP).
-2. Copy the connection string and add it as the environment variable
-   `MONGODB_URI` (Settings → Environment here; Vercel project settings after
-   deploy). Optional: `MONGODB_DB` (defaults to `portfolio`).
-3. Nothing else — the endpoint creates the unique `email` index on first use.
+1. Create a Buttondown account with your personal email and confirm the
+   verification email. A custom sending domain is optional.
+2. Create an API key in Buttondown, then add it to the Vercel project as
+   `BUTTONDOWN_API_KEY` and to GitHub Actions secrets with the same name.
+3. Redeploy Vercel after adding the environment variable.
 
-**Document shape** — `{ email` (lowercased, unique), `name?`, `source:
-'newsletter'`, `createdAt` (first sign-up), `lastSeenAt` (each submit) `}`.
-Duplicates upsert instead of creating a second document, a hidden `company`
-honeypot silently drops bots, and the endpoint rate-limits per IP (5 per 10
-minutes, best effort per warm instance).
+The endpoint normalizes email addresses, silently drops the hidden `company`
+honeypot, and rate-limits per IP (5 per 10 minutes, best effort per warm
+instance). New subscribers receive Buttondown's double opt-in confirmation.
 
-**Status codes** the front end relies on: `200` stored/already-stored, `400`
-invalid email (shown to the visitor), `429` rate limited (shown), anything
-else (`404`/`405`/`5xx`) falls back to Formspree.
+**Existing subscribers:** export the current subscriber list from MongoDB, if
+one exists, and import it into Buttondown with the subscribers' consent and
+unsubscribe state preserved. The old Atlas `subscribers` collection is left
+untouched by this change.
 
-Contract tests live in `scripts/verify-api.mjs` (35 checks, no database
-needed — the Mongo helper is stubbed): `npm run verify:api`.
-The real cluster is covered by `npm run verify:live` (12 checks: write,
-unique index, dedupe, cleanup), and `npm run sync:content` mirrors the site
-content into Atlas.
+The endpoint returns `400` for invalid addresses, `429` for rate limits, and
+`503` when Buttondown is not configured or unavailable. In those service-error
+cases the browser falls back to the form's Formspree action.
 
 > **Why projects and blog posts stay in `content.json`:** social crawlers and
 > search engines do not run JavaScript, so every entry must exist as baked
@@ -372,9 +370,9 @@ npm run verify:dom        # renders every page in jsdom (101 checks)
   animation degrades gracefully when a 2D context cannot be created.
 
 ## Notes
-- The contact and newsletter forms submit asynchronously. The **contact** form posts to its Formspree endpoint. The **newsletter** form posts to the site's own `/api/subscribe` endpoint (MongoDB Atlas — see [Newsletter subscribers](#newsletter-subscribers-mongodb-atlas)) and silently falls back to its Formspree endpoint whenever the function is absent, unconfigured, or failing.
-- New projects or blog posts added to `content.json` trigger `.github/workflows/brevo-notify.yml`, which sends a Brevo campaign to the configured subscriber list. It needs the `BREVO_API_KEY` and `BREVO_LIST_ID` Actions secrets; without them that workflow fails harmlessly and does not block the deploy. **Once set, every CMS publish emails the whole subscriber list.**
-- The site URL used in those emails comes from the `SITE_URL` workflow variable, defaulting to the canonical URL.
+- The contact and newsletter forms submit asynchronously. The **contact** form posts to its Formspree endpoint. The **newsletter** form posts to `/api/subscribe`, which adds subscribers to Buttondown and falls back to Formspree if the serverless function is unavailable.
+- New projects or blog posts added to `content.json` trigger `.github/workflows/buttondown-notify.yml`. Set the `BUTTONDOWN_API_KEY` secret; the workflow skips notification when the key is unset. Once configured, new entries are emailed to the Buttondown audience.
+- The site URL used in those emails comes from the `SITE_URL` environment variable, defaulting to the canonical URL.
 - Tailwind is **not** on a CDN anymore. It is compiled to `tailwind.css` and committed — see [CSS build step](#css-build-step). If you add markup using a class that is not already in `tailwind.css`, rebuild before deploying.
 - `data.js` mirrors the blog entries in `content.json` (same slugs, titles, dates and summaries) so `file://` previews do not show an empty blog section. Only the opening content (everything before the post's first `<h2>`) is duplicated; **keep it in sync when you edit a post** — `npm run verify:static` fails if it drifts.
 - `robots.txt` and `sitemap.xml` are deployed with the site. The CMS pages are disallowed from crawling and are marked `noindex` in their own HTML.

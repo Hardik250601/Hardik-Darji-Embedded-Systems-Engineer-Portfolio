@@ -17,7 +17,6 @@
     "sync:content": "node scripts/sync-content.mjs",
     "verify:static": "node scripts/verify-static.mjs",
     "verify:api": "node scripts/verify-api.mjs",
-    "verify:live": "node scripts/verify-live.mjs",
     "verify:dom": "node scripts/verify-dom.mjs",
     "verify": "npm run verify:static && npm run verify:api && npm run verify:dom"
   },

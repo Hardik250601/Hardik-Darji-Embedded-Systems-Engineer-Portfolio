@@ -197,8 +197,8 @@
   }
 
   // ---------- Formspree forms ----------
-  // Newsletter: post to the site's own /api/subscribe endpoint (MongoDB
-  // Atlas). Whenever that function is absent, unconfigured or failing we
+  // Newsletter: post to the site's own /api/subscribe endpoint (Buttondown).
+  // Whenever that function is absent, unconfigured or failing we
   // fall back to the Formspree action on the form, so a subscriber is never
   // lost and the form keeps working on static-only hosting.
   async function submitNewsletter(form) {
@@ -222,8 +222,8 @@
       };
     }
     if (!response.ok) return { fallback: true };
-    await response.json().catch(() => ({}));
-    return { ok: true };
+    const data = await response.json().catch(() => ({}));
+    return { ok: true, confirmationRequired: data.status === 'confirmation_required' };
   }
 
   function initFormspreeForms() {
@@ -234,21 +234,22 @@
         const status = document.getElementById(formType === 'newsletter' ? 'newsletter-status' : 'contact-status');
         const button = form.querySelector('button[type="submit"]');
         const originalLabel = button ? button.textContent : '';
+        let newsletterResult = null;
         if (button) { button.disabled = true; button.textContent = 'Sending...'; }
         if (status) { status.textContent = ''; status.className = 'hidden text-sm'; }
         try {
           if (formType === 'newsletter') {
-            const result = await submitNewsletter(form);
-            if (result.error) {
+            newsletterResult = await submitNewsletter(form);
+            if (newsletterResult.error) {
               // Validation/rate-limit message from the endpoint - show it and
               // keep what the visitor typed.
               if (status) {
-                status.textContent = result.error;
+                status.textContent = newsletterResult.error;
                 status.className = 'text-sm text-amber-300';
               }
               return;
             }
-            if (!result.ok) {
+            if (!newsletterResult.ok) {
               const response = await fetch(form.action, {
                 method: 'POST',
                 headers: { Accept: 'application/json' },
@@ -267,7 +268,9 @@
           form.reset();
           if (status) {
             status.textContent = formType === 'newsletter'
-              ? 'You are subscribed successfully.'
+              ? (newsletterResult && newsletterResult.confirmationRequired
+                ? 'Please check your email to confirm your subscription.'
+                : 'You are subscribed successfully.')
               : 'Thanks! Your message was sent successfully.';
             status.className = 'text-sm text-green-400';
           }

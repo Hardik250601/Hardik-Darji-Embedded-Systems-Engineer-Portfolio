@@ -98,16 +98,29 @@ function ensureFonts() {
 
   mkdirSync(FONT_DIR, { recursive: true });
   console.log('Downloading Inter (first run only)...');
-  execFileSync(
-    'bash',
-    ['-c', `set -e
-      cd "${FONT_DIR}"
-      curl -sfL -o inter.zip https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip
-      unzip -o -q inter.zip -d ex
-      cp ex/extras/ttf/Inter-SemiBold.ttf ex/extras/ttf/Inter-Bold.ttf ex/extras/ttf/Inter-ExtraBold.ttf .
-      rm -rf ex inter.zip`],
-    { stdio: 'inherit' }
-  );
+  const archive = 'https://github.com/rsms/inter/releases/download/v4.1/Inter-4.1.zip';
+  if (process.platform === 'win32') {
+    const psPath = (value) => `'${value.replace(/'/g, "''")}'`;
+    const fontDir = psPath(FONT_DIR);
+    const command = `$ErrorActionPreference = 'Stop'; Set-Location ${fontDir}; ` +
+      `Invoke-WebRequest -Uri '${archive}' -OutFile 'inter.zip'; ` +
+      `New-Item -ItemType Directory -Force -Path 'ex' | Out-Null; ` +
+      `& tar.exe -xf 'inter.zip' -C 'ex'; if ($LASTEXITCODE -ne 0) { throw 'Could not extract Inter font archive' }; ` +
+      `Copy-Item 'ex/extras/ttf/Inter-SemiBold.ttf','ex/extras/ttf/Inter-Bold.ttf','ex/extras/ttf/Inter-ExtraBold.ttf' -Destination '.'; ` +
+      `Remove-Item 'ex','inter.zip' -Recurse -Force`;
+    execFileSync('powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', command], { stdio: 'inherit' });
+  } else {
+    execFileSync(
+      'bash',
+      ['-c', `set -e
+        cd "${FONT_DIR}"
+        curl -sfL -o inter.zip ${archive}
+        unzip -o -q inter.zip -d ex
+        cp ex/extras/ttf/Inter-SemiBold.ttf ex/extras/ttf/Inter-Bold.ttf ex/extras/ttf/Inter-ExtraBold.ttf .
+        rm -rf ex inter.zip`],
+      { stdio: 'inherit' }
+    );
+  }
   const stillMissing = FONTS.filter((f) => !existsSync(join(FONT_DIR, f.file)));
   if (stillMissing.length) {
     throw new Error(

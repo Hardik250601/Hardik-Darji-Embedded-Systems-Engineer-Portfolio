@@ -19,11 +19,11 @@ Hardik Profile PIC.png
 .gitignore
 .nojekyll
 
-# Tailwind build inputs. tailwind.css is generated and COMMITTED, so hosting
-# needs no build step for the static site - it just serves the static output.
-# package.json and package-lock.json MUST be deployed: the api/ serverless
-# functions (newsletter subscribe -> MongoDB Atlas) declare their runtime
-# dependency (mongodb) there and Vercel installs it from these files.
+# Tailwind and Node build inputs. tailwind.css is generated and COMMITTED, and
+# the API uses Node's built-in Fetch API, so hosting needs no package install
+# or build step - Vercel serves the static output and the api/ function.
+package.json
+package-lock.json
 node_modules
 src
 tailwind.config.js
@@ -34,5 +34,6 @@ tailwind.config.js
 scripts
 .og-cache
 
-# Serverless functions and their shared helper are published (api/, lib/).
-# Verification suites live in scripts/ and are not needed at runtime.
+# Serverless functions are published (api/). The MongoDB helper is used only
+# by local tooling and is not needed by the deployed newsletter function.
+lib

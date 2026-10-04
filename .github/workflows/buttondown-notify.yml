@@ -1,4 +1,4 @@
-name: Notify Brevo subscribers
+name: Notify Buttondown subscribers
 
 on:
   push:
@@ -17,11 +17,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Send Brevo update
+      - name: Send portfolio update
         env:
-          BREVO_API_KEY: ${{ secrets.BREVO_API_KEY }}
-          BREVO_LIST_ID: ${{ secrets.BREVO_LIST_ID }}
-          BREVO_SENDER_EMAIL: hmdarji921@gmail.com
-          BREVO_SENDER_NAME: Hardik Darji
+          BUTTONDOWN_API_KEY: ${{ secrets.BUTTONDOWN_API_KEY }}
           BEFORE_SHA: ${{ github.event.before }}
-        run: node .github/scripts/send-brevo-update.mjs
+        run: node .github/scripts/send-buttondown-update.mjs

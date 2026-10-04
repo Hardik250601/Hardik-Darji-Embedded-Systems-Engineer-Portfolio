@@ -37,7 +37,8 @@ Verified against `package.json`; do not report a framework that isn't there.
 | Frontend | HTML5, CSS3, vanilla JavaScript | **No React/Vue/Angular/Next.** Zero runtime browser deps. |
 | Styling | Tailwind CSS 3.4 + hand-written `styles.css` | Tailwind compiles to a committed `tailwind.css`; `styles.css` holds what utilities can't express. |
 | Backend | Node.js (one Vercel-style function) | `api/subscribe.js` only. |
-| Database | MongoDB Atlas | Newsletter subscribers + a one-way content mirror. |
+| Newsletter | Buttondown API | Subscriber list and automated new-content emails; free plan covers the first 100 subscribers. Personal email signup works; custom sending domain is optional. |
+| Database | MongoDB Atlas | Optional one-way content mirror only. |
 | Hosting | **Vercel** (not Freebuff hosting) | No build command; static files served from repo root. |
 | Build tooling | `@resvg/resvg-js`, `tailwindcss` | devDependencies only. |
 | Test tooling | `jsdom` | devDependency. |
@@ -76,7 +77,7 @@ using Tailwind, and `tailwind.css` must be rebuilt after adding classes.
 ├── tailwind.config.js      Content globs — must list every Tailwind page
 ├── tailwind.css            GENERATED, minified, COMMITTED
 │
-├── api/subscribe.js        Newsletter endpoint
+├── api/subscribe.js        Buttondown newsletter signup endpoint
 ├── lib/mongodb.js          Shared Atlas connection (cached on globalThis)
 │
 ├── scripts/                Build + verification tooling (never published)
@@ -222,29 +223,37 @@ Projects awaiting links: `ammann-data-logger-telematics`,
 reports **no production variables**. That is not a misconfiguration: **this site is
 hosted on Vercel, not on Freebuff-managed hosting.**
 
-Consequence: setting `MONGODB_URI` via `freebuff-deploy env set` would do nothing. It
-must be set in the **Vercel project's Environment Variables**, then redeployed.
+Consequence: setting `MONGODB_URI` via `freebuff-deploy env set` would do nothing.
+The optional `sync:content` script runs locally from `.env.local`; it does not need
+a production Vercel variable.
 
 ### Current newsletter behaviour
 
-`api/subscribe.js` throws `NO_URI` when `MONGODB_URI` is absent, returns **503**, and
-`app.js` falls back to the Formspree endpoint. **No subscriber is lost** — the Atlas
-mirror simply stops recording until the variable is set. The site is functional, just
-degraded.
+Newsletter signup is sent to Buttondown using `BUTTONDOWN_API_KEY`. If the key is
+absent or the service is unavailable, `api/subscribe.js` returns **503** and
+`app.js` falls back to the Formspree endpoint. MongoDB is only used by the
+optional content mirror (`npm run sync:content`).
+
+### Buttondown configuration
+
+Required in Vercel for newsletter signups and as a GitHub Actions secret for
+new-project and new-post notifications. Buttondown's first 100 subscribers are
+free; a business email or custom sending domain is not required.
 
 ### `MONGODB_URI`
 
-Already present in `.env.local` (gitignored) for local `sync:content`. Needs adding to
-Vercel for production. Re-run `npm run sync:content` after setting it.
+Used locally in `.env.local` (gitignored) by `npm run sync:content`. Newsletter
+signup no longer depends on MongoDB; this variable is not needed in Vercel.
 
 ### Alignment checklist
 
 - [x] README documents Vercel as the host and GitHub Pages as disabled
 - [x] `.vercelignore` excludes internal docs, `scripts/`, `src/`, build tooling
-- [x] `package.json` + lockfile **must** stay deployed — `api/` declares `mongodb`
+- [x] `package.json` + lockfile retained for local tooling; `api/subscribe.js` uses the built-in Fetch API
 - [x] `robots.txt` blocks `/crm*.html`
-- [ ] `MONGODB_URI` added to **Vercel** environment variables
-- [ ] Site redeployed after that change
+- [ ] `BUTTONDOWN_API_KEY` added to **Vercel** and GitHub Actions
+- [ ] Vercel redeployed after setting the newsletter key
+- [ ] Existing subscriber list exported from the old Atlas `subscribers` collection and imported into Buttondown, if needed
 
 ---
 
