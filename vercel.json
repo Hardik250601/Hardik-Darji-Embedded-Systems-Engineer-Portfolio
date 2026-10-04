@@ -1,4 +1,4 @@
 {
-  "buildCommand": null,
+  "buildCommand": "echo Build step skipped",
   "cleanUrls": true
 }
