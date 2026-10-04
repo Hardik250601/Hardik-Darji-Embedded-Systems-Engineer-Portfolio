@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" role="img" aria-labelledby="title desc">
+  <title id="title">Code coverage versus behavior tested</title>
+  <desc id="desc">A two-column comparison: line execution coverage can be high while behavior coverage is incomplete; stronger tests cover boundaries, invalid inputs, error recovery and interfaces.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#1f2937"/></linearGradient></defs>
+  <rect width="1200" height="520" rx="28" fill="url(#bg)"/>
+  <text x="60" y="68" fill="#fbbf24" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3">A COVERAGE NUMBER IS NOT THE WHOLE STORY</text>
+  <text x="60" y="112" fill="#f9fafb" font-family="Inter,Arial,sans-serif" font-size="32" font-weight="700">Executed code ≠ tested behavior</text>
+  <rect x="60" y="155" width="500" height="300" rx="18" fill="#172033" stroke="#f59e0b" stroke-width="2"/>
+  <rect x="640" y="155" width="500" height="300" rx="18" fill="#172033" stroke="#34d399" stroke-width="2"/>
+  <g font-family="Inter,Arial,sans-serif">
+    <text x="92" y="204" fill="#fbbf24" font-size="20" font-weight="700">A report can show 100% line coverage</text>
+    <text x="672" y="204" fill="#6ee7b7" font-size="20" font-weight="700">But did tests check these behaviors?</text>
+    <g font-size="18" fill="#e5e7eb">
+      <text x="100" y="258">✓ Function was called</text>
+      <text x="100" y="302">✓ Each statement executed</text>
+      <text x="100" y="346">✓ Some branches were reached</text>
+      <text x="100" y="390" fill="#fca5a5">? Assertions may still be weak</text>
+      <text x="680" y="258">□ Boundary and just-outside values</text>
+      <text x="680" y="302">□ Invalid input and error paths</text>
+      <text x="680" y="346">□ Timeout, stale data, recovery</text>
+      <text x="680" y="390">□ Interfaces and system effects</text>
+    </g>
+    <text x="92" y="430" fill="#9ca3af" font-size="15">Execution answers “did it run?”</text>
+    <text x="672" y="430" fill="#9ca3af" font-size="15">Test design asks “did we challenge it?”</text>
+  </g>
+</svg>

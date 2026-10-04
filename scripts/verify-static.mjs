@@ -57,7 +57,14 @@ const jsFiles = fs.readdirSync(ROOT).filter(f => f.endsWith('.js'));
       if (img && !exists(img)) missing.push(`${p.slug}: ${img}`);
     }
   }
-  check('content: all project image paths exist', missing.length === 0, missing.join(' | '));
+  for (const blog of content.blogs || []) {
+    for (const match of String(blog.content || '').matchAll(/<img\b[^>]*\bsrc=["']([^"']+)["']/gi)) {
+      const src = match[1];
+      if (/^(?:https?:|data:|\/\/)/i.test(src)) continue;
+      if (!exists(src)) missing.push(`${blog.slug}: ${src}`);
+    }
+  }
+  check('content: all project and blog image paths exist', missing.length === 0, missing.join(' | '));
 }
 
 // ------------------------------------------------- 3. no stale references

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" role="img" aria-labelledby="title desc">
+  <title id="title">Risk-based embedded software test workflow</title>
+  <desc id="desc">Requirements lead to failure analysis, test cases, unit tests, coverage review, integration tests and system validation. Findings feed back into improved test cases.</desc>
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#111827"/><stop offset="1" stop-color="#1f2937"/></linearGradient>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#fbbf24"/></marker>
+  </defs>
+  <rect width="1200" height="500" rx="28" fill="url(#bg)"/>
+  <text x="60" y="68" fill="#fbbf24" font-family="Inter,Arial,sans-serif" font-size="18" font-weight="700" letter-spacing="3">A TESTING LOOP BUILT AROUND RISK</text>
+  <text x="60" y="112" fill="#f9fafb" font-family="Inter,Arial,sans-serif" font-size="32" font-weight="700">Coverage informs the work. It does not finish it.</text>
+  <g font-family="Inter,Arial,sans-serif" text-anchor="middle">
+    <g fill="#172033" stroke="#64748b" stroke-width="2">
+      <rect x="60" y="190" width="210" height="92" rx="14"/><rect x="325" y="190" width="210" height="92" rx="14"/>
+      <rect x="590" y="190" width="210" height="92" rx="14"/><rect x="855" y="190" width="285" height="92" rx="14"/>
+      <rect x="855" y="345" width="285" height="78" rx="14"/><rect x="475" y="345" width="285" height="78" rx="14"/>
+    </g>
+    <g fill="#f9fafb" font-size="19" font-weight="700">
+      <text x="165" y="228"><tspan x="165">Requirement</tspan><tspan x="165" dy="26" fill="#9ca3af" font-size="15" font-weight="400">expected behavior</tspan></text>
+      <text x="430" y="228"><tspan x="430">Failure analysis</tspan><tspan x="430" dy="26" fill="#9ca3af" font-size="15" font-weight="400">what can go wrong?</tspan></text>
+      <text x="695" y="228"><tspan x="695">Test cases</tspan><tspan x="695" dy="26" fill="#9ca3af" font-size="15" font-weight="400">normal + edge + fault</tspan></text>
+      <text x="997" y="228"><tspan x="997">Unit tests + assertions</tspan><tspan x="997" dy="26" fill="#9ca3af" font-size="15" font-weight="400">check outcomes, not execution only</tspan></text>
+      <text x="997" y="377"><tspan x="997">Integration + system tests</tspan><tspan x="997" dy="24" fill="#9ca3af" font-size="15" font-weight="400">interfaces, timing, hardware</tspan></text>
+      <text x="617" y="377"><tspan x="617">Coverage review + investigation</tspan><tspan x="617" dy="24" fill="#9ca3af" font-size="15" font-weight="400">find gaps and improve tests</tspan></text>
+    </g>
+  </g>
+  <g fill="none" stroke="#fbbf24" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M270 236h45"/><path d="M535 236h45"/><path d="M800 236h45"/><path d="M997 282v55"/>
+    <path d="M855 384h-80"/><path d="M475 384H390q-26 0-26-26V306q0-27-27-27h-2"/>
+  </g>
+  <text x="60" y="465" fill="#9ca3af" font-family="Inter,Arial,sans-serif" font-size="15">Risk-based testing is iterative: findings at each level can reveal better tests to add earlier.</text>
+</svg>
